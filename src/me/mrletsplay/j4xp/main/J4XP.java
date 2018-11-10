@@ -9,6 +9,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
+import me.mrletsplay.j4xp.natives.XPLMMenuID;
 import me.mrletsplay.j4xp.natives.XPWidgetID;
 import me.mrletsplay.j4xp.plugin.XPPlugin;
 
@@ -16,6 +17,7 @@ public class J4XP {
 	
 	private static PrintWriter logW;
 	private static List<XPWidgetID> widgets;
+	private static List<XPLMMenuID> menus;
 
 	public static void main(String[] args) {
 		System.out.println("To be loaded by the X-Plane 11 C++ plugin");
@@ -29,6 +31,7 @@ public class J4XP {
 		}
 		log("Starting J4XP...");
 		widgets = new ArrayList<>();
+		menus = new ArrayList<>();
 		XPPluginLoader.getInstance().loadPlugins(Arrays.asList(getPluginFolder().listFiles()));
 	}
 	
@@ -50,6 +53,15 @@ public class J4XP {
 		if(id == null) {
 			id = new XPWidgetID(rawID);
 			widgets.add(id);
+		}
+		return id;
+	}
+	
+	public static XPLMMenuID getMenuID(long rawID) {
+		XPLMMenuID id = menus.stream().filter(i -> i.getRawID() == rawID).findFirst().orElse(null);
+		if(id == null) {
+			id = new XPLMMenuID(rawID);
+			menus.add(id);
 		}
 		return id;
 	}

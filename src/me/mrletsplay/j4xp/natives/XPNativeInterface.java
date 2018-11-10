@@ -35,6 +35,12 @@ public class XPNativeInterface {
 			pl.onPluginMessage(new XPPluginMessage(new CPPPluginID(fromPlugin), new XPPluginMessageIDImpl(pluginMessage), param));
 		}
 	}
+	
+	public static void notifyMenuMessage(long menuID, Object itemRef) {
+		XPLMMenuID menID = J4XP.getMenuID(menuID);
+		XPMenuMessage msg = new XPMenuMessage(menID, itemRef);
+		menID.getHandlers().forEach(m -> m.onMenuMessage(msg));
+	}
 
 	public static Object executeFunction(NativeFunction function, Object... args) {
 		J4XP.log("Invoke " + function + Arrays.toString(args));
