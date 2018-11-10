@@ -11,19 +11,12 @@ import me.mrletsplay.j4xp.plugin.XPPlugin;
 public class XPNativeInterface {
 	
 	public static void initialize() throws NoSuchFieldException, SecurityException, IllegalArgumentException, IllegalAccessException, URISyntaxException {
-		//System.setProperty("java.library.path", "D:\\Program Files (x86)\\Steam\\steamapps\\common\\X-Plane 11\\Resources\\plugins\\test");
-		//set sys_paths to null
-		/*final Field sysPathsField = ClassLoader.class.getDeclaredField("sys_paths");
-		sysPathsField.setAccessible(true);
-		sysPathsField.set(null, null); TODO
-		System.loadLibrary("j4xp-win");*/
 		File f = new File(J4XP.class.getProtectionDomain().getCodeSource().getLocation().toURI()).getParentFile();
-		System.load(new File(f, "win.xpl").getAbsolutePath());
+		System.load(new File(f, "win.xpl").getAbsolutePath()); // TODO: System-independent implementation
 		J4XP.init();
 	}
 	
 	public static void notifyShutdown() {
-		// System.exit(0);
 		J4XP.stop();
 	}
 	
