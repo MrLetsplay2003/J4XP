@@ -46,8 +46,6 @@ public enum NativeFunction {
 	XPWIDGETS_GET_WIDGET_WITH_FOCUS(40),
 	XPWIDGETS_ADD_WIDGET_CALLBACK(41),
 	XPWIDGETS_GET_WIDGET_CLASS_FUNC(42),
-	
-	XPMENUS_
 	;
 	
 	private final int id;
