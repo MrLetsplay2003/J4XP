@@ -12,6 +12,10 @@ public interface WidgetBuilder<T extends Widget, Self extends WidgetBuilder<T, S
 	public static SubWindowWidgetBuilder newSubWindowBuilder() {
 		return new SubWindowWidgetBuilder();
 	}
+
+	public static CaptionWidgetBuilder newCaptionBuilder() {
+		return new CaptionWidgetBuilder();
+	}
 	
 	public Self withBounds(int left, int top, int right, int bottom);
 	

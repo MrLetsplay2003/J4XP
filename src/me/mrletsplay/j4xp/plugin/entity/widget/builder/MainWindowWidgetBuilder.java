@@ -16,7 +16,7 @@ public class MainWindowWidgetBuilder implements WidgetBuilder<WidgetMainWindow, 
 	private XPWidgetID container;
 	private MainWindowType windowType;
 	private boolean hasCloseBoxes;
-	private boolean autoHandleClose;
+	private WidgetCloseAction closeAction;
 	
 	public MainWindowWidgetBuilder() {
 		left = 0;
@@ -74,8 +74,8 @@ public class MainWindowWidgetBuilder implements WidgetBuilder<WidgetMainWindow, 
 		return this;
 	}
 	
-	public MainWindowWidgetBuilder withAutoHandleClose(boolean autoHandleClose) {
-		this.autoHandleClose = autoHandleClose;
+	public MainWindowWidgetBuilder withAutoHandleClose(WidgetCloseAction closeAction) {
+		this.closeAction = closeAction;
 		return this;
 	}
 	
@@ -85,7 +85,18 @@ public class MainWindowWidgetBuilder implements WidgetBuilder<WidgetMainWindow, 
 		XPWidgetID wID = XPWidgets.createWidget(left, top, right, bottom, visible, descriptor, isRoot, container, XPStandardWidgetClass.MAIN_WINDOW);
 		XPWidgets.setWidgetProperty(wID, XPStandardWidgetPropertyID.MAIN_WINDOW_TYPE, windowType.getValue());
 		XPWidgets.setWidgetProperty(wID, XPStandardWidgetPropertyID.MAIN_WINDOW_HAS_CLOSE_BOXES, hasCloseBoxes ? 1 : 0);
-		if(hasCloseBoxes && autoHandleClose) wID.registerHandler(WidgetMessageHandler.mainWindowCloseHandler());
+		if(hasCloseBoxes && closeAction != null) {
+			switch (closeAction) {
+				case DESTROY:
+				{
+					wID.registerHandler(WidgetMessageHandler.mainWindowCloseDestroy());
+				}
+				case HIDE:
+				{
+					wID.registerHandler(WidgetMessageHandler.mainWindowCloseHide());
+				}
+			}
+		}
 		return new WidgetMainWindow(wID);
 	}
 	

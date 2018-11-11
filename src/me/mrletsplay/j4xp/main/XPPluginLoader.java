@@ -2,6 +2,7 @@ package me.mrletsplay.j4xp.main;
 
 import java.io.File;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Objects;
 import java.util.stream.Collectors;
@@ -62,10 +63,20 @@ public class XPPluginLoader {
 		return pls;
 	}
 	
-	public void unloadAllPlugins() {
+	public void disableAllPlugins() {
 		for(XPPlugin pl : getPlugins()) {
 			if(pl.isEnabled()) pl.setEnabled(false);
 		}
+	}
+	
+	public void loadPlugins() {
+		XPPluginLoader.getInstance().loadPlugins(Arrays.asList(J4XP.getPluginFolder().listFiles()));
+	}
+	
+	public void reloadPlugins() {
+		disableAllPlugins();
+		plugins.clear();
+		
 	}
 	
 	public static XPPluginLoader getInstance() {

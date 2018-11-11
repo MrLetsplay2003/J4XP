@@ -6,12 +6,16 @@ import java.io.FileOutputStream;
 import java.io.PrintWriter;
 import java.net.URISyntaxException;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 import me.mrletsplay.j4xp.natives.XPLMMenuID;
 import me.mrletsplay.j4xp.natives.XPWidgetID;
+import me.mrletsplay.j4xp.natives.classes.XPLMMenus;
 import me.mrletsplay.j4xp.plugin.XPPlugin;
+import me.mrletsplay.j4xp.plugin.entity.widget.WidgetMainWindow;
+import me.mrletsplay.j4xp.plugin.entity.widget.WidgetSubWindow;
+import me.mrletsplay.j4xp.plugin.entity.widget.builder.WidgetBuilder;
+import me.mrletsplay.j4xp.plugin.entity.widget.builder.WidgetCloseAction;
 
 public class J4XP {
 	
@@ -32,7 +36,42 @@ public class J4XP {
 		log("Starting J4XP...");
 		widgets = new ArrayList<>();
 		menus = new ArrayList<>();
-		XPPluginLoader.getInstance().loadPlugins(Arrays.asList(getPluginFolder().listFiles()));
+		
+		WidgetMainWindow mW = WidgetBuilder.newMainWindowBuilder()
+				.withBounds(100, 200, 300, 100)
+				.withCloseBoxes(true)
+				.withAutoHandleClose(WidgetCloseAction.HIDE)
+				.withDescriptor("main-window")
+				.create();
+		
+		WidgetSubWindow sW = WidgetBuilder.newSubWindowBuilder()
+				.withBounds(100, 200, 300, 100)
+				.withRootStatus(false)
+				.withContainer(mW)
+				.withDescriptor("sub-window")
+				.create();
+		
+		WidgetBuilder.newCaptionBuilder()
+				.withBounds(100, 200, 300, 100)
+				.withRootStatus(false)
+				.withContainer(sW)
+				.withDescriptor("This is a descriptor\n\n\nHey!")
+				.create();
+		
+		int idx = XPLMMenus.appendMenuItem(XPLMMenus.findPluginsMenu(), "J4XP", null);
+		XPLMMenuID menu = XPLMMenus.createMenu("J4XP", XPLMMenus.findPluginsMenu(), idx);
+		XPLMMenus.appendMenuItem(menu, "Reload All", "reload-all");
+		XPLMMenus.appendMenuItem(menu, "Debug Console", "debug-console");
+		
+		menu.registerHandler(m -> {
+			if(m.getItemRef().equals("reload-all")) {
+				XPPluginLoader.getInstance().reloadPlugins();
+			}else if(m.getItemRef().equals("debug-console")) {
+				mW.toggleVisibility();
+			}
+		});
+		
+		XPPluginLoader.getInstance().loadPlugins();
 	}
 	
 	public static void stop() {

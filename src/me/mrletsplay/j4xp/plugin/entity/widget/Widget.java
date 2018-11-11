@@ -28,6 +28,26 @@ public interface Widget {
 		return XPWidgets.getWidgetExposedGeometry(getID());
 	}
 	
+	public default void show() {
+		XPWidgets.showWidget(getID());
+	}
+	
+	public default void hide() {
+		XPWidgets.hideWidget(getID());
+	}
+	
+	public default boolean isVisible() {
+		return XPWidgets.isWidgetVisible(getID());
+	}
+	
+	public default void toggleVisibility() {
+		if(isVisible()) {
+			hide();
+		}else {
+			show();
+		}
+	}
+	
 	public default void destroy() {
 		XPWidgets.destroyWidget(getID(), true);
 	}

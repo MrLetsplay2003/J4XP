@@ -31,4 +31,8 @@ public class XPWidgetID {
 		XPWidgets.destroyWidget(this, true);
 	}
 	
+	public void hide() {
+		XPWidgets.hideWidget(this);
+	}
+	
 }

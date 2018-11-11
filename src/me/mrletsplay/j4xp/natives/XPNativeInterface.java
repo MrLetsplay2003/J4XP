@@ -37,6 +37,7 @@ public class XPNativeInterface {
 	}
 	
 	public static void notifyMenuMessage(long menuID, Object itemRef) {
+		J4XP.log("Menumessage: " + menuID);
 		XPLMMenuID menID = J4XP.getMenuID(menuID);
 		XPMenuMessage msg = new XPMenuMessage(menID, itemRef);
 		menID.getHandlers().forEach(m -> m.onMenuMessage(msg));
