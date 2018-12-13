@@ -1,11 +1,11 @@
-package me.mrletsplay.j4xp.plugin.entity.widget.builder;
+package me.mrletsplay.j4xp.entity.widget.builder;
 
+import me.mrletsplay.j4xp.entity.widget.WidgetMainWindow;
 import me.mrletsplay.j4xp.natives.WidgetMessageHandler;
 import me.mrletsplay.j4xp.natives.XPStandardWidgetClass;
 import me.mrletsplay.j4xp.natives.XPStandardWidgetPropertyID;
 import me.mrletsplay.j4xp.natives.XPWidgetID;
 import me.mrletsplay.j4xp.natives.classes.XPWidgets;
-import me.mrletsplay.j4xp.plugin.entity.widget.WidgetMainWindow;
 
 public class MainWindowWidgetBuilder implements WidgetBuilder<WidgetMainWindow, MainWindowWidgetBuilder> {
 

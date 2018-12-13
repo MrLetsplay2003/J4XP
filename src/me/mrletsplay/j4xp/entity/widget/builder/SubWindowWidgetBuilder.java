@@ -1,10 +1,10 @@
-package me.mrletsplay.j4xp.plugin.entity.widget.builder;
+package me.mrletsplay.j4xp.entity.widget.builder;
 
+import me.mrletsplay.j4xp.entity.widget.WidgetSubWindow;
 import me.mrletsplay.j4xp.natives.XPStandardWidgetClass;
 import me.mrletsplay.j4xp.natives.XPStandardWidgetPropertyID;
 import me.mrletsplay.j4xp.natives.XPWidgetID;
 import me.mrletsplay.j4xp.natives.classes.XPWidgets;
-import me.mrletsplay.j4xp.plugin.entity.widget.WidgetSubWindow;
 
 public class SubWindowWidgetBuilder implements WidgetBuilder<WidgetSubWindow, SubWindowWidgetBuilder>{
 
@@ -24,6 +24,7 @@ public class SubWindowWidgetBuilder implements WidgetBuilder<WidgetSubWindow, Su
 		descriptor = null;
 		isRoot = true;
 		container = null;
+		windowType = SubWindowType.DEFAULT;
 	}
 	
 	@Override

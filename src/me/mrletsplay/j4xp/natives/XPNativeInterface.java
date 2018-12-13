@@ -4,9 +4,10 @@ import java.io.File;
 import java.net.URISyntaxException;
 import java.util.Arrays;
 
-import me.mrletsplay.j4xp.main.J4XP;
-import me.mrletsplay.j4xp.main.XPPluginLoader;
 import me.mrletsplay.j4xp.plugin.XPPlugin;
+import me.mrletsplay.j4xp.J4XP;
+import me.mrletsplay.j4xp.J4XPLogLevel;
+import me.mrletsplay.j4xp.plugin.J4XPPluginLoader;
 
 public class XPNativeInterface {
 	
@@ -31,22 +32,22 @@ public class XPNativeInterface {
 	}
 	
 	public static void notifyPluginMessage(int fromPlugin, int pluginMessage, Object param) {
-		for(XPPlugin pl : XPPluginLoader.getInstance().getEnabledPlugins()) {
+		for(XPPlugin pl : J4XPPluginLoader.getInstance().getEnabledPlugins()) {
 			pl.onPluginMessage(new XPPluginMessage(new CPPPluginID(fromPlugin), new XPPluginMessageIDImpl(pluginMessage), param));
 		}
 	}
 	
 	public static void notifyMenuMessage(long menuID, Object itemRef) {
-		J4XP.log("Menumessage: " + menuID);
+		J4XP.log(J4XPLogLevel.DEBUG, "MenuMessage: " + menuID);
 		XPLMMenuID menID = J4XP.getMenuID(menuID);
 		XPMenuMessage msg = new XPMenuMessage(menID, itemRef);
 		menID.getHandlers().forEach(m -> m.onMenuMessage(msg));
 	}
 
 	public static Object executeFunction(NativeFunction function, Object... args) {
-		J4XP.log("Invoke " + function + Arrays.toString(args));
+		J4XP.log(J4XPLogLevel.DEBUG, "Invoke " + function + Arrays.toString(args));
 		Object o = executeFunction(function.getID(), function.name().toLowerCase(), args);
-		J4XP.log("Got " + o);
+		J4XP.log(J4XPLogLevel.DEBUG, "Got " + o);
 		return o;
 	}
 	

@@ -1,10 +1,10 @@
-package me.mrletsplay.j4xp.plugin.entity.widget.builder;
+package me.mrletsplay.j4xp.entity.widget.builder;
 
+import me.mrletsplay.j4xp.entity.widget.WidgetCaption;
 import me.mrletsplay.j4xp.natives.XPStandardWidgetClass;
 import me.mrletsplay.j4xp.natives.XPStandardWidgetPropertyID;
 import me.mrletsplay.j4xp.natives.XPWidgetID;
 import me.mrletsplay.j4xp.natives.classes.XPWidgets;
-import me.mrletsplay.j4xp.plugin.entity.widget.WidgetCaption;
 
 public class CaptionWidgetBuilder implements WidgetBuilder<WidgetCaption, CaptionWidgetBuilder>{
 

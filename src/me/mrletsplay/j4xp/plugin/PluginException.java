@@ -1,4 +1,4 @@
-package me.mrletsplay.j4xp.main;
+package me.mrletsplay.j4xp.plugin;
 
 public class PluginException extends RuntimeException {
 

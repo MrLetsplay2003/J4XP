@@ -1,9 +1,9 @@
-package me.mrletsplay.j4xp.main;
+package me.mrletsplay.j4xp.plugin;
 
 import java.io.InputStream;
 
-import me.mrletsplay.mrcore.config.impl.ConfigLoader;
-import me.mrletsplay.mrcore.config.v2.CustomConfig;
+import me.mrletsplay.mrcore.config.ConfigLoader;
+import me.mrletsplay.mrcore.config.CustomConfig;
 
 public class PluginDescription {
 

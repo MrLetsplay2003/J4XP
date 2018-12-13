@@ -1,6 +1,5 @@
 package me.mrletsplay.j4xp.plugin;
 
-import me.mrletsplay.j4xp.main.JARLoader;
 import me.mrletsplay.j4xp.natives.XPPluginMessage;
 
 public class XPPlugin {
@@ -10,9 +9,9 @@ public class XPPlugin {
 	
 	protected XPPlugin() {}
 
-	public void setLoader(JARLoader loader) {
-		this.loader = loader;
-	}
+//	protected void setLoader(JARLoader loader) {
+//		this.loader = loader;
+//	}
 	
 	public void setEnabled(boolean enabled) {
 		if(this.enabled != enabled) {

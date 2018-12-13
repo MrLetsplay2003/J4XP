@@ -1,4 +1,4 @@
-package me.mrletsplay.j4xp.main;
+package me.mrletsplay.j4xp.plugin;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -7,19 +7,19 @@ import java.util.List;
 import java.util.Objects;
 import java.util.stream.Collectors;
 
-import me.mrletsplay.j4xp.plugin.XPPlugin;
+import me.mrletsplay.j4xp.J4XP;
 
-public class XPPluginLoader {
+public class J4XPPluginLoader {
 
-	private static XPPluginLoader instance;
+	private static J4XPPluginLoader instance;
 	
 	static {
-		instance = new XPPluginLoader();
+		instance = new J4XPPluginLoader();
 	}
 	
 	private List<XPPlugin> plugins;
 	
-	public XPPluginLoader() {
+	public J4XPPluginLoader() {
 		this.plugins = new ArrayList<>();
 	}
 	
@@ -32,7 +32,7 @@ public class XPPluginLoader {
 	}
 	
 	public XPPlugin loadPlugin(File pluginFile) {
-		J4XP.log("Load pl " + pluginFile);
+		J4XP.log("Loading plugin " + pluginFile);
 		JARLoader l = new JARLoader(pluginFile);
 		try {
 			Class<?> mainClass = l.getJ4XPMainClass();
@@ -53,7 +53,7 @@ public class XPPluginLoader {
 					return loadPlugin(f);
 				}catch(PluginLoadingException e) {
 					J4XP.log("Failed to load pl @ " + f.getAbsolutePath() + ": " + e.getClass().getName() + ": " + e.getMessage());
-					e.printStackTrace(J4XP.getLogWriter());
+					e.printStackTrace(J4XP.getLog().getLogWriter());
 					return null;
 				}
 			})
@@ -70,16 +70,16 @@ public class XPPluginLoader {
 	}
 	
 	public void loadPlugins() {
-		XPPluginLoader.getInstance().loadPlugins(Arrays.asList(J4XP.getPluginFolder().listFiles()));
+		J4XPPluginLoader.getInstance().loadPlugins(Arrays.asList(J4XP.getPluginFolder().listFiles()));
 	}
 	
 	public void reloadPlugins() {
 		disableAllPlugins();
 		plugins.clear();
-		
+		loadPlugins();
 	}
 	
-	public static XPPluginLoader getInstance() {
+	public static J4XPPluginLoader getInstance() {
 		return instance;
 	}
 	

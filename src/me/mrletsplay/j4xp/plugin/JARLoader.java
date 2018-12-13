@@ -1,4 +1,4 @@
-package me.mrletsplay.j4xp.main;
+package me.mrletsplay.j4xp.plugin;
 
 import java.io.ByteArrayOutputStream;
 import java.io.File;
@@ -17,7 +17,8 @@ import java.util.jar.JarEntry;
 import java.util.jar.JarFile;
 import java.util.stream.Collectors;
 
-import me.mrletsplay.j4xp.plugin.XPPlugin;
+import me.mrletsplay.j4xp.J4XP;
+import me.mrletsplay.j4xp.J4XPLogLevel;
 
 public class JARLoader extends ClassLoader {
 
@@ -176,7 +177,7 @@ public class JARLoader extends ClassLoader {
 			try {
 				return parent.loadClass(name); // If class is not found in the jar, return it from this classloader
 			} catch (ClassNotFoundException e1) {
-				J4XP.log("Class " + name + " not found in parent class loader");
+				J4XP.log(J4XPLogLevel.ERROR, "Class " + name + " not found in parent class loader");
 				if (!usePluginClasses)
 					throw e1;
 				return loadClassFromPlugins(name); // If class is not found in this classloader, try to load it from other plugins
@@ -186,7 +187,7 @@ public class JARLoader extends ClassLoader {
 
 	public Class<?> loadClassFromPlugins(String name) {
 		Class<?> clazz = null;
-		for (XPPlugin ex : XPPluginLoader.getInstance().getEnabledPlugins()) {
+		for (XPPlugin ex : J4XPPluginLoader.getInstance().getEnabledPlugins()) {
 			try {
 				clazz = ex.getLoader().loadClassInternally(name, false);
 			} catch (ClassNotFoundException | NoClassDefFoundError ignored) {

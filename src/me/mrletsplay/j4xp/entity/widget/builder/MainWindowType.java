@@ -1,4 +1,4 @@
-package me.mrletsplay.j4xp.plugin.entity.widget.builder;
+package me.mrletsplay.j4xp.entity.widget.builder;
 
 import me.mrletsplay.j4xp.natives.XPStandardPropertyValues;
 

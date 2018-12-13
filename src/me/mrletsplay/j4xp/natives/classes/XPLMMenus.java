@@ -1,6 +1,6 @@
 package me.mrletsplay.j4xp.natives.classes;
 
-import me.mrletsplay.j4xp.main.J4XP;
+import me.mrletsplay.j4xp.J4XP;
 import me.mrletsplay.j4xp.natives.NativeFunction;
 import me.mrletsplay.j4xp.natives.XPLMMenuCheck;
 import me.mrletsplay.j4xp.natives.XPLMMenuID;

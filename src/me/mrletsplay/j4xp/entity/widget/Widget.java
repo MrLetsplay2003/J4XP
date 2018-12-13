@@ -1,4 +1,7 @@
-package me.mrletsplay.j4xp.plugin.entity.widget;
+package me.mrletsplay.j4xp.entity.widget;
+
+import java.util.ArrayList;
+import java.util.List;
 
 import me.mrletsplay.j4xp.natives.XPWidgetGeometry;
 import me.mrletsplay.j4xp.natives.XPWidgetID;
@@ -46,6 +49,24 @@ public interface Widget {
 		}else {
 			show();
 		}
+	}
+	
+	public default int countChildWidgets() {
+		return XPWidgets.countChildWidgets(getID());
+	}
+	
+	public default Widget getNthChildWidget(int index) {
+		return XPWidgets.getNthChildWidget(getID(), index).getWidget();
+	}
+	
+	public default List<Widget> getChildWidgets() {
+		int nC = countChildWidgets();
+		List<Widget> cs = new ArrayList<>(nC);
+		for(int i = 0; i < nC; i++) {
+			Widget c = getNthChildWidget(nC);
+			if(c != null) cs.add(c);
+		}
+		return cs;
 	}
 	
 	public default void destroy() {
