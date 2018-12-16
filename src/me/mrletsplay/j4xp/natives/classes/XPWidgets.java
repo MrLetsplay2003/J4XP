@@ -7,7 +7,7 @@ import me.mrletsplay.j4xp.natives.XPLMWindowID;
 import me.mrletsplay.j4xp.natives.XPNativeInterface;
 import me.mrletsplay.j4xp.natives.XPStandardWidgetClass;
 import me.mrletsplay.j4xp.natives.XPWidgetClass;
-import me.mrletsplay.j4xp.natives.XPWidgetGeometry;
+import me.mrletsplay.j4xp.natives.XPGeometry;
 import me.mrletsplay.j4xp.natives.XPWidgetID;
 import me.mrletsplay.j4xp.natives.XPWidgetMessageID;
 import me.mrletsplay.j4xp.natives.XPWidgetPropertyID;
@@ -70,9 +70,9 @@ public class XPWidgets {
 		return (boolean) XPNativeInterface.executeFunction(NativeFunction.XPWIDGETS_IS_WIDGET_IN_FRONT, widgetID.getRawID());
 	}
 	
-	public static XPWidgetGeometry getWidgetGeometry(XPWidgetID widgetID) {
+	public static XPGeometry getWidgetGeometry(XPWidgetID widgetID) {
 		int[] rGeom = (int[]) XPNativeInterface.executeFunction(NativeFunction.XPWIDGETS_GET_WIDGET_GEOMETRY, widgetID.getRawID());
-		return new XPWidgetGeometry(rGeom[0], rGeom[1], rGeom[2], rGeom[3]);
+		return new XPGeometry(rGeom[0], rGeom[1], rGeom[2], rGeom[3]);
 	}
 	
 	public static void setWidgetGeometry(XPWidgetID widgetID, int left, int top, int right, int bottom) {
@@ -83,9 +83,9 @@ public class XPWidgets {
 		return J4XP.getWidgetID((long) XPNativeInterface.executeFunction(NativeFunction.XPWIDGETS_GET_WIDGET_FOR_LOCATION, container.getRawID(), xOffset, yOffset, recursive, visibleOnly));
 	}
 	
-	public static XPWidgetGeometry getWidgetExposedGeometry(XPWidgetID widgetID) {
+	public static XPGeometry getWidgetExposedGeometry(XPWidgetID widgetID) {
 		int[] rGeom = (int[]) XPNativeInterface.executeFunction(NativeFunction.XPWIDGETS_GET_WIDGET_EXPOSED_GEOMETRY, widgetID.getRawID());
-		return new XPWidgetGeometry(rGeom[0], rGeom[1], rGeom[2], rGeom[3]);
+		return new XPGeometry(rGeom[0], rGeom[1], rGeom[2], rGeom[3]);
 	}
 	
 	public static void setWidgetDescriptor(XPWidgetID widgetID, String descriptor) {

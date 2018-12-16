@@ -3,7 +3,7 @@ package me.mrletsplay.j4xp.entity.widget;
 import java.util.ArrayList;
 import java.util.List;
 
-import me.mrletsplay.j4xp.natives.XPWidgetGeometry;
+import me.mrletsplay.j4xp.natives.XPGeometry;
 import me.mrletsplay.j4xp.natives.XPWidgetID;
 import me.mrletsplay.j4xp.natives.classes.XPWidgets;
 
@@ -23,11 +23,11 @@ public interface Widget {
 		XPWidgets.setWidgetGeometry(getID(), left, top, right, bottom);
 	}
 	
-	public default XPWidgetGeometry getBounds() {
+	public default XPGeometry getBounds() {
 		return XPWidgets.getWidgetGeometry(getID());
 	}
 	
-	public default XPWidgetGeometry getExposedBounds() {
+	public default XPGeometry getExposedBounds() {
 		return XPWidgets.getWidgetExposedGeometry(getID());
 	}
 	

@@ -10,15 +10,26 @@ import java.util.stream.Collectors;
 import me.mrletsplay.j4xp.entity.menu.Menu;
 import me.mrletsplay.j4xp.entity.menu.MenuItem;
 import me.mrletsplay.j4xp.entity.widget.Widget;
+import me.mrletsplay.j4xp.natives.DrawCallback;
+import me.mrletsplay.j4xp.natives.XPLMDataChanged;
+import me.mrletsplay.j4xp.natives.XPLMDataRef;
+import me.mrletsplay.j4xp.natives.XPLMDataTypeID;
+import me.mrletsplay.j4xp.natives.XPLMDrawCallback;
+import me.mrletsplay.j4xp.natives.XPLMDrawingPhase;
 import me.mrletsplay.j4xp.natives.XPLMMenuID;
+import me.mrletsplay.j4xp.natives.XPLMSharedData;
 import me.mrletsplay.j4xp.natives.XPWidgetID;
-import me.mrletsplay.j4xp.plugin.XPPlugin;
 import me.mrletsplay.j4xp.plugin.J4XPPluginLoader;
+import me.mrletsplay.j4xp.plugin.XPPlugin;
+import me.mrletsplay.mrcore.misc.EnumFlagCompound;
 
 public class J4XP {
 	
 	private static List<XPWidgetID> widgetIDs;
 	private static List<XPLMMenuID> menus;
+	private static List<XPLMDataRef> dataRefs;
+	private static List<XPLMSharedData> sharedDatas;
+	private static List<XPLMDrawCallback> drawCallbacks;
 	
 	private static J4XPLog log;
 	private static J4XPConsole console;
@@ -30,21 +41,18 @@ public class J4XP {
 	public static void init() {
 		widgetIDs = new ArrayList<>();
 		menus = new ArrayList<>();
+		dataRefs = new ArrayList<>();
+		sharedDatas = new ArrayList<>();
+		drawCallbacks = new ArrayList<>();
 		log = new J4XPLog();
 		console = new J4XPConsole();
 		
 		log("Starting J4XP...");
 		
-//		int idx = XPLMMenus.appendMenuItem(XPLMMenus.findPluginsMenu(), "J4XP", null);
-		
 		MenuItem item = Menu.getPluginsMenu().appendMenuItem("J4XP", null);
 		Menu menu = Menu.createMenu("J4XP", Menu.getPluginsMenu(), item);
 		menu.appendMenuItem("Reload all", "reload-all");
 		menu.appendMenuItem("Debug Console", "debug-console");
-		
-//		XPLMMenuID menu = XPLMMenus.createMenu("J4XP", XPLMMenus.findPluginsMenu(), idx);
-//		XPLMMenus.appendMenuItem(menu, "Reload All", "reload-all");
-//		XPLMMenus.appendMenuItem(menu, "Debug Console", "debug-console");
 		
 		menu.registerHandler(m -> {
 			if(m.getItemRef().equals("reload-all")) {
@@ -76,6 +84,10 @@ public class J4XP {
 		log(J4XPLogLevel.INFO, message);
 	}
 	
+	public static void log(Exception e) {
+		log.log(e);
+	}
+	
 	public static void log(J4XPLogLevel logLevel, String message) {
 		log.log(logLevel, message);
 	}
@@ -100,6 +112,39 @@ public class J4XP {
 			menus.add(id);
 		}
 		return id;
+	}
+	
+	public static XPLMDataRef getDataRef(long rawID) {
+		XPLMDataRef id = dataRefs.stream().filter(i -> i.getRawID() == rawID).findFirst().orElse(null);
+		if(id == null) {
+			id = new XPLMDataRef(rawID);
+			dataRefs.add(id);
+		}
+		return id;
+	}
+	
+	public static XPLMSharedData createSharedData(String dataName, EnumFlagCompound<XPLMDataTypeID> dataType, XPLMDataChanged dataChanged, Object refcon) {
+		XPLMSharedData dt = new XPLMSharedData(System.currentTimeMillis(), dataName, dataType, dataChanged, refcon); // TODO: id
+		sharedDatas.add(dt);
+		return dt;
+	}
+	
+	public static void deleteSharedData(long rawID) {
+		sharedDatas.removeIf(d -> d.getRawID() == rawID);
+	}
+	
+	public static XPLMDrawCallback createDrawCallback(DrawCallback callback, XPLMDrawingPhase phase, boolean wantsBefore, Object refcon) {
+		XPLMDrawCallback dt = new XPLMDrawCallback(System.currentTimeMillis(), callback, phase, wantsBefore, refcon); // TODO: id
+		drawCallbacks.add(dt);
+		return dt;
+	}
+	
+	public static void deleteDrawCallback(long rawID) {
+		drawCallbacks.removeIf(d -> d.getRawID() == rawID);
+	}
+	
+	public static XPLMSharedData getSharedData(long rawID) {
+		return sharedDatas.stream().filter(i -> i.getRawID() == rawID).findFirst().orElse(null);
 	}
 	
 	public static File getJarFolder() {

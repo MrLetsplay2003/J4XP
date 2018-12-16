@@ -53,14 +53,14 @@ public class J4XPPluginLoader {
 					return loadPlugin(f);
 				}catch(PluginLoadingException e) {
 					J4XP.log("Failed to load pl @ " + f.getAbsolutePath() + ": " + e.getClass().getName() + ": " + e.getMessage());
-					e.printStackTrace(J4XP.getLog().getLogWriter());
+					J4XP.log(e);
 					return null;
 				}
 			})
 			.filter(Objects::nonNull)
 			.collect(Collectors.toList());
 		plugins.addAll(pls);
-		return pls;
+		return pls; 
 	}
 	
 	public void disableAllPlugins() {

@@ -1,10 +1,10 @@
 package me.mrletsplay.j4xp.natives;
 
-public class XPWidgetGeometry {
+public class XPGeometry {
 
 	private int left, top, right, bottom;
 	
-	public XPWidgetGeometry(int left, int top, int right, int bottom) {
+	public XPGeometry(int left, int top, int right, int bottom) {
 		this.left = left;
 		this.top = top;
 		this.right = right;

@@ -18,7 +18,7 @@ public class J4XPConsole {
 		consoleLineWidgets = new ArrayList<>();
 		
 		consoleWidget = WidgetBuilder.newMainWindowBuilder()
-				.withBounds(100, 400, 400, 100)
+				.withBounds(100, 800, 1000, 100)
 				.withCloseBoxes(true)
 				.withAutoHandleClose(WidgetCloseAction.HIDE)
 				.withWindowType(MainWindowType.TRANSLUCENT)
@@ -26,9 +26,9 @@ public class J4XPConsole {
 				.withVisibility(true)
 				.create();
 		
-		for(int i = 0; i < 14; i++) {
+		for(int i = 0; i < 34; i++) {
 			WidgetCaption c = WidgetBuilder.newCaptionBuilder()
-				.withBounds(100, 400 - i * 20, 400, 350 - i * 20)
+				.withBounds(100, 800 - i * 20, 1000, 750 - i * 20)
 				.withRootStatus(false)
 				.withContainer(consoleWidget)
 				.withDescriptor("")
@@ -44,7 +44,7 @@ public class J4XPConsole {
 			int idx = J4XP.getLog().getBuffer().size() - i - 1;
 			if(idx < 0 || idx >= J4XP.getLog().getBuffer().size()) continue;
 			String l = J4XP.getLog().getBuffer().get(idx);
-			J4XP.getLog().getLogWriter().println(l);
+//			J4XP.getLog().getLogWriter().println(l);
 			if(l != null) consoleLineWidgets.get(i).setDescriptor(l);
 		}
 	}

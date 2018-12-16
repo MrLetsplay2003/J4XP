@@ -7,8 +7,6 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-import me.mrletsplay.mrcore.misc.StringUtils;
-
 public class J4XPLog {
 
 	private static final int MAX_BUFFER_SIZE = 100;
@@ -26,10 +24,29 @@ public class J4XPLog {
 	}
 	
 	public void log(J4XPLogLevel logLevel, String message) {
-		Arrays.stream(message.split("\n")).forEach(m -> logW.println(message));
-		logW.flush();
-		for(String s : StringUtils.wrapString(message, 40)) {
-			logConsole(logLevel, s);
+		Arrays.stream(message.split("\n")).forEach(m -> {
+			logW.println("[" + logLevel.toString() + "] " + message);
+			logW.flush();
+			for(String s : wrapString(m, 100)) {
+				logConsole(logLevel, s);
+			}
+		});
+	}
+	
+	private List<String> wrapString(String str, int len) {
+		List<String> l = new ArrayList<>();
+		while(str.length() > len) {
+			l.add(str.substring(0, len));
+			str = str.substring(len);
+		}
+		l.add(str);
+		return l;
+	}
+	
+	public void log(Exception e) {
+		log(J4XPLogLevel.ERROR, e.toString());
+		for(StackTraceElement el : e.getStackTrace()) {
+			log(J4XPLogLevel.ERROR, "at " + el.toString());
 		}
 	}
 	
@@ -48,8 +65,8 @@ public class J4XPLog {
 		return buffer;
 	}
 	
-	public PrintWriter getLogWriter() {
-		return logW;
-	}
+//	public PrintWriter getLogWriter() {
+//		return logW;
+//	}
 	
 }

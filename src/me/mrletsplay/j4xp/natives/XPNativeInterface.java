@@ -2,12 +2,11 @@ package me.mrletsplay.j4xp.natives;
 
 import java.io.File;
 import java.net.URISyntaxException;
-import java.util.Arrays;
 
-import me.mrletsplay.j4xp.plugin.XPPlugin;
 import me.mrletsplay.j4xp.J4XP;
 import me.mrletsplay.j4xp.J4XPLogLevel;
 import me.mrletsplay.j4xp.plugin.J4XPPluginLoader;
+import me.mrletsplay.j4xp.plugin.XPPlugin;
 
 public class XPNativeInterface {
 	
@@ -43,11 +42,76 @@ public class XPNativeInterface {
 		XPMenuMessage msg = new XPMenuMessage(menID, itemRef);
 		menID.getHandlers().forEach(m -> m.onMenuMessage(msg));
 	}
-
+	
+	public static int getDataIH(long ref) {
+		XPLMDataRef r = J4XP.getDataRef(ref);
+		return r.getDataAccessor().getReadInt().read(r.getDataAccessor().getReadRefcon());
+	}
+	
+	public static void setDataIH(long ref, int value) {
+		XPLMDataRef r = J4XP.getDataRef(ref);
+		r.getDataAccessor().getWriteInt().write(r.getDataAccessor().getWriteRefcon(), value);
+	}
+	
+	public static float getDataFH(long ref) {
+		XPLMDataRef r = J4XP.getDataRef(ref);
+		return r.getDataAccessor().getReadFloat().read(r.getDataAccessor().getReadRefcon());
+	}
+	
+	public static void setDataFH(long ref, float value) {
+		XPLMDataRef r = J4XP.getDataRef(ref);
+		r.getDataAccessor().getWriteFloat().write(r.getDataAccessor().getWriteRefcon(), value);
+	}
+	
+	public static double getDataDH(long ref) {
+		XPLMDataRef r = J4XP.getDataRef(ref);
+		return r.getDataAccessor().getReadDouble().read(r.getDataAccessor().getReadRefcon());
+	}
+	
+	public static void setDataDH(long ref, double value) {
+		XPLMDataRef r = J4XP.getDataRef(ref);
+		r.getDataAccessor().getWriteDouble().write(r.getDataAccessor().getWriteRefcon(), value);
+	}
+	
+	public static double getDataVIH(long ref, int[] out, int offset, int max) {
+		XPLMDataRef r = J4XP.getDataRef(ref);
+		return r.getDataAccessor().getReadIntArray().read(r.getDataAccessor().getReadRefcon(), out, offset, max);
+	}
+	
+	public static void setDataVIH(long ref, int[] in, int offset, int max) {
+		XPLMDataRef r = J4XP.getDataRef(ref);
+		r.getDataAccessor().getWriteIntArray().write(r.getDataAccessor().getWriteRefcon(), in, offset, max);
+	}
+	
+	public static double getDataVFH(long ref, float[] out, int offset, int max) {
+		XPLMDataRef r = J4XP.getDataRef(ref);
+		return r.getDataAccessor().getReadFloatArray().read(r.getDataAccessor().getReadRefcon(), out, offset, max);
+	}
+	
+	public static void setDataVFH(long ref, float[] in, int offset, int max) {
+		XPLMDataRef r = J4XP.getDataRef(ref);
+		r.getDataAccessor().getWriteFloatArray().write(r.getDataAccessor().getWriteRefcon(), in, offset, max);
+	}
+	
+	public static double getDataVBH(long ref, byte[] out, int offset, int max) {
+		XPLMDataRef r = J4XP.getDataRef(ref);
+		return r.getDataAccessor().getReadData().read(r.getDataAccessor().getReadRefcon(), out, offset, max);
+	}
+	
+	public static void setDataVBH(long ref, byte[] in, int offset, int max) {
+		XPLMDataRef r = J4XP.getDataRef(ref);
+		r.getDataAccessor().getWriteData().write(r.getDataAccessor().getWriteRefcon(), in, offset, max);
+	}
+	
+	public static void onDataChanged(long ref) {
+		XPLMSharedData dt = J4XP.getSharedData(ref);
+		dt.getDataChanged().onDataChanged(dt.getRefcon());
+	}
+	
 	public static Object executeFunction(NativeFunction function, Object... args) {
-		J4XP.log(J4XPLogLevel.DEBUG, "Invoke " + function + Arrays.toString(args));
+		// J4XP.log(J4XPLogLevel.DEBUG, "Invoke " + function + Arrays.toString(args));
 		Object o = executeFunction(function.getID(), function.name().toLowerCase(), args);
-		J4XP.log(J4XPLogLevel.DEBUG, "Got " + o);
+		// J4XP.log(J4XPLogLevel.DEBUG, "Got " + o);
 		return o;
 	}
 	
