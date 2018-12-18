@@ -86,7 +86,7 @@ public class XPLMDataAccess {
 		XPNativeInterface.executeFunction(NativeFunction.XPLMDATAACCESS_UNREGISTER_DATA_ACCESSOR, dataRef.getRawID());
 	}
 	
-	public static XPLMSharedData shareData(String dataName, EnumFlagCompound<XPLMDataTypeID> dataType, XPLMDataChanged onChanged, Object refcon) {
+	public static XPLMSharedData shareData(String dataName, EnumFlagCompound<XPLMDataTypeID> dataType, XPLMDataChanged onChanged, Object refcon) { // TODO: Callback working?
 		XPLMSharedData dt = J4XP.createSharedData(dataName, dataType, onChanged, refcon);
 		boolean b = (boolean) XPNativeInterface.executeFunction(NativeFunction.XPLMDATAACCESS_SHARE_DATA, dataName, dataType.getCompound(), dt.getRawID());
 		if(!b) {

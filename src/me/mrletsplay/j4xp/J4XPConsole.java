@@ -11,14 +11,17 @@ import me.mrletsplay.j4xp.entity.widget.builder.WidgetCloseAction;
 
 public class J4XPConsole {
 
+	private static final int MAX_BUFFER_SIZE = 100;
+
 	private WidgetMainWindow consoleWidget;
 	private List<WidgetCaption> consoleLineWidgets;
+	private List<String> lineBuffer;
 	
 	public J4XPConsole() {
 		consoleLineWidgets = new ArrayList<>();
 		
 		consoleWidget = WidgetBuilder.newMainWindowBuilder()
-				.withBounds(100, 800, 1000, 100)
+				.withBounds(100, 600, 800, 100)
 				.withCloseBoxes(true)
 				.withAutoHandleClose(WidgetCloseAction.HIDE)
 				.withWindowType(MainWindowType.TRANSLUCENT)
@@ -26,9 +29,9 @@ public class J4XPConsole {
 				.withVisibility(true)
 				.create();
 		
-		for(int i = 0; i < 34; i++) {
+		for(int i = 0; i < 24; i++) {
 			WidgetCaption c = WidgetBuilder.newCaptionBuilder()
-				.withBounds(100, 800 - i * 20, 1000, 750 - i * 20)
+				.withBounds(100, 600 - i * 20, 800, 550 - i * 20)
 				.withRootStatus(false)
 				.withContainer(consoleWidget)
 				.withDescriptor("")
@@ -37,20 +40,25 @@ public class J4XPConsole {
 			consoleLineWidgets.add(0, c);
 		}
 		
+		this.lineBuffer = new ArrayList<>();
 	}
 	
 	public void updateLog() {
 		for(int i = 0; i < consoleLineWidgets.size(); i++) {
-			int idx = J4XP.getLog().getBuffer().size() - i - 1;
-			if(idx < 0 || idx >= J4XP.getLog().getBuffer().size()) continue;
-			String l = J4XP.getLog().getBuffer().get(idx);
-//			J4XP.getLog().getLogWriter().println(l);
+			int idx = lineBuffer.size() - i - 1;
+			if(idx < 0 || idx >= lineBuffer.size()) continue;
+			String l = lineBuffer.get(idx);
 			if(l != null) consoleLineWidgets.get(i).setDescriptor(l);
 		}
 	}
 	
 	public WidgetMainWindow getConsoleWidget() {
 		return consoleWidget;
+	}
+	
+	public void appendLine(String line) {
+		lineBuffer.add(line);
+		while(lineBuffer.size() > MAX_BUFFER_SIZE) lineBuffer.remove(0);
 	}
 	
 }

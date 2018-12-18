@@ -31,7 +31,7 @@ public class J4XP {
 	private static List<XPLMSharedData> sharedDatas;
 	private static List<XPLMDrawCallback> drawCallbacks;
 	
-	private static J4XPLog log;
+	private static J4XPLogger logger;
 	private static J4XPConsole console;
 	
 	public static void main(String[] args) {
@@ -44,7 +44,7 @@ public class J4XP {
 		dataRefs = new ArrayList<>();
 		sharedDatas = new ArrayList<>();
 		drawCallbacks = new ArrayList<>();
-		log = new J4XPLog();
+		logger = new J4XPLogger();
 		console = new J4XPConsole();
 		
 		log("Starting J4XP...");
@@ -62,6 +62,17 @@ public class J4XP {
 			}
 		});
 		
+		new Thread(() -> {
+			while(true) {
+				console.updateLog();
+				try {
+					Thread.sleep(100);
+				} catch (InterruptedException e) {
+					e.printStackTrace();
+				}
+			}
+		}).start();;
+		
 		J4XPPluginLoader.getInstance().loadPlugins();
 	}
 	
@@ -69,11 +80,11 @@ public class J4XP {
 		for(XPPlugin pl : J4XPPluginLoader.getInstance().getEnabledPlugins()) {
 			pl.setEnabled(false);
 		}
-		log.close();
+		logger.close();
 	}
 	
-	public static J4XPLog getLog() {
-		return log;
+	public static J4XPLogger getLogger() {
+		return logger;
 	}
 	
 	public static J4XPConsole getConsole() {
@@ -85,11 +96,11 @@ public class J4XP {
 	}
 	
 	public static void log(Exception e) {
-		log.log(e);
+		logger.log(e);
 	}
 	
 	public static void log(J4XPLogLevel logLevel, String message) {
-		log.log(logLevel, message);
+		logger.log(logLevel, message);
 	}
 	
 	public static XPWidgetID getWidgetID(long rawID) {

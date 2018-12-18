@@ -7,8 +7,12 @@ import me.mrletsplay.j4xp.J4XP;
 import me.mrletsplay.j4xp.natives.DrawCallback;
 import me.mrletsplay.j4xp.natives.NativeFunction;
 import me.mrletsplay.j4xp.natives.XPGeometry;
+import me.mrletsplay.j4xp.natives.XPLMCreateWindow;
 import me.mrletsplay.j4xp.natives.XPLMDrawCallback;
+import me.mrletsplay.j4xp.natives.XPLMDrawWindow;
 import me.mrletsplay.j4xp.natives.XPLMDrawingPhase;
+import me.mrletsplay.j4xp.natives.XPLMHandleKey;
+import me.mrletsplay.j4xp.natives.XPLMHandleMouseClick;
 import me.mrletsplay.j4xp.natives.XPLMWindowID;
 import me.mrletsplay.j4xp.natives.XPNativeInterface;
 
@@ -33,20 +37,28 @@ public class XPLMDisplay {
 		return (boolean) XPNativeInterface.executeFunction(NativeFunction.XPLMDISPLAY_UNREGISTER_DRAW_CALLBACK, phase.getRawValue(), wantsBefore, rawID);
 	}
 	
-	//TODO CreateWindowEx
+	public static XPLMWindowID createWindowEx(XPLMCreateWindow params) {
+		// TODO: Implement
+		return null;
+	}
 	
-	//TODO CreateWindow
+	public static XPLMWindowID createWindow(int left, int top, int right, int bottom, boolean isVisible, XPLMDrawWindow drawCallback, XPLMHandleKey keyCallback, XPLMHandleMouseClick mouseCallback, Object refcon) {
+		// TODO: Implement
+		return null;
+	}
 	
 	public static void destroyWindow(XPLMWindowID windowID) {
 		XPNativeInterface.executeFunction(NativeFunction.XPLMDISPLAY_DESTROY_WINDOW, windowID.getRawID());
 	}
 	
-	public static void getScreenSize(int width, int height) {
-		XPNativeInterface.executeFunction(NativeFunction.XPLMDISPLAY_GET_SCREEN_SIZE, width, height);
+	public static Point2D getScreenSize() {
+		int[] p = (int[]) XPNativeInterface.executeFunction(NativeFunction.XPLMDISPLAY_GET_SCREEN_SIZE);
+		return new Point(p[0], p[1]);
 	}
 	
-	public static void getScreenBoundsGlobal(int left, int top, int right, int bottom) {
-		XPNativeInterface.executeFunction(NativeFunction.XPLMDISPLAY_GET_SCREEN_BOUNDS_GLOBAL, left, top, right, bottom);
+	public static XPGeometry getScreenBoundsGlobal() {
+		int[] rGeom = (int[]) XPNativeInterface.executeFunction(NativeFunction.XPLMDISPLAY_GET_SCREEN_BOUNDS_GLOBAL);
+		return new XPGeometry(rGeom[0], rGeom[1], rGeom[2], rGeom[3]);
 	}
 	
 	//TODO GetAllMonitorBoundsGlobal

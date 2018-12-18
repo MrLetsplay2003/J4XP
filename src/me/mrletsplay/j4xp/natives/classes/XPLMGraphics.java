@@ -3,8 +3,10 @@ package me.mrletsplay.j4xp.natives.classes;
 import java.awt.Point;
 import java.awt.geom.Point2D;
 
+
 import me.mrletsplay.j4xp.natives.NativeFunction;
-//import me.mrletsplay.j4xp.natives.XPLMTexureID;
+import me.mrletsplay.j4xp.natives.XPLMFontID;
+import me.mrletsplay.j4xp.natives.XPLMTextureID;
 import me.mrletsplay.j4xp.natives.XPNativeInterface;
 
 public class XPLMGraphics {
@@ -22,9 +24,9 @@ public class XPLMGraphics {
 		return new Point(p[0],p[1]);//TODO: ICH GLAUBE NICHT, DASS DAS SO STIMMT!!!!
 	}
 	
-/*	public static int getTexture(XPLMTexureID texture) {
-		
-	}*/
+	public static int getTexture(XPLMTextureID texture) {
+		return (int) XPNativeInterface.executeFunction(NativeFunction.XPLMGRAPHICS_GET_TEXTURE, texture);
+	}
 	
 /*	public static Point2D worldToLocal(double latitude, double longitude, double altitude) {
 		double[] p = (double[]) XPNativeInterface.executeFunction(NativeFunction.XPLMGRAPHICS_WORLD_TO_LOCAL, new double[] { latitude, longitude, altitude});
@@ -37,12 +39,21 @@ public class XPLMGraphics {
 		XPNativeInterface.executeFunction(NativeFunction.XPLMGRAPHICS_DRAW_TRANSLUCENT_DARK_BOX, new int[] { left, top, right, bottom});
 	}
 	
-	//TODO DrawString
+	public static void drawString(int colorRGB, int xOffset, int yOffset, String str, int wordWrapWidth, XPLMFontID fontID) {
+		XPNativeInterface.executeFunction(NativeFunction.XPLMGRAPHICS_DRAW_STRING, new int[] { colorRGB, xOffset, yOffset, wordWrapWidth}, str, fontID);
+	}
 	
-	//TODO DrawNumber
+	public static void drawNumber(int colorRGB, int xOffset, int yOffset, double value, int digits, int decimals, int showSign, XPLMFontID fontID) {
+		XPNativeInterface.executeFunction(NativeFunction.XPLMGRAPHICS_DRAW_NUMBER, new int[] { colorRGB, xOffset, yOffset, digits, decimals, showSign}, value, fontID);
+	}
 	
-	//TODO GetFontDimensions
+	public static Point2D getFontDimensions(XPLMFontID fontID) {
+		int[] p = (int[]) XPNativeInterface.executeFunction(NativeFunction.XPLMGRAPHICS_GET_FONT_DIMENSIONS, fontID);
+		return new Point(p[0], p[1]);
+	}
 	
-	//TODO MeasureString
+	public static float measureString(XPLMFontID fontID, String str, int numChars) {
+		return (float) XPNativeInterface.executeFunction(NativeFunction.XPLMGRAPHICS_MEASURE_STRING, fontID, str, numChars);
+	}
 	
 }
