@@ -13,13 +13,15 @@ public class J4XPLogger {
 	private Map<J4XPLogLevel, J4XPLogWriter> logWriters;
 	private OutputStream fileOutputStream;
 	private J4XPLogWriter defaultWriter;
+	protected static PrintStream origSysOut, origSysErr;
 	
 	public J4XPLogger() {
 		try {
 			logWriters = new HashMap<>();
 			fileOutputStream = new FileOutputStream(J4XP.getLogFile(), true);
 			
-			PrintStream origSysOut = System.out, origSysErr = System.err;
+			origSysOut = System.out;
+			origSysErr = System.err;
 			
 			System.setOut(defaultWriter = registerLogger(J4XPLogLevel.INFO, origSysOut));
 			registerLogger(J4XPLogLevel.FILE_ONLY_DEBUG, origSysOut);

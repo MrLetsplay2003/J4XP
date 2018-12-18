@@ -71,7 +71,7 @@ public class J4XP {
 					e.printStackTrace();
 				}
 			}
-		}).start();;
+		}).start();
 		
 		J4XPPluginLoader.getInstance().loadPlugins();
 	}
@@ -80,6 +80,8 @@ public class J4XP {
 		for(XPPlugin pl : J4XPPluginLoader.getInstance().getEnabledPlugins()) {
 			pl.setEnabled(false);
 		}
+		System.setOut(J4XPLogger.origSysOut);
+		System.setErr(J4XPLogger.origSysErr);
 		logger.close();
 	}
 	
