@@ -5,16 +5,21 @@ import java.util.List;
 
 import me.mrletsplay.j4xp.entity.widget.Widget;
 import me.mrletsplay.j4xp.natives.classes.XPWidgets;
+import me.mrletsplay.j4xp.plugin.PluginOwnable;
+import me.mrletsplay.j4xp.plugin.XPPlugin;
 
-public class XPWidgetID {
+public class XPWidgetID implements PluginOwnable {
 
+	private XPPlugin owner;
 	private long rawID;
 	private List<WidgetMessageHandler> handlers;
 	private Widget widget;
 	
-	public XPWidgetID(long rawID) {
+	public XPWidgetID(XPPlugin owner, long rawID) {
+		this.owner = owner;
 		this.rawID = rawID;
 		this.handlers = new ArrayList<>();
+		if(owner != null) owner.addOwnedObject(this);
 	}
 	
 	public long getRawID() {
@@ -43,6 +48,11 @@ public class XPWidgetID {
 	
 	public void hide() {
 		XPWidgets.hideWidget(this);
+	}
+
+	@Override
+	public XPPlugin getOwner() {
+		return owner;
 	}
 	
 }

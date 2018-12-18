@@ -5,19 +5,20 @@ import me.mrletsplay.j4xp.natives.NativeFunction;
 import me.mrletsplay.j4xp.natives.XPLMMenuCheck;
 import me.mrletsplay.j4xp.natives.XPLMMenuID;
 import me.mrletsplay.j4xp.natives.XPNativeInterface;
+import me.mrletsplay.j4xp.plugin.J4XPUtils;
 
 public class XPLMMenus {
 
 	public static XPLMMenuID findPluginsMenu() {
-		return J4XP.getMenuID((long) XPNativeInterface.executeFunction(NativeFunction.XPLMMENUS_FIND_PLUGINS_MENU));
+		return J4XP.getOrCreateMenuID(null, (long) XPNativeInterface.executeFunction(NativeFunction.XPLMMENUS_FIND_PLUGINS_MENU));
 	}
 
 	public static XPLMMenuID findAircraftMenu() {
-		return J4XP.getMenuID((long) XPNativeInterface.executeFunction(NativeFunction.XPLMMENUS_FIND_AIRCRAFT_MENU));
+		return J4XP.getOrCreateMenuID(null, (long) XPNativeInterface.executeFunction(NativeFunction.XPLMMENUS_FIND_AIRCRAFT_MENU));
 	}
 	
 	public static XPLMMenuID createMenu(String name, XPLMMenuID parentMenu, int parentItem) {
-		return J4XP.getMenuID((long) XPNativeInterface.executeFunction(NativeFunction.XPLMMENUS_CREATE_MENU, name, parentMenu.getRawID(), parentItem));
+		return J4XP.getOrCreateMenuID(J4XPUtils.getMethodCaller(), (long) XPNativeInterface.executeFunction(NativeFunction.XPLMMENUS_CREATE_MENU, name, parentMenu.getRawID(), parentItem));
 	}
 	
 	public static void destroyMenu(XPLMMenuID menu) {

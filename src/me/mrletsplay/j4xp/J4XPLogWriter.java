@@ -67,6 +67,7 @@ public class J4XPLogWriter extends PrintStream {
 			fileStream.write(line.getBytes(StandardCharsets.UTF_8));
 		} catch (IOException e) {}
 		if(logLevel.ordinal() <= J4XPLogLevel.FILE_ONLY_DEBUG.ordinal()) return;
+		if(J4XP.getConsole() == null) return; // J4XP is still loading
 		for(String s : wrapString(line, 95)) {
 			J4XP.getConsole().appendLine(s);
 		}

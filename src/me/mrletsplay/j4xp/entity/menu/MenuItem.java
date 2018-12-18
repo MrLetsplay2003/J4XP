@@ -1,15 +1,21 @@
 package me.mrletsplay.j4xp.entity.menu;
 
 import me.mrletsplay.j4xp.natives.XPLMMenuCheck;
+import me.mrletsplay.j4xp.natives.classes.XPLMMenus;
+import me.mrletsplay.j4xp.plugin.PluginOwnable;
+import me.mrletsplay.j4xp.plugin.XPPlugin;
 
-public class MenuItem {
+public class MenuItem implements PluginOwnable {
 
+	private XPPlugin owner;
 	private Menu menu;
 	private int index;
 	
-	protected MenuItem(Menu menu, int index) {
+	protected MenuItem(XPPlugin owner, Menu menu, int index) {
+		this.owner = owner;
 		this.menu = menu;
 		this.index = index;
+		if(owner != null) owner.addOwnedObject(this);
 	}
 	
 	public Menu getMenu() {
@@ -42,6 +48,16 @@ public class MenuItem {
 	
 	public void remove() {
 		menu.removeMenuItem(index);
+	}
+
+	@Override
+	public XPPlugin getOwner() {
+		return owner;
+	}
+
+	@Override
+	public void destroy() {
+		XPLMMenus.removeMenuItem(menu.getID(), index);
 	}
 	
 }

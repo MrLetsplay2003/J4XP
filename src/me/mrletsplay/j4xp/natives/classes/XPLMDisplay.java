@@ -15,11 +15,12 @@ import me.mrletsplay.j4xp.natives.XPLMHandleKey;
 import me.mrletsplay.j4xp.natives.XPLMHandleMouseClick;
 import me.mrletsplay.j4xp.natives.XPLMWindowID;
 import me.mrletsplay.j4xp.natives.XPNativeInterface;
+import me.mrletsplay.j4xp.plugin.J4XPUtils;
 
 public class XPLMDisplay {
 	
 	public static XPLMDrawCallback registerDrawCallback(DrawCallback callback, XPLMDrawingPhase phase, boolean wantsBefore, Object refcon) {
-		XPLMDrawCallback c = J4XP.createDrawCallback(callback, phase, wantsBefore, refcon);
+		XPLMDrawCallback c = J4XP.createDrawCallback(J4XPUtils.getMethodCaller(), callback, phase, wantsBefore, refcon);
 		boolean b = (boolean) XPNativeInterface.executeFunction(NativeFunction.XPLMDISPLAY_REGISTER_DRAW_CALLBACK, phase.getRawValue(), wantsBefore, c.getRawID());
 		if(!b) {
 			J4XP.deleteDrawCallback(c.getRawID());

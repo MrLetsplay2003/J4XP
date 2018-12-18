@@ -3,6 +3,7 @@ package me.mrletsplay.j4xp.natives;
 import java.util.Arrays;
 
 public enum XPLMTextureID {
+	
 	GENERAL_INTERFACE(0),
 	AIRCRAFT_PAINT(1),
 	AIRCRAFT_LITE_MAP(2),

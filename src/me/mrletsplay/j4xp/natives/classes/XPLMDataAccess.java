@@ -8,12 +8,13 @@ import me.mrletsplay.j4xp.natives.XPLMDataRef;
 import me.mrletsplay.j4xp.natives.XPLMDataTypeID;
 import me.mrletsplay.j4xp.natives.XPLMSharedData;
 import me.mrletsplay.j4xp.natives.XPNativeInterface;
+import me.mrletsplay.j4xp.plugin.J4XPUtils;
 import me.mrletsplay.mrcore.misc.EnumFlagCompound;
 
 public class XPLMDataAccess {
 
 	public static XPLMDataRef findDataRef(String refName) {
-		return J4XP.getDataRef((long) XPNativeInterface.executeFunction(NativeFunction.XPLMDATAACCESS_FIND_DATA_REF, refName));
+		return J4XP.getOrCreateDataRef(null, (long) XPNativeInterface.executeFunction(NativeFunction.XPLMDATAACCESS_FIND_DATA_REF, refName));
 	}
 	
 	public static boolean canWriteDataRef(XPLMDataRef ref) {
@@ -77,7 +78,7 @@ public class XPLMDataAccess {
 	}
 	
 	public static XPLMDataRef registerDataAccessor(String name, EnumFlagCompound<XPLMDataTypeID> types, boolean isWritable, XPLMDataAccessor accessor) {
-		XPLMDataRef dataRef = J4XP.getDataRef((long) XPNativeInterface.executeFunction(NativeFunction.XPLMDATAACCESS_REGISTER_DATA_ACCESSOR, name, types.getCompound(), isWritable));
+		XPLMDataRef dataRef = J4XP.getOrCreateDataRef(J4XPUtils.getMethodCaller(), (long) XPNativeInterface.executeFunction(NativeFunction.XPLMDATAACCESS_REGISTER_DATA_ACCESSOR, name, types.getCompound(), isWritable));
 		dataRef.setDataAccessor(accessor);
 		return dataRef;
 	}
@@ -87,7 +88,7 @@ public class XPLMDataAccess {
 	}
 	
 	public static XPLMSharedData shareData(String dataName, EnumFlagCompound<XPLMDataTypeID> dataType, XPLMDataChanged onChanged, Object refcon) { // TODO: Callback working?
-		XPLMSharedData dt = J4XP.createSharedData(dataName, dataType, onChanged, refcon);
+		XPLMSharedData dt = J4XP.createSharedData(J4XPUtils.getMethodCaller(), dataName, dataType, onChanged, refcon);
 		boolean b = (boolean) XPNativeInterface.executeFunction(NativeFunction.XPLMDATAACCESS_SHARE_DATA, dataName, dataType.getCompound(), dt.getRawID());
 		if(!b) {
 			J4XP.deleteSharedData(dt.getRawID());

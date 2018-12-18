@@ -7,6 +7,7 @@ import me.mrletsplay.j4xp.natives.MenuHandler;
 import me.mrletsplay.j4xp.natives.XPLMMenuCheck;
 import me.mrletsplay.j4xp.natives.XPLMMenuID;
 import me.mrletsplay.j4xp.natives.classes.XPLMMenus;
+import me.mrletsplay.j4xp.plugin.J4XPUtils;
 
 public class Menu {
 	
@@ -31,7 +32,7 @@ public class Menu {
 	}
 	
 	public MenuItem appendMenuItem(String itemName, Object itemRef) {
-		MenuItem it = new MenuItem(this, XPLMMenus.appendMenuItem(getID(), itemName, itemRef));
+		MenuItem it = new MenuItem(J4XPUtils.getMethodCaller(), this, XPLMMenus.appendMenuItem(getID(), itemName, itemRef));
 		items.add(it);
 		return it;
 	}

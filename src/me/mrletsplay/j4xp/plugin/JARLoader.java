@@ -40,6 +40,10 @@ public class JARLoader extends ClassLoader {
 			throw new PluginLoadingException("Failed to load plugin", e);
 		}
 	}
+	
+	public boolean ownsClass(String fullName) {
+		return loadedClasses.containsKey(fullName);
+	}
 
 	private void loadAllClasses() {
 		try {
@@ -91,9 +95,8 @@ public class JARLoader extends ClassLoader {
 	protected URL findResource(String name) {
 		try {
 			name = name.replace("/\\", "/");
-			JarURLConnection tmpCon;
 			try {
-				tmpCon = (JarURLConnection) jarURL.openConnection();
+				JarURLConnection tmpCon = (JarURLConnection) jarURL.openConnection();
 				tmpCon.setDefaultUseCaches(false);
 				JarFile f = tmpCon.getJarFile();
 				List<String> pth = new ArrayList<>(Arrays.asList(name.split("/")));
@@ -116,7 +119,6 @@ public class JARLoader extends ClassLoader {
 			} catch (IOException e) {
 				e.printStackTrace();
 			}
-
 			return new URL(jarURL + name);
 		} catch (MalformedURLException e) {
 			throw new PluginException(e);
@@ -146,9 +148,13 @@ public class JARLoader extends ClassLoader {
 	}
 
 	public Class<?> getJ4XPMainClass() throws IOException, ClassNotFoundException {
-		PluginDescription desc = loadDescription(file);
+		PluginDescription desc = loadDescription();
 		J4XP.log("Loading main class: " + desc.getMain());
 		return loadClassInternally(desc.getMain(), false);
+	}
+	
+	public PluginDescription loadDescription() {
+		return loadDescription(file);
 	}
 
 	public File getFile() {
@@ -190,8 +196,7 @@ public class JARLoader extends ClassLoader {
 		for (XPPlugin ex : J4XPPluginLoader.getInstance().getEnabledPlugins()) {
 			try {
 				clazz = ex.getLoader().loadClassInternally(name, false);
-			} catch (ClassNotFoundException | NoClassDefFoundError ignored) {
-			}
+			} catch (ClassNotFoundException | NoClassDefFoundError ignored) {}
 		}
 		return clazz;
 	}

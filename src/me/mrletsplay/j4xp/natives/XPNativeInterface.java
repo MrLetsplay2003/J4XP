@@ -2,6 +2,7 @@ package me.mrletsplay.j4xp.natives;
 
 import java.io.File;
 import java.net.URISyntaxException;
+import java.util.Arrays;
 
 import me.mrletsplay.j4xp.J4XP;
 import me.mrletsplay.j4xp.J4XPLogLevel;
@@ -109,9 +110,9 @@ public class XPNativeInterface {
 	}
 	
 	public static Object executeFunction(NativeFunction function, Object... args) {
-		// J4XP.log(J4XPLogLevel.DEBUG, "Invoke " + function + Arrays.toString(args));
+		J4XP.log(J4XPLogLevel.FILE_ONLY_DEBUG, "Invoke " + function + Arrays.toString(args));
 		Object o = executeFunction(function.getID(), function.name().toLowerCase(), args);
-		// J4XP.log(J4XPLogLevel.DEBUG, "Got " + o);
+		J4XP.log(J4XPLogLevel.FILE_ONLY_DEBUG, "Got " + o);
 		return o;
 	}
 	

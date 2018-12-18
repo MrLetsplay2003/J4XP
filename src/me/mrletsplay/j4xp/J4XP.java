@@ -104,9 +104,13 @@ public class J4XP {
 	}
 	
 	public static XPWidgetID getWidgetID(long rawID) {
-		XPWidgetID id = widgetIDs.stream().filter(i -> i.getRawID() == rawID).findFirst().orElse(null);
+		return widgetIDs.stream().filter(i -> i.getRawID() == rawID).findFirst().orElse(null);
+	}
+	
+	public static XPWidgetID getOrCreateWidgetID(XPPlugin plugin, long rawID) {
+		XPWidgetID id = getWidgetID(rawID);
 		if(id == null) {
-			id = new XPWidgetID(rawID);
+			id = new XPWidgetID(plugin, rawID);
 			widgetIDs.add(id);
 		}
 		return id;
@@ -117,25 +121,33 @@ public class J4XP {
 	}
 	
 	public static XPLMMenuID getMenuID(long rawID) {
-		XPLMMenuID id = menus.stream().filter(i -> i.getRawID() == rawID).findFirst().orElse(null);
+		return menus.stream().filter(i -> i.getRawID() == rawID).findFirst().orElse(null);
+	}
+	
+	public static XPLMMenuID getOrCreateMenuID(XPPlugin plugin, long rawID) {
+		XPLMMenuID id = getMenuID(rawID);
 		if(id == null) {
-			id = new XPLMMenuID(rawID);
+			id = new XPLMMenuID(plugin, rawID);
 			menus.add(id);
 		}
 		return id;
 	}
 	
 	public static XPLMDataRef getDataRef(long rawID) {
-		XPLMDataRef id = dataRefs.stream().filter(i -> i.getRawID() == rawID).findFirst().orElse(null);
+		return dataRefs.stream().filter(i -> i.getRawID() == rawID).findFirst().orElse(null);
+	}
+	
+	public static XPLMDataRef getOrCreateDataRef(XPPlugin plugin, long rawID) {
+		XPLMDataRef id = getDataRef(rawID);
 		if(id == null) {
-			id = new XPLMDataRef(rawID);
+			id = new XPLMDataRef(plugin, rawID);
 			dataRefs.add(id);
 		}
 		return id;
 	}
 	
-	public static XPLMSharedData createSharedData(String dataName, EnumFlagCompound<XPLMDataTypeID> dataType, XPLMDataChanged dataChanged, Object refcon) {
-		XPLMSharedData dt = new XPLMSharedData(System.currentTimeMillis(), dataName, dataType, dataChanged, refcon); // TODO: id
+	public static XPLMSharedData createSharedData(XPPlugin plugin, String dataName, EnumFlagCompound<XPLMDataTypeID> dataType, XPLMDataChanged dataChanged, Object refcon) {
+		XPLMSharedData dt = new XPLMSharedData(plugin, System.currentTimeMillis(), dataName, dataType, dataChanged, refcon); // TODO: id
 		sharedDatas.add(dt);
 		return dt;
 	}
@@ -144,8 +156,8 @@ public class J4XP {
 		sharedDatas.removeIf(d -> d.getRawID() == rawID);
 	}
 	
-	public static XPLMDrawCallback createDrawCallback(DrawCallback callback, XPLMDrawingPhase phase, boolean wantsBefore, Object refcon) {
-		XPLMDrawCallback dt = new XPLMDrawCallback(System.currentTimeMillis(), callback, phase, wantsBefore, refcon); // TODO: id
+	public static XPLMDrawCallback createDrawCallback(XPPlugin plugin, DrawCallback callback, XPLMDrawingPhase phase, boolean wantsBefore, Object refcon) {
+		XPLMDrawCallback dt = new XPLMDrawCallback(plugin, System.currentTimeMillis(), callback, phase, wantsBefore, refcon); // TODO: id
 		drawCallbacks.add(dt);
 		return dt;
 	}

@@ -38,11 +38,15 @@ public class J4XPPluginLoader {
 			Class<?> mainClass = l.getJ4XPMainClass();
 			if(!XPPlugin.class.isAssignableFrom(mainClass)) throw new PluginLoadingException("Plugin doesn't extend XPPlugin");
 			XPPlugin pl = (XPPlugin) mainClass.newInstance();
-			pl.setEnabled(true);
 			plugins.add(pl);
+			try {
+				pl.setEnabled(true);
+			}catch(Exception e) {
+				plugins.remove(pl);
+			}
 			J4XP.log("Plugin loaded!");
 			return pl;
-		} catch (Exception /*| ClassNotFoundException | IOException | InstantiationException | IllegalAccessException*/ e) {
+		} catch (Exception e) {
 			throw new PluginLoadingException("Failed to load plugin", e);
 		}
 	}

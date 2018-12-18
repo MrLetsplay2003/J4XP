@@ -11,15 +11,16 @@ import me.mrletsplay.j4xp.natives.XPGeometry;
 import me.mrletsplay.j4xp.natives.XPWidgetID;
 import me.mrletsplay.j4xp.natives.XPWidgetMessageID;
 import me.mrletsplay.j4xp.natives.XPWidgetPropertyID;
+import me.mrletsplay.j4xp.plugin.J4XPUtils;
 
 public class XPWidgets {
 
 	public static XPWidgetID createWidget(int left, int top, int right, int bottom, boolean visible, String descriptor, boolean isRoot, XPWidgetID container, XPStandardWidgetClass widgetClass) {
-		return J4XP.getWidgetID((long) XPNativeInterface.executeFunction(NativeFunction.XPWIDGETS_CREATE_WIDGET, left, top, right, bottom, visible, descriptor, isRoot, container == null ? 0 : container.getRawID(), widgetClass.getID()));
+		return J4XP.getOrCreateWidgetID(J4XPUtils.getMethodCaller(), (long) XPNativeInterface.executeFunction(NativeFunction.XPWIDGETS_CREATE_WIDGET, left, top, right, bottom, visible, descriptor, isRoot, container == null ? 0 : container.getRawID(), widgetClass.getID()));
 	}
 	
 	public static XPWidgetID createCustomWidget(int left, int top, int right, int bottom, boolean visible, String descriptor, boolean isRoot, XPWidgetID container, XPWidgetClass widgetClass) {
-		return J4XP.getWidgetID((long) XPNativeInterface.executeFunction(NativeFunction.XPWIDGETS_CREATE_CUSTOM_WIDGET, left, top, right, bottom, visible, descriptor, isRoot, container == null ? 0 : container.getRawID(), widgetClass.getClassID()));
+		return J4XP.getOrCreateWidgetID(J4XPUtils.getMethodCaller(), (long) XPNativeInterface.executeFunction(NativeFunction.XPWIDGETS_CREATE_CUSTOM_WIDGET, left, top, right, bottom, visible, descriptor, isRoot, container == null ? 0 : container.getRawID(), widgetClass.getClassID()));
 	}
 	
 	public static void destroyWidget(XPWidgetID widgetID, boolean destroyChildren) {
@@ -39,11 +40,11 @@ public class XPWidgets {
 	}
 	
 	public static XPWidgetID getNthChildWidget(XPWidgetID widgetID, int index) {
-		return J4XP.getWidgetID((long) XPNativeInterface.executeFunction(NativeFunction.XPWIDGETS_GET_NTH_CHILD_WIDGET, widgetID.getRawID(), index));
+		return J4XP.getOrCreateWidgetID(null, (long) XPNativeInterface.executeFunction(NativeFunction.XPWIDGETS_GET_NTH_CHILD_WIDGET, widgetID.getRawID(), index));
 	}
 	
 	public static XPWidgetID getParentWidget(XPWidgetID widgetID) {
-		return J4XP.getWidgetID((long) XPNativeInterface.executeFunction(NativeFunction.XPWIDGETS_GET_PARENT_WIDGET, widgetID.getRawID()));
+		return J4XP.getOrCreateWidgetID(null, (long) XPNativeInterface.executeFunction(NativeFunction.XPWIDGETS_GET_PARENT_WIDGET, widgetID.getRawID()));
 	}
 	
 	public static void showWidget(XPWidgetID widgetID) {
@@ -59,7 +60,7 @@ public class XPWidgets {
 	}
 	
 	public static XPWidgetID findRootWidget(XPWidgetID widgetID) {
-		return J4XP.getWidgetID((long) XPNativeInterface.executeFunction(NativeFunction.XPWIDGETS_FIND_ROOT_WIDGET, widgetID.getRawID()));
+		return J4XP.getOrCreateWidgetID(null, (long) XPNativeInterface.executeFunction(NativeFunction.XPWIDGETS_FIND_ROOT_WIDGET, widgetID.getRawID()));
 	}
 	
 	public static void bringRootWidgetToFront(XPWidgetID widgetID) {
@@ -80,7 +81,7 @@ public class XPWidgets {
 	}
 	
 	public static XPWidgetID getWidgetForLocation(XPWidgetID container, int xOffset, int yOffset, boolean recursive, boolean visibleOnly) {
-		return J4XP.getWidgetID((long) XPNativeInterface.executeFunction(NativeFunction.XPWIDGETS_GET_WIDGET_FOR_LOCATION, container.getRawID(), xOffset, yOffset, recursive, visibleOnly));
+		return J4XP.getOrCreateWidgetID(null, (long) XPNativeInterface.executeFunction(NativeFunction.XPWIDGETS_GET_WIDGET_FOR_LOCATION, container.getRawID(), xOffset, yOffset, recursive, visibleOnly));
 	}
 	
 	public static XPGeometry getWidgetExposedGeometry(XPWidgetID widgetID) {
@@ -109,9 +110,9 @@ public class XPWidgets {
 	}
 	
 	public static XPWidgetID setKeyboardFocus(XPWidgetID widgetID) {
-		XPWidgetID wID = J4XP.getWidgetID((long) XPNativeInterface.executeFunction(NativeFunction.XPWIDGETS_SET_KEYBOARD_FOCUS, widgetID.getRawID()));
-		if(wID.getRawID() == 0) return null; // X-Plane has focus
-		return wID;
+		long w = (long) XPNativeInterface.executeFunction(NativeFunction.XPWIDGETS_SET_KEYBOARD_FOCUS, widgetID.getRawID());
+		if(w == 0) return null; // X-Plane has focus
+		return J4XP.getWidgetID(w);
 	}
 	
 	public static void loseKeyboardFocus(XPWidgetID widgetID) {
@@ -119,7 +120,7 @@ public class XPWidgets {
 	}
 	
 	public static XPWidgetID getWidgetWithFocus() {
-		return J4XP.getWidgetID((long) XPNativeInterface.executeFunction(NativeFunction.XPWIDGETS_GET_WIDGET_WITH_FOCUS));
+		return J4XP.getOrCreateWidgetID(null, (long) XPNativeInterface.executeFunction(NativeFunction.XPWIDGETS_GET_WIDGET_WITH_FOCUS));
 	}
 	
 //	public static addWidgetCallback TODO: Widget callbacks

@@ -5,16 +5,21 @@ import java.util.List;
 
 import me.mrletsplay.j4xp.entity.menu.Menu;
 import me.mrletsplay.j4xp.natives.classes.XPLMMenus;
+import me.mrletsplay.j4xp.plugin.PluginOwnable;
+import me.mrletsplay.j4xp.plugin.XPPlugin;
 
-public class XPLMMenuID {
+public class XPLMMenuID implements PluginOwnable {
 
+	private XPPlugin owner;
 	private long rawID;
 	private List<MenuHandler> handlers;
 	private Menu menu;
 	
-	public XPLMMenuID(long rawID) {
+	public XPLMMenuID(XPPlugin owner, long rawID) {
+		this.owner = owner;
 		this.rawID = rawID;
 		this.handlers = new ArrayList<>();
+		if(owner != null) owner.addOwnedObject(this);
 	}
 	
 	public long getRawID() {
@@ -39,6 +44,11 @@ public class XPLMMenuID {
 	
 	public void destroy() {
 		XPLMMenus.destroyMenu(this);
+	}
+
+	@Override
+	public XPPlugin getOwner() {
+		return owner;
 	}
 	
 }

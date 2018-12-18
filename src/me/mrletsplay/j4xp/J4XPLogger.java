@@ -19,12 +19,14 @@ public class J4XPLogger {
 			logWriters = new HashMap<>();
 			fileOutputStream = new FileOutputStream(J4XP.getLogFile(), true);
 			
-			System.setOut(defaultWriter = registerLogger(J4XPLogLevel.INFO, System.out));
-			registerLogger(J4XPLogLevel.FILE_ONLY_DEBUG, System.out);
-			registerLogger(J4XPLogLevel.DEBUG, System.out);
+			PrintStream origSysOut = System.out, origSysErr = System.err;
+			
+			System.setOut(defaultWriter = registerLogger(J4XPLogLevel.INFO, origSysOut));
+			registerLogger(J4XPLogLevel.FILE_ONLY_DEBUG, origSysOut);
+			registerLogger(J4XPLogLevel.DEBUG, origSysOut);
 
-			System.setErr(registerLogger(J4XPLogLevel.ERROR, System.err));
-			registerLogger(J4XPLogLevel.WARN, System.err);
+			System.setErr(registerLogger(J4XPLogLevel.ERROR, origSysErr));
+			registerLogger(J4XPLogLevel.WARN, origSysErr);
 		} catch (FileNotFoundException | UnsupportedEncodingException e) {
 			e.printStackTrace();
 		}

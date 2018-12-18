@@ -16,6 +16,7 @@ public class J4XPConsole {
 	private WidgetMainWindow consoleWidget;
 	private List<WidgetCaption> consoleLineWidgets;
 	private List<String> lineBuffer;
+	private boolean needsUpdate;
 	
 	public J4XPConsole() {
 		consoleLineWidgets = new ArrayList<>();
@@ -44,12 +45,14 @@ public class J4XPConsole {
 	}
 	
 	public void updateLog() {
+		if(!needsUpdate) return;
 		for(int i = 0; i < consoleLineWidgets.size(); i++) {
 			int idx = lineBuffer.size() - i - 1;
 			if(idx < 0 || idx >= lineBuffer.size()) continue;
 			String l = lineBuffer.get(idx);
 			if(l != null) consoleLineWidgets.get(i).setDescriptor(l);
 		}
+		needsUpdate = false;
 	}
 	
 	public WidgetMainWindow getConsoleWidget() {
@@ -59,6 +62,7 @@ public class J4XPConsole {
 	public void appendLine(String line) {
 		lineBuffer.add(line);
 		while(lineBuffer.size() > MAX_BUFFER_SIZE) lineBuffer.remove(0);
+		needsUpdate = true;
 	}
 	
 }
