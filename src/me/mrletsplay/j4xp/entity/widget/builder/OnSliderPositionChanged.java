@@ -1,9 +1,9 @@
 package me.mrletsplay.j4xp.entity.widget.builder;
 
-import me.mrletsplay.j4xp.natives.XPWidgetID;
+import me.mrletsplay.j4xp.entity.widget.WidgetScrollBar;
 
 public interface OnSliderPositionChanged {
 
-	public boolean onSliderPositionChanged(XPWidgetID scrollBarID);
+	public boolean onSliderPositionChanged(WidgetScrollBar scrollBarID);
 	
 }

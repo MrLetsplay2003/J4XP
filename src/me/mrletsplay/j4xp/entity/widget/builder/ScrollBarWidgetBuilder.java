@@ -57,15 +57,16 @@ public class ScrollBarWidgetBuilder extends AbstractWidgetBuilder<WidgetScrollBa
 		XPWidgets.setWidgetProperty(wID, XPStandardWidgetPropertyID.SCROLL_BAR_MIN, scrollBarMin);
 		XPWidgets.setWidgetProperty(wID, XPStandardWidgetPropertyID.SCROLL_BAR_MAX, scrollBarMax);
 		XPWidgets.setWidgetProperty(wID, XPStandardWidgetPropertyID.SCROLL_BAR_PAGE_AMOUNT, scrollBarPagePageAmount);
+		WidgetScrollBar sb = new WidgetScrollBar(wID);
 		if(onSliderPositionChanged != null) {
 			wID.registerHandler(message -> {
 				if(message.getMessageID().equals(XPStandardWidgetMessageID.SCROLL_BAR_SLIDER_POSITION_CHANGED)) {
-					return onSliderPositionChanged.onSliderPositionChanged(wID);
+					return onSliderPositionChanged.onSliderPositionChanged(sb);
 				}
 				return false;
 			});
 		}
-		return new WidgetScrollBar(wID);
+		return sb;
 	}
 
 }

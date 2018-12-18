@@ -16,6 +16,10 @@ public interface WidgetBuilder<T extends Widget, Self extends WidgetBuilder<T, S
 	public static CaptionWidgetBuilder newCaptionBuilder() {
 		return new CaptionWidgetBuilder();
 	}
+
+	public static ScrollBarWidgetBuilder newScrollBarBuilder() {
+		return new ScrollBarWidgetBuilder();
+	}
 	
 	public Self withBounds(int left, int top, int right, int bottom);
 	
