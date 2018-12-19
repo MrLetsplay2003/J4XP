@@ -4,6 +4,6 @@ import me.mrletsplay.j4xp.entity.widget.WidgetScrollBar;
 
 public interface OnSliderPositionChanged {
 
-	public boolean onSliderPositionChanged(WidgetScrollBar scrollBarID);
+	public boolean onSliderPositionChanged(WidgetScrollBar scrollBar);
 	
 }

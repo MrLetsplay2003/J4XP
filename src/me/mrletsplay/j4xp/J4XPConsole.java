@@ -5,22 +5,19 @@ import java.util.List;
 
 import me.mrletsplay.j4xp.entity.widget.WidgetCaption;
 import me.mrletsplay.j4xp.entity.widget.WidgetMainWindow;
-import me.mrletsplay.j4xp.entity.widget.WidgetScrollBar;
 import me.mrletsplay.j4xp.entity.widget.builder.MainWindowType;
 import me.mrletsplay.j4xp.entity.widget.builder.WidgetBuilder;
 import me.mrletsplay.j4xp.entity.widget.builder.WidgetCloseAction;
-import me.mrletsplay.j4xp.natives.XPStandardWidgetPropertyID;
-import me.mrletsplay.j4xp.natives.classes.XPWidgets;
 
 public class J4XPConsole {
 
-	private static final int MAX_BUFFER_SIZE = 100;
+	private static final int MAX_BUFFER_SIZE = 500;
 
 	private WidgetMainWindow consoleWidget;
-	private WidgetScrollBar consoleScrollBar;
 	private List<WidgetCaption> consoleLineWidgets;
 	private List<String> lineBuffer;
 	private boolean needsUpdate;
+	private int offset;
 	
 	public J4XPConsole() {
 		consoleLineWidgets = new ArrayList<>();
@@ -34,14 +31,18 @@ public class J4XPConsole {
 				.withVisibility(true)
 				.create();
 		
-		consoleScrollBar = WidgetBuilder.newScrollBarBuilder()
+		WidgetBuilder.newScrollBarBuilder()
 				.withBounds(780, 600, 800, 100)
+				.withScrollBarMin(0)
+				.withScrollBarMax(200)
 				.withRootStatus(false)
 				.withContainer(consoleWidget)
 				.withDescriptor("")
 				.withVisibility(true)
-				.withOnSliderPositionChanged(w -> {
-					System.out.println(XPWidgets.getWidgetProperty(w.getID(), XPStandardWidgetPropertyID.SCROLL_BAR_SLIDER_POSITION));
+				.onSliderPositionChanged(w -> {
+					offset = w.getSliderPosition();
+					needsUpdate = true;
+					updateLog();
 					return true;
 				})
 				.create();
@@ -60,11 +61,25 @@ public class J4XPConsole {
 		this.lineBuffer = new ArrayList<>();
 	}
 	
+	public void scrollToBottom() {
+		offset = 0;
+		needsUpdate = true;
+		updateLog();
+	}
+	
+	public void forceLogUpdate() {
+		needsUpdate = true;
+		updateLog();
+	}
+	
 	public void updateLog() {
 		if(!needsUpdate) return;
 		for(int i = 0; i < consoleLineWidgets.size(); i++) {
-			int idx = lineBuffer.size() - i - 1;
-			if(idx < 0 || idx >= lineBuffer.size()) continue;
+			int idx = lineBuffer.size() - i - 1 - offset;
+			if(idx < 0 || idx >= lineBuffer.size()) {
+				consoleLineWidgets.get(i).setDescriptor("");
+				continue;
+			}
 			String l = lineBuffer.get(idx);
 			if(l != null) consoleLineWidgets.get(i).setDescriptor(l);
 		}

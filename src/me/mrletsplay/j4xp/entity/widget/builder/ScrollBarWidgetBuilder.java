@@ -44,7 +44,7 @@ public class ScrollBarWidgetBuilder extends AbstractWidgetBuilder<WidgetScrollBa
 		return this;
 	}
 	
-	public ScrollBarWidgetBuilder withOnSliderPositionChanged(OnSliderPositionChanged onSliderPositionChanged) {
+	public ScrollBarWidgetBuilder onSliderPositionChanged(OnSliderPositionChanged onSliderPositionChanged) {
 		this.onSliderPositionChanged = onSliderPositionChanged;
 		return this;
 	}
