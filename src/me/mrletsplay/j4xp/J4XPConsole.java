@@ -28,7 +28,7 @@ public class J4XPConsole {
 				.withAutoHandleClose(WidgetCloseAction.HIDE)
 				.withWindowType(MainWindowType.TRANSLUCENT)
 				.withDescriptor("J4XP Console")
-				.withVisibility(true)
+				.withVisibility(false)
 				.create();
 		
 		WidgetBuilder.newScrollBarBuilder()

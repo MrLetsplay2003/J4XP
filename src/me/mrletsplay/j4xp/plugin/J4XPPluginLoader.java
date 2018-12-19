@@ -8,10 +8,16 @@ import java.util.Objects;
 import java.util.stream.Collectors;
 
 import me.mrletsplay.j4xp.J4XP;
+import me.mrletsplay.j4xp.entity.widget.WidgetMainWindow;
+import me.mrletsplay.j4xp.entity.widget.builder.MainWindowType;
+import me.mrletsplay.j4xp.entity.widget.builder.MainWindowWidgetBuilder;
+import me.mrletsplay.j4xp.entity.widget.builder.WidgetCloseAction;
 
 public class J4XPPluginLoader {
 
 	private static J4XPPluginLoader instance;
+	
+	private WidgetMainWindow pluginManagerWidget;
 	
 	static {
 		instance = new J4XPPluginLoader();
@@ -21,6 +27,14 @@ public class J4XPPluginLoader {
 	
 	public J4XPPluginLoader() {
 		this.plugins = new ArrayList<>();
+		this.pluginManagerWidget = new MainWindowWidgetBuilder()
+				.withBounds(100, 500, 800, 100)
+				.withCloseBoxes(true)
+				.withAutoHandleClose(WidgetCloseAction.HIDE)
+				.withWindowType(MainWindowType.DEFAULT)
+				.withDescriptor("J4XP Plugin Manager")
+				.withVisibility(true)
+				.create();
 	}
 	
 	public List<XPPlugin> getEnabledPlugins() {
