@@ -10,6 +10,10 @@ public class WidgetButton extends AbstractWidget {
 		super(id);
 	}
 	
+	public void setState(boolean state) {
+		XPWidgets.setWidgetProperty(getID(), XPStandardWidgetPropertyID.BUTTON_STATE, state ? 1 : 0);
+	}
+	
 	public boolean getState() {
 		return XPWidgets.getWidgetProperty(getID(), XPStandardWidgetPropertyID.BUTTON_STATE) == 1;
 	}

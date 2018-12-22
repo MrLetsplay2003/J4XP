@@ -13,7 +13,7 @@ public class ButtonWidgetBuilder extends AbstractWidgetBuilder<WidgetButton, But
 	private ButtonBehavior behavior;
 	private boolean state;
 	private OnPushButtonPressed onPushButtonPressed;
-	private OnPushButtonStateChanged onPushButtonStateChanged;
+	private OnButtonStateChanged onButtonStateChanged;
 	
 	public ButtonWidgetBuilder() {
 		this.type = ButtonType.PUSH_BUTTON;
@@ -40,8 +40,8 @@ public class ButtonWidgetBuilder extends AbstractWidgetBuilder<WidgetButton, But
 		return this;
 	}
 	
-	public ButtonWidgetBuilder onPushButtonStateChanged(OnPushButtonStateChanged onPushButtonStateChanged) {
-		this.onPushButtonStateChanged = onPushButtonStateChanged;
+	public ButtonWidgetBuilder onButtonStateChanged(OnButtonStateChanged onButtonStateChanged) {
+		this.onButtonStateChanged = onButtonStateChanged;
 		return this;
 	}
 	
@@ -56,7 +56,7 @@ public class ButtonWidgetBuilder extends AbstractWidgetBuilder<WidgetButton, But
 			if(message.getMessageID().equals(XPStandardWidgetMessageID.BUTTON_PUSH_BUTTON_PRESSED)) {
 				if(onPushButtonPressed != null) return onPushButtonPressed.onPushButtonPressed(bt);
 			}else if(message.getMessageID().equals(XPStandardWidgetMessageID.BUTTON_STATE_CHANGED)) {
-				if(onPushButtonStateChanged != null) return onPushButtonStateChanged.onPushButtonStateChanged(bt, message.getParameter2() == 1);
+				if(onButtonStateChanged != null) return onButtonStateChanged.onButtonStateChanged(bt, message.getParameter2() == 1);
 			}
 			return false;
 		});

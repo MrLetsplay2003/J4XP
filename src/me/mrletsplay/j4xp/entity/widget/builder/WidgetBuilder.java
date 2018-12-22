@@ -20,6 +20,10 @@ public interface WidgetBuilder<T extends Widget, Self extends WidgetBuilder<T, S
 	public static ScrollBarWidgetBuilder newScrollBarBuilder() {
 		return new ScrollBarWidgetBuilder();
 	}
+
+	public static ButtonWidgetBuilder newButtonBuilder() {
+		return new ButtonWidgetBuilder();
+	}
 	
 	public Self withBounds(int left, int top, int right, int bottom);
 	

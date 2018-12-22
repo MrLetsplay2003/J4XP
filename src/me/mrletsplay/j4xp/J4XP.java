@@ -16,8 +16,11 @@ import me.mrletsplay.j4xp.natives.XPLMDataRef;
 import me.mrletsplay.j4xp.natives.XPLMDataTypeID;
 import me.mrletsplay.j4xp.natives.XPLMDrawCallback;
 import me.mrletsplay.j4xp.natives.XPLMDrawingPhase;
+import me.mrletsplay.j4xp.natives.XPLMInstanceRef;
+import me.mrletsplay.j4xp.natives.XPLMMapLayerID;
 import me.mrletsplay.j4xp.natives.XPLMMenuID;
 import me.mrletsplay.j4xp.natives.XPLMSharedData;
+import me.mrletsplay.j4xp.natives.XPLMWindowID;
 import me.mrletsplay.j4xp.natives.XPWidgetID;
 import me.mrletsplay.j4xp.plugin.J4XPPluginLoader;
 import me.mrletsplay.j4xp.plugin.XPPlugin;
@@ -26,10 +29,13 @@ import me.mrletsplay.mrcore.misc.EnumFlagCompound;
 public class J4XP {
 	
 	private static List<XPWidgetID> widgetIDs;
-	private static List<XPLMMenuID> menus;
+	private static List<XPLMMenuID> menuIDs;
 	private static List<XPLMDataRef> dataRefs;
 	private static List<XPLMSharedData> sharedDatas;
 	private static List<XPLMDrawCallback> drawCallbacks;
+	private static List<XPLMInstanceRef> instanceRefs;
+	private static List<XPLMMapLayerID> mapLayerIDs;
+	private static List<XPLMWindowID> windowIDs;
 	
 	private static J4XPLogger logger;
 	private static J4XPConsole console;
@@ -40,10 +46,14 @@ public class J4XP {
 	
 	public static void init() {
 		widgetIDs = new ArrayList<>();
-		menus = new ArrayList<>();
+		menuIDs = new ArrayList<>();
 		dataRefs = new ArrayList<>();
 		sharedDatas = new ArrayList<>();
 		drawCallbacks = new ArrayList<>();
+		instanceRefs = new ArrayList<>();
+		mapLayerIDs = new ArrayList<>();
+		windowIDs = new ArrayList<>();
+		
 		logger = new J4XPLogger();
 		console = new J4XPConsole();
 		
@@ -51,8 +61,10 @@ public class J4XP {
 		
 		MenuItem item = Menu.getPluginsMenu().appendMenuItem("J4XP", null);
 		Menu menu = Menu.createMenu("J4XP", Menu.getPluginsMenu(), item);
-		menu.appendMenuItem("Reload all", "reload-all");
 		menu.appendMenuItem("Debug Console", "debug-console");
+		menu.appendMenuItem("Plugin Manager", "plugin-manager");
+		menu.appendMenuSeparator();
+		menu.appendMenuItem("Reload all", "reload-all");
 		
 		menu.registerHandler(m -> {
 			if(m.getItemRef().equals("reload-all")) {
@@ -65,6 +77,7 @@ public class J4XP {
 		new Thread(() -> {
 			while(true) {
 				console.updateLog();
+				J4XPPluginLoader.getInstance().updateLog();
 				try {
 					Thread.sleep(100);
 				} catch (InterruptedException e) {
@@ -91,6 +104,10 @@ public class J4XP {
 	
 	public static J4XPConsole getConsole() {
 		return console;
+	}
+	
+	public static J4XPPluginLoader getPluginLoader() {
+		return J4XPPluginLoader.getInstance();
 	}
 	
 	public static void log(String message) {
@@ -123,14 +140,14 @@ public class J4XP {
 	}
 	
 	public static XPLMMenuID getMenuID(long rawID) {
-		return menus.stream().filter(i -> i.getRawID() == rawID).findFirst().orElse(null);
+		return menuIDs.stream().filter(i -> i.getRawID() == rawID).findFirst().orElse(null);
 	}
 	
 	public static XPLMMenuID getOrCreateMenuID(XPPlugin plugin, long rawID) {
 		XPLMMenuID id = getMenuID(rawID);
 		if(id == null) {
 			id = new XPLMMenuID(plugin, rawID);
-			menus.add(id);
+			menuIDs.add(id);
 		}
 		return id;
 	}
@@ -144,6 +161,32 @@ public class J4XP {
 		if(id == null) {
 			id = new XPLMDataRef(plugin, rawID);
 			dataRefs.add(id);
+		}
+		return id;
+	}
+	
+	public static XPLMMapLayerID getMapLayerID(long rawID) {
+		return mapLayerIDs.stream().filter(i -> i.getRawID() == rawID).findFirst().orElse(null);
+	}
+	
+	public static XPLMMapLayerID getOrCreateMapLayerID(XPPlugin plugin, long rawID) {
+		XPLMMapLayerID id = getMapLayerID(rawID);
+		if(id == null) {
+			id = new XPLMMapLayerID(plugin, rawID);
+			mapLayerIDs.add(id);
+		}
+		return id;
+	}
+	
+	public static XPLMInstanceRef getInstanceRef(long rawID) {
+		return instanceRefs.stream().filter(i -> i.getRawID() == rawID).findFirst().orElse(null);
+	}
+	
+	public static XPLMInstanceRef getOrCreateInstanceRef(XPPlugin plugin, long rawID) {
+		XPLMInstanceRef id = getInstanceRef(rawID);
+		if(id == null) {
+			id = new XPLMInstanceRef(plugin, rawID);
+			instanceRefs.add(id);
 		}
 		return id;
 	}
@@ -170,6 +213,19 @@ public class J4XP {
 	
 	public static XPLMSharedData getSharedData(long rawID) {
 		return sharedDatas.stream().filter(i -> i.getRawID() == rawID).findFirst().orElse(null);
+	}
+	
+	public static XPLMWindowID getWindowID(long rawID) {
+		return windowIDs.stream().filter(i -> i.getRawID() == rawID).findFirst().orElse(null);
+	}
+	
+	public static XPLMWindowID getOrCreateWindowID(XPPlugin plugin, long rawID) {
+		XPLMWindowID id = getWindowID(rawID);
+		if(id == null) {
+			id = new XPLMWindowID(plugin, rawID);
+			windowIDs.add(id);
+		}
+		return id;
 	}
 	
 	public static File getJarFolder() {

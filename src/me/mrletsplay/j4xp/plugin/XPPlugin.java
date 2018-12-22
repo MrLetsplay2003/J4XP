@@ -10,10 +10,20 @@ public class XPPlugin {
 	private boolean enabled;
 	private JARLoader loader;
 	private List<PluginOwnable> ownedObjects;
+	private PluginDescription description;
 	
 	protected XPPlugin() {
 		loader = (JARLoader) getClass().getClassLoader();
 		ownedObjects = new ArrayList<>();
+		description = loader.loadDescription();
+	}
+	
+	public PluginDescription getDescription() {
+		return description;
+	}
+	
+	public String getName() {
+		return description.getName();
 	}
 
 	public void setEnabled(boolean enabled) {

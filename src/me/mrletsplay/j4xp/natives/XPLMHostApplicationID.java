@@ -2,16 +2,21 @@ package me.mrletsplay.j4xp.natives;
 
 import java.util.Arrays;
 
-public enum XPLMTextureID {
+public enum XPLMHostApplicationID {
 	
-	GENERAL_INTERFACE(0),
-	AIRCRAFT_PAINT(1),
-	AIRCRAFT_LITE_MAP(2),
+	UNKNOWN(0),
+	XPLANE(1),
+	PLANE_MAKER(2),
+	WORLD_MAKER(3),
+	BRIEFER(4),
+	PART_MAKER(5),
+	YOUNGS_MOD(6),
+	XAUTO(7),
 	;
 	
 	private final int rawValue;
 	
-	private XPLMTextureID(int rawValue) {
+	private XPLMHostApplicationID(int rawValue) {
 		this.rawValue = rawValue;
 	}
 	
@@ -19,8 +24,8 @@ public enum XPLMTextureID {
 		return rawValue;
 	}
 	
-	public static XPLMTextureID byValue(int rawValue) {
+	public static XPLMHostApplicationID byValue(int rawValue) {
 		return Arrays.stream(values()).filter(b -> b.rawValue == rawValue).findFirst().orElse(null);
 	}
-	
+
 }

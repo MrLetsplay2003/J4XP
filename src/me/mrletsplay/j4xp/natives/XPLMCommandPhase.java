@@ -2,16 +2,16 @@ package me.mrletsplay.j4xp.natives;
 
 import java.util.Arrays;
 
-public enum XPLMTextureID {
+public enum XPLMCommandPhase {
 	
-	GENERAL_INTERFACE(0),
-	AIRCRAFT_PAINT(1),
-	AIRCRAFT_LITE_MAP(2),
+	BEGIN(0),
+	CONTINUE(1),
+	END(2),
 	;
 	
 	private final int rawValue;
 	
-	private XPLMTextureID(int rawValue) {
+	private XPLMCommandPhase(int rawValue) {
 		this.rawValue = rawValue;
 	}
 	
@@ -19,8 +19,8 @@ public enum XPLMTextureID {
 		return rawValue;
 	}
 	
-	public static XPLMTextureID byValue(int rawValue) {
+	public static XPLMCommandPhase byValue(int rawValue) {
 		return Arrays.stream(values()).filter(b -> b.rawValue == rawValue).findFirst().orElse(null);
 	}
-	
+
 }

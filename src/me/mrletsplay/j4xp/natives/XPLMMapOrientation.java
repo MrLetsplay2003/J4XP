@@ -2,16 +2,15 @@ package me.mrletsplay.j4xp.natives;
 
 import java.util.Arrays;
 
-public enum XPLMTextureID {
+public enum XPLMMapOrientation {
 	
-	GENERAL_INTERFACE(0),
-	AIRCRAFT_PAINT(1),
-	AIRCRAFT_LITE_MAP(2),
+	MAP(0),
+	UI(1),
 	;
 	
 	private final int rawValue;
 	
-	private XPLMTextureID(int rawValue) {
+	private XPLMMapOrientation(int rawValue) {
 		this.rawValue = rawValue;
 	}
 	
@@ -19,8 +18,8 @@ public enum XPLMTextureID {
 		return rawValue;
 	}
 	
-	public static XPLMTextureID byValue(int rawValue) {
+	public static XPLMMapOrientation byValue(int rawValue) {
 		return Arrays.stream(values()).filter(b -> b.rawValue == rawValue).findFirst().orElse(null);
 	}
-	
+
 }

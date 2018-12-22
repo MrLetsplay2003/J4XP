@@ -8,9 +8,13 @@ import java.util.Objects;
 import java.util.stream.Collectors;
 
 import me.mrletsplay.j4xp.J4XP;
+import me.mrletsplay.j4xp.entity.widget.WidgetButton;
+import me.mrletsplay.j4xp.entity.widget.WidgetCaption;
 import me.mrletsplay.j4xp.entity.widget.WidgetMainWindow;
+import me.mrletsplay.j4xp.entity.widget.builder.ButtonBehavior;
+import me.mrletsplay.j4xp.entity.widget.builder.ButtonType;
 import me.mrletsplay.j4xp.entity.widget.builder.MainWindowType;
-import me.mrletsplay.j4xp.entity.widget.builder.MainWindowWidgetBuilder;
+import me.mrletsplay.j4xp.entity.widget.builder.WidgetBuilder;
 import me.mrletsplay.j4xp.entity.widget.builder.WidgetCloseAction;
 
 public class J4XPPluginLoader {
@@ -18,6 +22,10 @@ public class J4XPPluginLoader {
 	private static J4XPPluginLoader instance;
 	
 	private WidgetMainWindow pluginManagerWidget;
+	private List<WidgetCaption> pluginNameWidgets;
+	private List<WidgetButton> pluginStateWidgets;
+	private int offset;
+	private boolean needsUpdate;
 	
 	static {
 		instance = new J4XPPluginLoader();
@@ -27,7 +35,9 @@ public class J4XPPluginLoader {
 	
 	public J4XPPluginLoader() {
 		this.plugins = new ArrayList<>();
-		this.pluginManagerWidget = new MainWindowWidgetBuilder()
+		this.pluginNameWidgets = new ArrayList<>();
+		this.pluginStateWidgets = new ArrayList<>();
+		this.pluginManagerWidget = WidgetBuilder.newMainWindowBuilder()
 				.withBounds(100, 500, 800, 100)
 				.withCloseBoxes(true)
 				.withAutoHandleClose(WidgetCloseAction.HIDE)
@@ -35,6 +45,79 @@ public class J4XPPluginLoader {
 				.withDescriptor("J4XP Plugin Manager")
 				.withVisibility(true)
 				.create();
+
+			WidgetBuilder.newScrollBarBuilder()
+				.withBounds(780, 480, 800, 100)
+				.withScrollBarMin(0)
+				.withScrollBarMax(200)
+				.withRootStatus(false)
+				.withContainer(pluginManagerWidget)
+				.withDescriptor("")
+				.withVisibility(true)
+				.onSliderPositionChanged(w -> {
+					offset = w.getSliderPosition();
+					needsUpdate = true;
+					updateLog();
+					return true;
+				})
+				.create();
+		
+		int nL = 19;
+		for(int i = 0; i < nL; i++) {
+			final int fI = i;
+			WidgetCaption c = WidgetBuilder.newCaptionBuilder()
+				.withBounds(100, 480 - i * 20, 760, 460 - i * 20)
+				.withRootStatus(false)
+				.withContainer(pluginManagerWidget)
+				.withDescriptor("Plugin Name")
+				.create();
+			pluginNameWidgets.add(0, c);
+			WidgetButton b = WidgetBuilder.newButtonBuilder()
+					.withBounds(760, 480 - i * 20, 780, 460 - i * 20)
+					.withRootStatus(false)
+					.withBehavior(ButtonBehavior.CHECK_BOX)
+					.withType(ButtonType.RADIO_BUTTON)
+					.withContainer(pluginManagerWidget)
+					.withDescriptor("")
+					.onButtonStateChanged((btn, state) -> {
+						System.out.println("weerwerwer");
+						int idx = nL - fI - 1;
+						System.out.println("Hallo, ich bin tohl^1! " + idx);
+						if(idx < 0 || idx >= J4XP.getPluginLoader().getPlugins().size()) {
+							return true;
+						}
+						System.out.println("Hallo, ich bin tohl2!");
+						XPPlugin l = J4XP.getPluginLoader().getPlugins().get(idx);
+						if(l != null) {
+							l.setEnabled(state);
+						}
+						System.out.println("Hallo, ich bin tohl3!");
+//						btn.setState(false);
+						needsUpdate = true;
+						return true;
+					})
+					.create();
+			pluginStateWidgets.add(0, b);
+		}
+	}
+	
+	public void updateLog() {
+//		if(!needsUpdate) return; TODO
+		for(int i = 0; i < pluginNameWidgets.size(); i++) {
+			int idx = J4XP.getPluginLoader().getPlugins().size() - i - 1 - offset;
+			if(idx < 0 || idx >= J4XP.getPluginLoader().getPlugins().size()) {
+				pluginNameWidgets.get(i).setDescriptor("");
+				pluginStateWidgets.get(i).hide();
+				continue;
+			}
+			XPPlugin l = J4XP.getPluginLoader().getPlugins().get(idx);
+			if(l != null) {
+				pluginNameWidgets.get(i).setDescriptor(l.getName());
+				pluginStateWidgets.get(i).show();
+				pluginStateWidgets.get(i).setState(l.isEnabled());
+			}
+		}
+		needsUpdate = false;
 	}
 	
 	public List<XPPlugin> getEnabledPlugins() {
@@ -77,7 +160,7 @@ public class J4XPPluginLoader {
 			})
 			.filter(Objects::nonNull)
 			.collect(Collectors.toList());
-		plugins.addAll(pls);
+//		plugins.addAll(pls);
 		return pls; 
 	}
 	

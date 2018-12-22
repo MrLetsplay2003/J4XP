@@ -32,7 +32,7 @@ public class J4XPConsole {
 				.create();
 		
 		WidgetBuilder.newScrollBarBuilder()
-				.withBounds(780, 600, 800, 100)
+				.withBounds(780, 580, 800, 100)
 				.withScrollBarMin(0)
 				.withScrollBarMax(200)
 				.withRootStatus(false)
@@ -49,7 +49,7 @@ public class J4XPConsole {
 		
 		for(int i = 0; i < 24; i++) {
 			WidgetCaption c = WidgetBuilder.newCaptionBuilder()
-				.withBounds(100, 600 - i * 20, 780, 550 - i * 20)
+				.withBounds(100, 580 - i * 20, 780, 560 - i * 20)
 				.withRootStatus(false)
 				.withContainer(consoleWidget)
 				.withDescriptor("")

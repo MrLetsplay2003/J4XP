@@ -13,6 +13,8 @@ import me.mrletsplay.j4xp.natives.XPLMDrawWindow;
 import me.mrletsplay.j4xp.natives.XPLMDrawingPhase;
 import me.mrletsplay.j4xp.natives.XPLMHandleKey;
 import me.mrletsplay.j4xp.natives.XPLMHandleMouseClick;
+import me.mrletsplay.j4xp.natives.XPLMReceiveMonitorBoundsGlobal;
+import me.mrletsplay.j4xp.natives.XPLMReceiveMonitorBoundsOS;
 import me.mrletsplay.j4xp.natives.XPLMWindowID;
 import me.mrletsplay.j4xp.natives.XPNativeInterface;
 import me.mrletsplay.j4xp.plugin.J4XPUtils;
@@ -39,13 +41,13 @@ public class XPLMDisplay {
 	}
 	
 	public static XPLMWindowID createWindowEx(XPLMCreateWindow params) {
-		// TODO: Implement
-		return null;
+		return J4XP.getOrCreateWindowID(J4XPUtils.getMethodCaller(), (long) XPNativeInterface.executeFunction(NativeFunction.XPLMDISPLAY_CREATE_WINDOW_EX,
+				params.getLeft(), params.getTop(), params.getRight(), params.getBottom(), params.isVisible(), params.getRefcon(), params.getDecorateAsFloatingWindow().getRawValue(), params.getLayer().getRawValue()));
 	}
 	
 	public static XPLMWindowID createWindow(int left, int top, int right, int bottom, boolean isVisible, XPLMDrawWindow drawCallback, XPLMHandleKey keyCallback, XPLMHandleMouseClick mouseCallback, Object refcon) {
-		// TODO: Implement
-		return null;
+		return J4XP.getOrCreateWindowID(J4XPUtils.getMethodCaller(), (long) XPNativeInterface.executeFunction(NativeFunction.XPLMDISPLAY_CREATE_WINDOW,
+				left, top, right, bottom, isVisible, refcon));
 	}
 	
 	public static void destroyWindow(XPLMWindowID windowID) {
@@ -62,9 +64,13 @@ public class XPLMDisplay {
 		return new XPGeometry(rGeom[0], rGeom[1], rGeom[2], rGeom[3]);
 	}
 	
-	//TODO GetAllMonitorBoundsGlobal
+	public static void getAllMonitorBoundsGlobal(XPLMReceiveMonitorBoundsGlobal monitorBoundsCallback, Object refcon) {
+		XPNativeInterface.executeFunction(NativeFunction.XPLMDISPLAY_GET_ALL_MONITOR_BOUNDS_GLOBAL, monitorBoundsCallback, refcon);
+	}
 	
-	//TODO GetAllMonitorBoundsOS
+	public static void XPLMGetAllMonitorBoundsOS(XPLMReceiveMonitorBoundsOS monitorBoundsCallback, Object refcon) {
+		XPNativeInterface.executeFunction(NativeFunction.XPLMDISPLAY_GET_ALL_MONITOR_BOUNDS_OS, monitorBoundsCallback, refcon);
+	}
 	
 	public static Point2D getMouseLocation() {
 		int[] p = (int[]) XPNativeInterface.executeFunction(NativeFunction.XPLMDISPLAY_GET_MOUSE_LOCATION);

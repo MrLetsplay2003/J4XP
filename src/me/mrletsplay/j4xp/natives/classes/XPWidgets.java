@@ -98,7 +98,7 @@ public class XPWidgets {
 	}
 	
 	public static XPLMWindowID getWidgetUnderlyingWindow(XPWidgetID widgetID) {
-		return new XPLMWindowID((long) XPNativeInterface.executeFunction(NativeFunction.XPWIDGETS_GET_WIDGET_UNDERLYING_WINDOW, widgetID.getRawID()));
+		return J4XP.getOrCreateWindowID(null, (long) XPNativeInterface.executeFunction(NativeFunction.XPWIDGETS_GET_WIDGET_UNDERLYING_WINDOW, widgetID.getRawID()));
 	}
 	
 	public static void setWidgetProperty(XPWidgetID widgetID, XPWidgetPropertyID property, long propertyValue) {

@@ -2,16 +2,24 @@ package me.mrletsplay.j4xp.natives;
 
 import java.util.Arrays;
 
-public enum XPLMTextureID {
+public enum XPLMLanguageCode {
 	
-	GENERAL_INTERFACE(0),
-	AIRCRAFT_PAINT(1),
-	AIRCRAFT_LITE_MAP(2),
+	UNKNOWN(0),
+	ENGLISH(1),
+	FRENCH(2),
+	GERMAN(3),
+	ITALIAN(4),
+	SPANAISH(5),
+	KOREAN(6),
+	RUSSIAN(7),
+	GREEK(8),
+	JAPANESE(9),
+	CHINESE(10),
 	;
 	
 	private final int rawValue;
 	
-	private XPLMTextureID(int rawValue) {
+	private XPLMLanguageCode(int rawValue) {
 		this.rawValue = rawValue;
 	}
 	
@@ -19,8 +27,8 @@ public enum XPLMTextureID {
 		return rawValue;
 	}
 	
-	public static XPLMTextureID byValue(int rawValue) {
+	public static XPLMLanguageCode byValue(int rawValue) {
 		return Arrays.stream(values()).filter(b -> b.rawValue == rawValue).findFirst().orElse(null);
 	}
-	
+
 }

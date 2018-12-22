@@ -2,6 +2,7 @@ package me.mrletsplay.j4xp.natives.classes;
 
 import me.mrletsplay.j4xp.J4XP;
 import me.mrletsplay.j4xp.natives.NativeFunction;
+import me.mrletsplay.j4xp.natives.XPLMCommandRef;
 import me.mrletsplay.j4xp.natives.XPLMMenuCheck;
 import me.mrletsplay.j4xp.natives.XPLMMenuID;
 import me.mrletsplay.j4xp.natives.XPNativeInterface;
@@ -33,9 +34,9 @@ public class XPLMMenus {
 		return (int) XPNativeInterface.executeFunction(NativeFunction.XPLMMENUS_APPEND_MENU_ITEM, menu.getRawID(), itemName, itemRef);
 	}
 	
-//	public static int appendMenuItemWithCommand(XPLMMenuID menu, String itemName, XPLMCommandRef commandRef) { TODO: XPLMUtilities
-//		return (int) XPNativeInterface.executeFunction(NativeFunction.XPLMMENUS_APPEND_MENU_ITEM_WITH_COMMAND, menu.getRawID(), itemName, itemRef);
-//	}
+	public static int appendMenuItemWithCommand(XPLMMenuID menu, String itemName, XPLMCommandRef commandRef) {
+		return (int) XPNativeInterface.executeFunction(NativeFunction.XPLMMENUS_APPEND_MENU_ITEM_WITH_COMMAND, menu.getRawID(), itemName, commandRef);
+	}
 	
 	public static void appendMenuSeparator(XPLMMenuID menu) {
 		XPNativeInterface.executeFunction(NativeFunction.XPLMMENUS_APPEND_MENU_SEPARATOR, menu.getRawID());
