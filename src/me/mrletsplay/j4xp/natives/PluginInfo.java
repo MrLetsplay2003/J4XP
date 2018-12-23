@@ -1,10 +1,10 @@
 package me.mrletsplay.j4xp.natives;
 
-public class CPPPluginInfo {
+public class PluginInfo {
 
 	private String name, filePath, signature, description;
 	
-	public CPPPluginInfo(String name, String filePath, String signature, String description) {
+	public PluginInfo(String name, String filePath, String signature, String description) {
 		this.name = name;
 		this.filePath = filePath;
 		this.signature = signature;

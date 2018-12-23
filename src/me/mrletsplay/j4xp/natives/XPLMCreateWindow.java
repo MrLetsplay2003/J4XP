@@ -14,6 +14,23 @@ public class XPLMCreateWindow {
 	private XPLMWindowLayer layer;
 	private XPLMHandleMouseClick handleRightClickFunction;
 	
+	public XPLMCreateWindow(int left, int top, int right, int bottom, boolean visible, XPLMDrawWindow drawFunction, XPLMHandleMouseClick handleMouseClickFunction, XPLMHandleKey handleKeyFunction, XPLMHandleCursor handleCursorFunction, XPLMHandleMouseWheel handleMouseWheelFunction, Object refcon, XPLMWindowDecoration decorateAsFloatingWindow, XPLMWindowLayer layer, XPLMHandleMouseClick handleRightClickFunction) {
+		this.left = left;
+		this.top = top;
+		this.right = right;
+		this.bottom = bottom;
+		this.visible = visible;
+		this.drawFunction = drawFunction;
+		this.handleMouseClickFunction = handleMouseClickFunction;
+		this.handleKeyFunction = handleKeyFunction;
+		this.handleCursorFunction = handleCursorFunction;
+		this.handleMouseWheelFunction = handleMouseWheelFunction;
+		this.refcon = refcon;
+		this.decorateAsFloatingWindow = decorateAsFloatingWindow;
+		this.layer = layer;
+		this.handleRightClickFunction = handleRightClickFunction;
+	}
+	
 	public void setLeft(int left) {
 		this.left = left;
 	}

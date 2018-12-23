@@ -1,21 +1,21 @@
 package me.mrletsplay.j4xp.natives;
 
-import me.mrletsplay.j4xp.J4XP;
 import me.mrletsplay.j4xp.J4XPIdentifiable;
+import me.mrletsplay.j4xp.natives.classes.XPLMDisplay;
 import me.mrletsplay.j4xp.plugin.J4XPPluginOwnable;
 import me.mrletsplay.j4xp.plugin.XPPlugin;
 
-public class XPLMReceiveMonitorBoundsGlobal implements J4XPPluginOwnable, J4XPIdentifiable {
-
+public class XPLMHotKeyID implements J4XPPluginOwnable, J4XPIdentifiable {
+	
 	private XPPlugin owner;
 	private long rawID;
-	private ReceiveMonitorBoundsGlobal handlerFunction;
+	private XPLMHotKey callback;
 	private Object refcon;
 	
-	public XPLMReceiveMonitorBoundsGlobal(XPPlugin owner, long rawID, ReceiveMonitorBoundsGlobal handlerFunction, Object refcon) {
+	public XPLMHotKeyID(XPPlugin owner, long rawID, XPLMHotKey callback, Object refcon) {
 		this.owner = owner;
 		this.rawID = rawID;
-		this.handlerFunction = handlerFunction;
+		this.callback = callback;
 		this.refcon = refcon;
 	}
 	
@@ -29,8 +29,8 @@ public class XPLMReceiveMonitorBoundsGlobal implements J4XPPluginOwnable, J4XPId
 		return owner;
 	}
 	
-	public ReceiveMonitorBoundsGlobal getHandlerFunction() {
-		return handlerFunction;
+	public XPLMHotKey getCallback() {
+		return callback;
 	}
 	
 	public Object getRefcon() {
@@ -39,7 +39,7 @@ public class XPLMReceiveMonitorBoundsGlobal implements J4XPPluginOwnable, J4XPId
 
 	@Override
 	public void destroy() {
-		J4XP.getReceiveMonitorGlobals().remove(rawID);
+		XPLMDisplay.unregisterHotKey(this);
 	}
 
 }

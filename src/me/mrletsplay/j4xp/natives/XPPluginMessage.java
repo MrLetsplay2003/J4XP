@@ -2,17 +2,17 @@ package me.mrletsplay.j4xp.natives;
 
 public class XPPluginMessage {
 
-	private CPPPluginID fromPluginID;
+	private XPLMPluginID fromPluginID;
 	private XPPluginMessageID messageID;
 	private Object param;
 	
-	public XPPluginMessage(CPPPluginID fromPluginID, XPPluginMessageID messageID, Object param) {
+	public XPPluginMessage(XPLMPluginID fromPluginID, XPPluginMessageID messageID, Object param) {
 		this.fromPluginID = fromPluginID;
 		this.messageID = messageID;
 		this.param = param;
 	}
 	
-	public CPPPluginID getFromPluginID() {
+	public XPLMPluginID getFromPluginID() {
 		return fromPluginID;
 	}
 	

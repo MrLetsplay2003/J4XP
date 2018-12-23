@@ -2,10 +2,10 @@ package me.mrletsplay.j4xp.entity.menu;
 
 import me.mrletsplay.j4xp.natives.XPLMMenuCheck;
 import me.mrletsplay.j4xp.natives.classes.XPLMMenus;
-import me.mrletsplay.j4xp.plugin.PluginOwnable;
+import me.mrletsplay.j4xp.plugin.J4XPPluginOwnable;
 import me.mrletsplay.j4xp.plugin.XPPlugin;
 
-public class MenuItem implements PluginOwnable {
+public class MenuItem implements J4XPPluginOwnable {
 
 	private XPPlugin owner;
 	private Menu menu;

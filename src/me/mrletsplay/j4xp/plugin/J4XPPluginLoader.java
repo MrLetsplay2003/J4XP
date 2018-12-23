@@ -25,7 +25,7 @@ public class J4XPPluginLoader {
 	private List<WidgetCaption> pluginNameWidgets;
 	private List<WidgetButton> pluginStateWidgets;
 	private int offset;
-	private boolean needsUpdate;
+//	private boolean needsUpdate;
 	
 	static {
 		instance = new J4XPPluginLoader();
@@ -56,7 +56,7 @@ public class J4XPPluginLoader {
 				.withVisibility(true)
 				.onSliderPositionChanged(w -> {
 					offset = w.getSliderPosition();
-					needsUpdate = true;
+//					needsUpdate = true;
 					updateLog();
 					return true;
 				})
@@ -80,20 +80,15 @@ public class J4XPPluginLoader {
 					.withContainer(pluginManagerWidget)
 					.withDescriptor("")
 					.onButtonStateChanged((btn, state) -> {
-						System.out.println("weerwerwer");
-						int idx = nL - fI - 1;
-						System.out.println("Hallo, ich bin tohl^1! " + idx);
+						int idx = fI + offset;
 						if(idx < 0 || idx >= J4XP.getPluginLoader().getPlugins().size()) {
 							return true;
 						}
-						System.out.println("Hallo, ich bin tohl2!");
 						XPPlugin l = J4XP.getPluginLoader().getPlugins().get(idx);
 						if(l != null) {
 							l.setEnabled(state);
 						}
-						System.out.println("Hallo, ich bin tohl3!");
-//						btn.setState(false);
-						needsUpdate = true;
+//						needsUpdate = true;
 						return true;
 					})
 					.create();
@@ -104,7 +99,7 @@ public class J4XPPluginLoader {
 	public void updateLog() {
 //		if(!needsUpdate) return; TODO
 		for(int i = 0; i < pluginNameWidgets.size(); i++) {
-			int idx = J4XP.getPluginLoader().getPlugins().size() - i - 1 - offset;
+			int idx = i + offset;
 			if(idx < 0 || idx >= J4XP.getPluginLoader().getPlugins().size()) {
 				pluginNameWidgets.get(i).setDescriptor("");
 				pluginStateWidgets.get(i).hide();
@@ -117,7 +112,7 @@ public class J4XPPluginLoader {
 				pluginStateWidgets.get(i).setState(l.isEnabled());
 			}
 		}
-		needsUpdate = false;
+//		needsUpdate = false;
 	}
 	
 	public List<XPPlugin> getEnabledPlugins() {

@@ -14,7 +14,7 @@ import me.mrletsplay.mrcore.misc.EnumFlagCompound;
 public class XPLMDataAccess {
 
 	public static XPLMDataRef findDataRef(String refName) {
-		return J4XP.getOrCreateDataRef(null, (long) XPNativeInterface.executeFunction(NativeFunction.XPLMDATAACCESS_FIND_DATA_REF, refName));
+		return J4XP.getDataRefs().getOrCreate(null, (long) XPNativeInterface.executeFunction(NativeFunction.XPLMDATAACCESS_FIND_DATA_REF, refName));
 	}
 	
 	public static boolean canWriteDataRef(XPLMDataRef ref) {
@@ -78,7 +78,7 @@ public class XPLMDataAccess {
 	}
 	
 	public static XPLMDataRef registerDataAccessor(String name, EnumFlagCompound<XPLMDataTypeID> types, boolean isWritable, XPLMDataAccessor accessor) {
-		XPLMDataRef dataRef = J4XP.getOrCreateDataRef(J4XPUtils.getMethodCaller(), (long) XPNativeInterface.executeFunction(NativeFunction.XPLMDATAACCESS_REGISTER_DATA_ACCESSOR, name, types.getCompound(), isWritable));
+		XPLMDataRef dataRef = J4XP.getDataRefs().getOrCreate(J4XPUtils.getMethodCaller(), (long) XPNativeInterface.executeFunction(NativeFunction.XPLMDATAACCESS_REGISTER_DATA_ACCESSOR, name, types.getCompound(), isWritable));
 		dataRef.setDataAccessor(accessor);
 		return dataRef;
 	}
@@ -88,10 +88,10 @@ public class XPLMDataAccess {
 	}
 	
 	public static XPLMSharedData shareData(String dataName, EnumFlagCompound<XPLMDataTypeID> dataType, XPLMDataChanged onChanged, Object refcon) { // TODO: Callback working?
-		XPLMSharedData dt = J4XP.createSharedData(J4XPUtils.getMethodCaller(), dataName, dataType, onChanged, refcon);
+		XPLMSharedData dt = J4XP.getSharedDatas().create(id -> new XPLMSharedData(J4XPUtils.getMethodCaller(), id, dataName, dataType, onChanged, refcon));
 		boolean b = (boolean) XPNativeInterface.executeFunction(NativeFunction.XPLMDATAACCESS_SHARE_DATA, dataName, dataType.getCompound(), dt.getRawID());
 		if(!b) {
-			J4XP.deleteSharedData(dt.getRawID());
+			J4XP.getSharedDatas().remove(dt.getRawID());
 			return null;
 		}
 		return dt;
@@ -102,7 +102,7 @@ public class XPLMDataAccess {
 	}
 	
 	public static boolean unshareData(String dataName, EnumFlagCompound<XPLMDataTypeID> dataType, long dataID) {
-		J4XP.deleteSharedData(dataID);
+		J4XP.getSharedDatas().remove(dataID);
 		return (boolean) XPNativeInterface.executeFunction(NativeFunction.XPLMDATAACCESS_UNSHARE_DATA, dataName, dataType.getCompound(), dataID);
 	}
 	

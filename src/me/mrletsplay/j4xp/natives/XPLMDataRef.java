@@ -1,21 +1,17 @@
 package me.mrletsplay.j4xp.natives;
 
-import me.mrletsplay.j4xp.natives.classes.XPLMDataAccess;
-import me.mrletsplay.j4xp.plugin.PluginOwnable;
-import me.mrletsplay.j4xp.plugin.XPPlugin;
+import me.mrletsplay.j4xp.J4XPIdentifiable;
 
-public class XPLMDataRef implements PluginOwnable {
+public class XPLMDataRef implements J4XPIdentifiable {
 
-	private XPPlugin owner;
 	private long rawID;
 	private XPLMDataAccessor dataAccessor;
 	
-	public XPLMDataRef(XPPlugin owner, long rawID) {
-		this.owner = owner;
+	public XPLMDataRef(long rawID) {
 		this.rawID = rawID;
-		if(owner != null) owner.addOwnedObject(this);
 	}
 	
+	@Override
 	public long getRawID() {
 		return rawID;
 	}
@@ -28,14 +24,4 @@ public class XPLMDataRef implements PluginOwnable {
 		return dataAccessor;
 	}
 
-	@Override
-	public XPPlugin getOwner() {
-		return owner;
-	}
-
-	@Override
-	public void destroy() {
-		XPLMDataAccess.unregisterDataAccessor(this);
-	}
-	
 }

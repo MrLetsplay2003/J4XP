@@ -2,40 +2,44 @@ package me.mrletsplay.j4xp;
 
 import java.io.File;
 import java.net.URISyntaxException;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Objects;
-import java.util.stream.Collectors;
 
 import me.mrletsplay.j4xp.entity.menu.Menu;
 import me.mrletsplay.j4xp.entity.menu.MenuItem;
-import me.mrletsplay.j4xp.entity.widget.Widget;
-import me.mrletsplay.j4xp.natives.DrawCallback;
-import me.mrletsplay.j4xp.natives.XPLMDataChanged;
 import me.mrletsplay.j4xp.natives.XPLMDataRef;
-import me.mrletsplay.j4xp.natives.XPLMDataTypeID;
 import me.mrletsplay.j4xp.natives.XPLMDrawCallback;
-import me.mrletsplay.j4xp.natives.XPLMDrawingPhase;
+import me.mrletsplay.j4xp.natives.XPLMFlightLoopID;
+import me.mrletsplay.j4xp.natives.XPLMHotKeyID;
 import me.mrletsplay.j4xp.natives.XPLMInstanceRef;
+import me.mrletsplay.j4xp.natives.XPLMKeySniffer;
 import me.mrletsplay.j4xp.natives.XPLMMapLayerID;
 import me.mrletsplay.j4xp.natives.XPLMMenuID;
+import me.mrletsplay.j4xp.natives.XPLMObjectRef;
+import me.mrletsplay.j4xp.natives.XPLMProbeRef;
+import me.mrletsplay.j4xp.natives.XPLMReceiveMonitorBoundsGlobal;
+import me.mrletsplay.j4xp.natives.XPLMReceiveMonitorBoundsOS;
 import me.mrletsplay.j4xp.natives.XPLMSharedData;
 import me.mrletsplay.j4xp.natives.XPLMWindowID;
 import me.mrletsplay.j4xp.natives.XPWidgetID;
 import me.mrletsplay.j4xp.plugin.J4XPPluginLoader;
 import me.mrletsplay.j4xp.plugin.XPPlugin;
-import me.mrletsplay.mrcore.misc.EnumFlagCompound;
 
 public class J4XP {
 	
-	private static List<XPWidgetID> widgetIDs;
-	private static List<XPLMMenuID> menuIDs;
-	private static List<XPLMDataRef> dataRefs;
-	private static List<XPLMSharedData> sharedDatas;
-	private static List<XPLMDrawCallback> drawCallbacks;
-	private static List<XPLMInstanceRef> instanceRefs;
-	private static List<XPLMMapLayerID> mapLayerIDs;
-	private static List<XPLMWindowID> windowIDs;
+	private static J4XPIDCache<XPWidgetID> widgetIDs;
+	private static J4XPIDCache<XPLMMenuID> menuIDs;
+	private static J4XPIDCache<XPLMDataRef> dataRefs;
+	private static J4XPIDCache<XPLMSharedData> sharedDatas;
+	private static J4XPIDCache<XPLMDrawCallback> drawCallbacks;
+	private static J4XPIDCache<XPLMInstanceRef> instanceRefs;
+	private static J4XPIDCache<XPLMMapLayerID> mapLayerIDs;
+	private static J4XPIDCache<XPLMWindowID> windowIDs;
+	private static J4XPIDCache<XPLMHotKeyID> hotKeyIDs;
+	private static J4XPIDCache<XPLMKeySniffer> keySniffers;
+	private static J4XPIDCache<XPLMFlightLoopID> flightLoopIDs;
+	private static J4XPIDCache<XPLMProbeRef> probeRefs;
+	private static J4XPIDCache<XPLMReceiveMonitorBoundsGlobal> receiveMonitorGlobals;
+	private static J4XPIDCache<XPLMReceiveMonitorBoundsOS> receiveMonitorOSs;
+	private static J4XPIDCache<XPLMObjectRef> objectRefs;
 	
 	private static J4XPLogger logger;
 	private static J4XPConsole console;
@@ -45,14 +49,21 @@ public class J4XP {
 	}
 	
 	public static void init() {
-		widgetIDs = new ArrayList<>();
-		menuIDs = new ArrayList<>();
-		dataRefs = new ArrayList<>();
-		sharedDatas = new ArrayList<>();
-		drawCallbacks = new ArrayList<>();
-		instanceRefs = new ArrayList<>();
-		mapLayerIDs = new ArrayList<>();
-		windowIDs = new ArrayList<>();
+		widgetIDs = new J4XPIDCache<>(XPWidgetID::new);
+		menuIDs = new J4XPIDCache<>(XPLMMenuID::new);
+		dataRefs = new J4XPIDCache<>();
+		sharedDatas = new J4XPIDCache<>();
+		drawCallbacks = new J4XPIDCache<>();
+		instanceRefs = new J4XPIDCache<>(XPLMInstanceRef::new);
+		mapLayerIDs = new J4XPIDCache<>(XPLMMapLayerID::new);
+		windowIDs = new J4XPIDCache<>();
+		hotKeyIDs = new J4XPIDCache<>();
+		keySniffers = new J4XPIDCache<>();
+		flightLoopIDs = new J4XPIDCache<>(XPLMFlightLoopID::new);
+		probeRefs = new J4XPIDCache<>(XPLMProbeRef::new);
+		receiveMonitorGlobals = new J4XPIDCache<>();
+		receiveMonitorOSs = new J4XPIDCache<>();
+		objectRefs = new J4XPIDCache<>(XPLMObjectRef::new);
 		
 		logger = new J4XPLogger();
 		console = new J4XPConsole();
@@ -93,6 +104,13 @@ public class J4XP {
 		for(XPPlugin pl : J4XPPluginLoader.getInstance().getEnabledPlugins()) {
 			pl.setEnabled(false);
 		}
+		for(J4XPIDCache<?> cache : J4XPIDCache.getCaches()) {
+			for(J4XPIdentifiable i : cache.getElements()) {
+				if(i instanceof J4XPDestructible) {
+					((J4XPDestructible) i).destroy();
+				}
+			}
+		}
 		System.setOut(J4XPLogger.origSysOut);
 		System.setErr(J4XPLogger.origSysErr);
 		logger.close();
@@ -122,110 +140,64 @@ public class J4XP {
 		logger.log(logLevel, message);
 	}
 	
-	public static XPWidgetID getWidgetID(long rawID) {
-		return widgetIDs.stream().filter(i -> i.getRawID() == rawID).findFirst().orElse(null);
+	public static J4XPIDCache<XPWidgetID> getWidgetIDs() {
+		return widgetIDs;
 	}
 	
-	public static XPWidgetID getOrCreateWidgetID(XPPlugin plugin, long rawID) {
-		XPWidgetID id = getWidgetID(rawID);
-		if(id == null) {
-			id = new XPWidgetID(plugin, rawID);
-			widgetIDs.add(id);
-		}
-		return id;
+	public static J4XPIDCache<XPLMDataRef> getDataRefs() {
+		return dataRefs;
 	}
 	
-	public static List<Widget> getWidgets() {
-		return widgetIDs.stream().map(XPWidgetID::getWidget).filter(Objects::nonNull).collect(Collectors.toList());
+	public static J4XPIDCache<XPLMDrawCallback> getDrawCallbacks() {
+		return drawCallbacks;
 	}
 	
-	public static XPLMMenuID getMenuID(long rawID) {
-		return menuIDs.stream().filter(i -> i.getRawID() == rawID).findFirst().orElse(null);
+	public static J4XPIDCache<XPLMHotKeyID> getHotKeyIDs() {
+		return hotKeyIDs;
 	}
 	
-	public static XPLMMenuID getOrCreateMenuID(XPPlugin plugin, long rawID) {
-		XPLMMenuID id = getMenuID(rawID);
-		if(id == null) {
-			id = new XPLMMenuID(plugin, rawID);
-			menuIDs.add(id);
-		}
-		return id;
+	public static J4XPIDCache<XPLMInstanceRef> getInstanceRefs() {
+		return instanceRefs;
 	}
 	
-	public static XPLMDataRef getDataRef(long rawID) {
-		return dataRefs.stream().filter(i -> i.getRawID() == rawID).findFirst().orElse(null);
+	public static J4XPIDCache<XPLMKeySniffer> getKeySniffers() {
+		return keySniffers;
 	}
 	
-	public static XPLMDataRef getOrCreateDataRef(XPPlugin plugin, long rawID) {
-		XPLMDataRef id = getDataRef(rawID);
-		if(id == null) {
-			id = new XPLMDataRef(plugin, rawID);
-			dataRefs.add(id);
-		}
-		return id;
+	public static J4XPIDCache<XPLMMapLayerID> getMapLayerIDs() {
+		return mapLayerIDs;
 	}
 	
-	public static XPLMMapLayerID getMapLayerID(long rawID) {
-		return mapLayerIDs.stream().filter(i -> i.getRawID() == rawID).findFirst().orElse(null);
+	public static J4XPIDCache<XPLMMenuID> getMenuIDs() {
+		return menuIDs;
 	}
 	
-	public static XPLMMapLayerID getOrCreateMapLayerID(XPPlugin plugin, long rawID) {
-		XPLMMapLayerID id = getMapLayerID(rawID);
-		if(id == null) {
-			id = new XPLMMapLayerID(plugin, rawID);
-			mapLayerIDs.add(id);
-		}
-		return id;
+	public static J4XPIDCache<XPLMSharedData> getSharedDatas() {
+		return sharedDatas;
 	}
 	
-	public static XPLMInstanceRef getInstanceRef(long rawID) {
-		return instanceRefs.stream().filter(i -> i.getRawID() == rawID).findFirst().orElse(null);
+	public static J4XPIDCache<XPLMWindowID> getWindowIDs() {
+		return windowIDs;
 	}
 	
-	public static XPLMInstanceRef getOrCreateInstanceRef(XPPlugin plugin, long rawID) {
-		XPLMInstanceRef id = getInstanceRef(rawID);
-		if(id == null) {
-			id = new XPLMInstanceRef(plugin, rawID);
-			instanceRefs.add(id);
-		}
-		return id;
+	public static J4XPIDCache<XPLMFlightLoopID> getFlightLoopIDs() {
+		return flightLoopIDs;
 	}
 	
-	public static XPLMSharedData createSharedData(XPPlugin plugin, String dataName, EnumFlagCompound<XPLMDataTypeID> dataType, XPLMDataChanged dataChanged, Object refcon) {
-		XPLMSharedData dt = new XPLMSharedData(plugin, System.currentTimeMillis(), dataName, dataType, dataChanged, refcon); // TODO: id
-		sharedDatas.add(dt);
-		return dt;
+	public static J4XPIDCache<XPLMProbeRef> getProbeRefs() {
+		return probeRefs;
 	}
 	
-	public static void deleteSharedData(long rawID) {
-		sharedDatas.removeIf(d -> d.getRawID() == rawID);
+	public static J4XPIDCache<XPLMReceiveMonitorBoundsGlobal> getReceiveMonitorGlobals() {
+		return receiveMonitorGlobals;
 	}
 	
-	public static XPLMDrawCallback createDrawCallback(XPPlugin plugin, DrawCallback callback, XPLMDrawingPhase phase, boolean wantsBefore, Object refcon) {
-		XPLMDrawCallback dt = new XPLMDrawCallback(plugin, System.currentTimeMillis(), callback, phase, wantsBefore, refcon); // TODO: id
-		drawCallbacks.add(dt);
-		return dt;
+	public static J4XPIDCache<XPLMReceiveMonitorBoundsOS> getReceiveMonitorOSs() {
+		return receiveMonitorOSs;
 	}
 	
-	public static void deleteDrawCallback(long rawID) {
-		drawCallbacks.removeIf(d -> d.getRawID() == rawID);
-	}
-	
-	public static XPLMSharedData getSharedData(long rawID) {
-		return sharedDatas.stream().filter(i -> i.getRawID() == rawID).findFirst().orElse(null);
-	}
-	
-	public static XPLMWindowID getWindowID(long rawID) {
-		return windowIDs.stream().filter(i -> i.getRawID() == rawID).findFirst().orElse(null);
-	}
-	
-	public static XPLMWindowID getOrCreateWindowID(XPPlugin plugin, long rawID) {
-		XPLMWindowID id = getWindowID(rawID);
-		if(id == null) {
-			id = new XPLMWindowID(plugin, rawID);
-			windowIDs.add(id);
-		}
-		return id;
+	public static J4XPIDCache<XPLMObjectRef> getObjectRefs() {
+		return objectRefs;
 	}
 	
 	public static File getJarFolder() {

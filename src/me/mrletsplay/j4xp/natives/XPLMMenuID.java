@@ -3,12 +3,13 @@ package me.mrletsplay.j4xp.natives;
 import java.util.ArrayList;
 import java.util.List;
 
+import me.mrletsplay.j4xp.J4XPIdentifiable;
 import me.mrletsplay.j4xp.entity.menu.Menu;
 import me.mrletsplay.j4xp.natives.classes.XPLMMenus;
-import me.mrletsplay.j4xp.plugin.PluginOwnable;
+import me.mrletsplay.j4xp.plugin.J4XPPluginOwnable;
 import me.mrletsplay.j4xp.plugin.XPPlugin;
 
-public class XPLMMenuID implements PluginOwnable {
+public class XPLMMenuID implements J4XPPluginOwnable, J4XPIdentifiable {
 
 	private XPPlugin owner;
 	private long rawID;
@@ -22,6 +23,7 @@ public class XPLMMenuID implements PluginOwnable {
 		if(owner != null) owner.addOwnedObject(this);
 	}
 	
+	@Override
 	public long getRawID() {
 		return rawID;
 	}

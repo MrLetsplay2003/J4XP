@@ -1,26 +1,19 @@
 package me.mrletsplay.j4xp.natives;
 
-import me.mrletsplay.j4xp.plugin.PluginOwnable;
-import me.mrletsplay.j4xp.plugin.XPPlugin;
+import me.mrletsplay.j4xp.J4XPDestructible;
+import me.mrletsplay.j4xp.J4XPIdentifiable;
 
-public class XPLMObjectRef implements PluginOwnable {
+public class XPLMObjectRef implements J4XPIdentifiable, J4XPDestructible {
 	
-	private XPPlugin owner;
 	private long rawID;
 	
-	public XPLMObjectRef(XPPlugin owner, long rawID) {
-		this.owner = owner;
+	public XPLMObjectRef(long rawID) {
 		this.rawID = rawID;
-		if(owner != null) owner.addOwnedObject(this);
 	}
 	
+	@Override
 	public long getRawID() {
 		return rawID;
-	}
-
-	@Override
-	public XPPlugin getOwner() {
-		return owner;
 	}
 
 	@Override

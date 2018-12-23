@@ -11,7 +11,7 @@ import me.mrletsplay.j4xp.plugin.J4XPUtils;
 public class XPLMInstance {
 	
 	public static XPLMInstanceRef createInstance(XPLMObjectRef obj, String[] datarefs) {
-		return J4XP.getOrCreateInstanceRef(J4XPUtils.getMethodCaller(), (long) XPNativeInterface.executeFunction(NativeFunction.XPLMINSTANCE_CREATE_INSTANCE, obj.getRawID(), datarefs));
+		return J4XP.getInstanceRefs().getOrCreate(J4XPUtils.getMethodCaller(), (long) XPNativeInterface.executeFunction(NativeFunction.XPLMINSTANCE_CREATE_INSTANCE, obj.getRawID(), datarefs));
 	}
 	
 	public static void destroyInstance(XPLMInstanceRef instance) {

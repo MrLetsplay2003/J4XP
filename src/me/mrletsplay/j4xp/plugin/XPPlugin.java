@@ -9,7 +9,7 @@ public class XPPlugin {
 	
 	private boolean enabled;
 	private JARLoader loader;
-	private List<PluginOwnable> ownedObjects;
+	private List<J4XPPluginOwnable> ownedObjects;
 	private PluginDescription description;
 	
 	protected XPPlugin() {
@@ -32,18 +32,23 @@ public class XPPlugin {
 			if(enabled) {
 				onEnable();
 			}else {
-				for(PluginOwnable o : ownedObjects) o.destroy();
+				for(J4XPPluginOwnable o : ownedObjects) o.destroy();
 				onDisable();
 			}
 		}
 	}
 	
-	public void addOwnedObject(PluginOwnable ownable) {
+	public void addOwnedObject(J4XPPluginOwnable ownable) {
 		if(!ownable.getOwner().equals(this)) throw new IllegalArgumentException("Object not owned by this plugin");
 		ownedObjects.add(ownable);
 	}
+
+	public void removeOwnedObject(J4XPPluginOwnable ownable) {
+		if(!ownable.getOwner().equals(this)) throw new IllegalArgumentException("Object not owned by this plugin");
+		ownedObjects.remove(ownable);
+	}
 	
-	public List<PluginOwnable> getOwnedObjects() {
+	public List<J4XPPluginOwnable> getOwnedObjects() {
 		return ownedObjects;
 	}
 	

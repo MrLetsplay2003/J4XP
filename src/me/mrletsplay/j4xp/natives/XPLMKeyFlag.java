@@ -7,7 +7,7 @@ import me.mrletsplay.mrcore.misc.FlagCompound.Flag;
 public enum XPLMKeyFlag implements Flag {
 
 	SHIFT(1),
-	ALT(2),
+	OPTION_ALT(2),
 	CONTROL(4),
 	DOWN(8),
 	UP(16);

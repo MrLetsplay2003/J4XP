@@ -5,21 +5,19 @@ import me.mrletsplay.j4xp.natives.classes.XPLMDisplay;
 import me.mrletsplay.j4xp.plugin.J4XPPluginOwnable;
 import me.mrletsplay.j4xp.plugin.XPPlugin;
 
-public class XPLMDrawCallback implements J4XPPluginOwnable, J4XPIdentifiable {
+public class XPLMKeySniffer implements J4XPPluginOwnable, J4XPIdentifiable {
 
 	private XPPlugin owner;
 	private long rawID;
-	private DrawCallback callback;
-	private XPLMDrawingPhase phase;
-	private boolean wantsBefore;
+	private KeySniffer callback;
+	private boolean beforeWindows;
 	private Object refcon;
 	
-	public XPLMDrawCallback(XPPlugin owner, long rawID, DrawCallback callback, XPLMDrawingPhase phase, boolean wantsBefore, Object refcon) {
+	public XPLMKeySniffer(XPPlugin owner, long rawID, KeySniffer callback, boolean beforeWindows, Object refcon) {
 		this.owner = owner;
 		this.rawID = rawID;
 		this.callback = callback;
-		this.phase = phase;
-		this.wantsBefore = wantsBefore;
+		this.beforeWindows = beforeWindows;
 		this.refcon = refcon;
 		if(owner != null) owner.addOwnedObject(this);
 	}
@@ -29,16 +27,12 @@ public class XPLMDrawCallback implements J4XPPluginOwnable, J4XPIdentifiable {
 		return rawID;
 	}
 	
-	public DrawCallback getCallback() {
+	public KeySniffer getCallback() {
 		return callback;
 	}
 	
-	public XPLMDrawingPhase getPhase() {
-		return phase;
-	}
-	
-	public boolean isWantsBefore() {
-		return wantsBefore;
+	public boolean isBeforeWindows() {
+		return beforeWindows;
 	}
 	
 	public Object getRefcon() {
@@ -52,7 +46,7 @@ public class XPLMDrawCallback implements J4XPPluginOwnable, J4XPIdentifiable {
 	
 	@Override
 	public void destroy() {
-		XPLMDisplay.unregisterDrawCallback(this);
+		XPLMDisplay.unregisterKeySniffer(this);
 	}
 	
 }

@@ -15,7 +15,7 @@ import me.mrletsplay.j4xp.plugin.J4XPUtils;
 public class XPLMMap {
 	
 	public static XPLMMapLayerID createMapLayer(XPLMCreateMapLayer params) {
-		return J4XP.getOrCreateMapLayerID(J4XPUtils.getMethodCaller(), (long) XPNativeInterface.executeFunction(NativeFunction.XPLMMAP_CREATE_MAP_LAYER, params));
+		return J4XP.getMapLayerIDs().getOrCreate(J4XPUtils.getMethodCaller(), (long) XPNativeInterface.executeFunction(NativeFunction.XPLMMAP_CREATE_MAP_LAYER, params));
 		
 	}
 	
