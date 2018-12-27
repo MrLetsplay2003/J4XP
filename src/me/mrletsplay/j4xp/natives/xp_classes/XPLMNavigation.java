@@ -10,23 +10,23 @@ import me.mrletsplay.j4xp.natives.enums.XPLMNavType;
 public class XPLMNavigation {
 	
 	public static XPLMNavRef getFirstNavAid() {
-		return (XPLMNavRef) XPNativeInterface.executeFunction(NativeFunction.XPLMNAVIGATION_GET_FIRST_NAV_AID);
+		return new XPLMNavRef((int) XPNativeInterface.executeFunction(NativeFunction.XPLMNAVIGATION_GET_FIRST_NAV_AID));
 	}
 	
 	public static XPLMNavRef getNextNavAid(XPLMNavRef navAidRef) {
-		return (XPLMNavRef) XPNativeInterface.executeFunction(NativeFunction.XPLMNAVIGATION_GET_NEXT_NAV_AID, navAidRef.getRawID());
+		return new XPLMNavRef((int) XPNativeInterface.executeFunction(NativeFunction.XPLMNAVIGATION_GET_NEXT_NAV_AID, navAidRef.getRawID()));
 	}
 	
 	public static XPLMNavRef findFirstNavAidOfType(XPLMNavType type) {
-		return (XPLMNavRef) XPNativeInterface.executeFunction(NativeFunction.XPLMNAVIGATION_FIND_FIRST_NAV_AID_OF_TYPE, type.getRawValue());
+		return new XPLMNavRef((int) XPNativeInterface.executeFunction(NativeFunction.XPLMNAVIGATION_FIND_FIRST_NAV_AID_OF_TYPE, type.getRawValue()));
 	}
 	
 	public static XPLMNavRef findLastNavAidOfType(XPLMNavType type) {
-		return (XPLMNavRef) XPNativeInterface.executeFunction(NativeFunction.XPLMNAVIGATION_FIND_LAST_NAV_AID_OF_TYPE, type.getRawValue());
+		return new XPLMNavRef((int) XPNativeInterface.executeFunction(NativeFunction.XPLMNAVIGATION_FIND_LAST_NAV_AID_OF_TYPE, type.getRawValue()));
 	}
 	
 	public static XPLMNavRef findNavAid(String nameFragment, String idFragment, float lat, float lon, int frequency, XPLMNavType type) {
-		return (XPLMNavRef) XPNativeInterface.executeFunction(NativeFunction.XPLMNAVIGATION_FIND_NAV_AID, nameFragment, idFragment, lat, lon, frequency, type.getRawValue());
+		return new XPLMNavRef((int) XPNativeInterface.executeFunction(NativeFunction.XPLMNAVIGATION_FIND_NAV_AID, nameFragment, idFragment, lat, lon, frequency, type.getRawValue()));
 	}
 	
 	public static XPLMNavAidInfo getNavAidInfo() {
@@ -56,7 +56,7 @@ public class XPLMNavigation {
 	
 	public static XPLMFMSEntryInfo getFMSEntryInfo() {
 		Object[] p = (Object[]) XPNativeInterface.executeFunction(NativeFunction.XPLMNAVIGATION_GET_FMS_ENTRY_INFO);
-		return new XPLMFMSEntryInfo((int) p[0], (XPLMNavType) p[1], (char) p[2], (XPLMNavRef) p[3], (int) p[4], (float) p[5], (float) p[6]);
+		return new XPLMFMSEntryInfo((int) p[0], XPLMNavType.byValue((int) p[1]), (char) p[2], (XPLMNavRef) p[3], (int) p[4], (float) p[5], (float) p[6]);
 	}
 	
 	public static void setFMSEntryInfo(int index, XPLMNavRef ref, int altitude) {
@@ -72,11 +72,11 @@ public class XPLMNavigation {
 	}
 	
 	public static XPLMNavType getGPSDestinationType() {
-		return (XPLMNavType) XPNativeInterface.executeFunction(NativeFunction.XPLMNAVIGATION_GET_GPS_DESTINATION_TYPE);
+		return XPLMNavType.byValue((int) XPNativeInterface.executeFunction(NativeFunction.XPLMNAVIGATION_GET_GPS_DESTINATION_TYPE));
 	}
 	
 	public static XPLMNavRef getGPSDestination() {
-		return (XPLMNavRef) XPNativeInterface.executeFunction(NativeFunction.XPLMNAVIGATION_GET_GPS_DESTINATION);
+		return new XPLMNavRef((int) XPNativeInterface.executeFunction(NativeFunction.XPLMNAVIGATION_GET_GPS_DESTINATION));
 	}
 	
 }

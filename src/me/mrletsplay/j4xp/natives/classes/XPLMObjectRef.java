@@ -2,6 +2,7 @@ package me.mrletsplay.j4xp.natives.classes;
 
 import me.mrletsplay.j4xp.J4XPDestructible;
 import me.mrletsplay.j4xp.J4XPIdentifiable;
+import me.mrletsplay.j4xp.natives.xp_classes.XPLMScenery;
 
 public class XPLMObjectRef implements J4XPIdentifiable, J4XPDestructible {
 	
@@ -18,7 +19,7 @@ public class XPLMObjectRef implements J4XPIdentifiable, J4XPDestructible {
 
 	@Override
 	public void destroy() {
-		// TODO
+		XPLMScenery.unloadObject(this);
 	}
 	
 }

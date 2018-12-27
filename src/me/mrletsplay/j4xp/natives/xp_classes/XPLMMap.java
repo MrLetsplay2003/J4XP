@@ -32,20 +32,20 @@ public class XPLMMap {
 	}
 	
 	public static void drawMapIconFromSheet(XPLMMapLayerID layer, char pngPath, int s, int t, int ds, int dt, float mapX, float mapY, XPLMMapOrientation orientation, float rotationDegrees, float mapWidth) {
-		XPNativeInterface.executeFunction(NativeFunction.XPLMMAP_DRAW_MAP_ICON_FROM_SHEET, layer.getRawID(), pngPath, s, t, ds, dt, mapX, mapY, orientation, rotationDegrees, mapWidth);
+		XPNativeInterface.executeFunction(NativeFunction.XPLMMAP_DRAW_MAP_ICON_FROM_SHEET, layer.getRawID(), pngPath, s, t, ds, dt, mapX, mapY, orientation.getRawValue(), rotationDegrees, mapWidth);
 	}
 	
 	public static void drawMapLabel(XPLMMapLayerID layer, String text, float mapX, float mapY, XPLMMapOrientation orientation, float rotationDegrees) {
-		XPNativeInterface.executeFunction(NativeFunction.XPLMMAP_DRAW_MAP_LABEL, layer.getRawID(), text, mapX, mapY, orientation, rotationDegrees);
+		XPNativeInterface.executeFunction(NativeFunction.XPLMMAP_DRAW_MAP_LABEL, layer.getRawID(), text, mapX, mapY, orientation.getRawValue(), rotationDegrees);
 	}
 	
 	public static FloatPoint mapProject(XPLMMapProjectionID projection, double latitude, double longitude) {
-		float[] p = (float[]) XPNativeInterface.executeFunction(NativeFunction.XPLMMAP_MAP_PROJECT, projection, latitude, longitude);
+		float[] p = (float[]) XPNativeInterface.executeFunction(NativeFunction.XPLMMAP_MAP_PROJECT, projection.getRawID(), latitude, longitude);
 		return new FloatPoint(p[0], p[1]);
 	}
 	
 	public static DoublePoint mapUnproject(XPLMMapProjectionID projection, float mapX, float mapY) {
-		double[] p = (double[]) XPNativeInterface.executeFunction(NativeFunction.XPLMMAP_MAP_UNPROJECT, projection, mapX, mapY);
+		double[] p = (double[]) XPNativeInterface.executeFunction(NativeFunction.XPLMMAP_MAP_UNPROJECT, projection.getRawID(), mapX, mapY);
 		return new DoublePoint(p[0], p[1]);
 	}
 	

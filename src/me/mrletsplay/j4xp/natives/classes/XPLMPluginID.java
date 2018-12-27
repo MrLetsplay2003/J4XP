@@ -1,13 +1,16 @@
 package me.mrletsplay.j4xp.natives.classes;
 
-public class XPLMPluginID {
+import me.mrletsplay.j4xp.J4XPIdentifiable;
 
-	private long rawID;
+public class XPLMPluginID implements J4XPIdentifiable {
+
+	private int rawID;
 	
-	public XPLMPluginID(long rawID) {
+	public XPLMPluginID(int rawID) {
 		this.rawID = rawID;
 	}
 	
+	@Override
 	public long getRawID() {
 		return rawID;
 	}

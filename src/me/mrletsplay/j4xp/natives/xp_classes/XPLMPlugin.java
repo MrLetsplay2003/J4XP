@@ -9,23 +9,23 @@ import me.mrletsplay.j4xp.natives.interfaces.XPLMFeatureEnumerator;
 public class XPLMPlugin {
 	
 	public static XPLMPluginID getMyID() {
-		return new XPLMPluginID((long) XPNativeInterface.executeFunction(NativeFunction.XPLMPLUGIN_GET_MY_ID));
+		return new XPLMPluginID((int) XPNativeInterface.executeFunction(NativeFunction.XPLMPLUGIN_GET_MY_ID));
 	}
 
 	public static XPLMPluginID getPluginCount() {
-		return new XPLMPluginID((long) XPNativeInterface.executeFunction(NativeFunction.XPLMPLUGIN_COUNT_PLUGINS));
+		return new XPLMPluginID((int) XPNativeInterface.executeFunction(NativeFunction.XPLMPLUGIN_COUNT_PLUGINS));
 	}
 	
 	public static XPLMPluginID getNthPlugin(int index) {
-		return new XPLMPluginID((long) XPNativeInterface.executeFunction(NativeFunction.XPLMPLUGIN_GET_NTH_PLUGIN, index));
+		return new XPLMPluginID((int) XPNativeInterface.executeFunction(NativeFunction.XPLMPLUGIN_GET_NTH_PLUGIN, index));
 	}
 	
 	public static XPLMPluginID findPluginByPath(String path) {
-		return new XPLMPluginID((long) XPNativeInterface.executeFunction(NativeFunction.XPLMPLUGIN_FIND_PLUGIN_BY_PATH, path));
+		return new XPLMPluginID((int) XPNativeInterface.executeFunction(NativeFunction.XPLMPLUGIN_FIND_PLUGIN_BY_PATH, path));
 	}
 	
 	public static XPLMPluginID findPluginBySignature(String signature) {
-		return new XPLMPluginID((long) XPNativeInterface.executeFunction(NativeFunction.XPLMPLUGIN_FIND_PLUGIN_BY_SIGNATURE, signature));
+		return new XPLMPluginID((int) XPNativeInterface.executeFunction(NativeFunction.XPLMPLUGIN_FIND_PLUGIN_BY_SIGNATURE, signature));
 	}
 	
 	public static PluginInfo getPluginInfo(XPLMPluginID pluginID) {

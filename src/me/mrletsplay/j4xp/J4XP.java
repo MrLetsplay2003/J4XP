@@ -5,6 +5,7 @@ import java.net.URISyntaxException;
 
 import me.mrletsplay.j4xp.entity.menu.Menu;
 import me.mrletsplay.j4xp.entity.menu.MenuItem;
+import me.mrletsplay.j4xp.natives.classes.XPLMCameraControl;
 import me.mrletsplay.j4xp.natives.classes.XPLMDataRef;
 import me.mrletsplay.j4xp.natives.classes.XPLMDrawCallback;
 import me.mrletsplay.j4xp.natives.classes.XPLMFlightLoopID;
@@ -20,26 +21,28 @@ import me.mrletsplay.j4xp.natives.classes.XPLMReceiveMonitorBoundsOS;
 import me.mrletsplay.j4xp.natives.classes.XPLMSharedData;
 import me.mrletsplay.j4xp.natives.classes.XPLMWindowID;
 import me.mrletsplay.j4xp.natives.classes.XPWidgetID;
+import me.mrletsplay.j4xp.natives.xp_classes.XPLMCamera;
 import me.mrletsplay.j4xp.plugin.J4XPPluginLoader;
 import me.mrletsplay.j4xp.plugin.XPPlugin;
 
 public class J4XP {
 	
-	private static J4XPIDCache<XPWidgetID> widgetIDs;
-	private static J4XPIDCache<XPLMMenuID> menuIDs;
-	private static J4XPIDCache<XPLMDataRef> dataRefs;
-	private static J4XPIDCache<XPLMSharedData> sharedDatas;
-	private static J4XPIDCache<XPLMDrawCallback> drawCallbacks;
-	private static J4XPIDCache<XPLMInstanceRef> instanceRefs;
-	private static J4XPIDCache<XPLMMapLayerID> mapLayerIDs;
-	private static J4XPIDCache<XPLMWindowID> windowIDs;
-	private static J4XPIDCache<XPLMHotKeyID> hotKeyIDs;
-	private static J4XPIDCache<XPLMKeySniffer> keySniffers;
-	private static J4XPIDCache<XPLMFlightLoopID> flightLoopIDs;
-	private static J4XPIDCache<XPLMProbeRef> probeRefs;
-	private static J4XPIDCache<XPLMReceiveMonitorBoundsGlobal> receiveMonitorGlobals;
-	private static J4XPIDCache<XPLMReceiveMonitorBoundsOS> receiveMonitorOSs;
-	private static J4XPIDCache<XPLMObjectRef> objectRefs;
+	private static J4XPCache<XPWidgetID> widgetIDs;
+	private static J4XPCache<XPLMMenuID> menuIDs;
+	private static J4XPCache<XPLMDataRef> dataRefs;
+	private static J4XPCache<XPLMSharedData> sharedDatas;
+	private static J4XPCache<XPLMDrawCallback> drawCallbacks;
+	private static J4XPCache<XPLMInstanceRef> instanceRefs;
+	private static J4XPCache<XPLMMapLayerID> mapLayerIDs;
+	private static J4XPCache<XPLMWindowID> windowIDs;
+	private static J4XPCache<XPLMHotKeyID> hotKeyIDs;
+	private static J4XPCache<XPLMKeySniffer> keySniffers;
+	private static J4XPCache<XPLMFlightLoopID> flightLoopIDs;
+	private static J4XPCache<XPLMProbeRef> probeRefs;
+	private static J4XPCache<XPLMReceiveMonitorBoundsGlobal> receiveMonitorGlobals;
+	private static J4XPCache<XPLMReceiveMonitorBoundsOS> receiveMonitorOSs;
+	private static J4XPCache<XPLMObjectRef> objectRefs;
+	private static XPLMCameraControl cameraControl;
 	
 	private static J4XPLogger logger;
 	private static J4XPConsole console;
@@ -49,21 +52,21 @@ public class J4XP {
 	}
 	
 	public static void init() {
-		widgetIDs = new J4XPIDCache<>(XPWidgetID::new);
-		menuIDs = new J4XPIDCache<>(XPLMMenuID::new);
-		dataRefs = new J4XPIDCache<>();
-		sharedDatas = new J4XPIDCache<>();
-		drawCallbacks = new J4XPIDCache<>();
-		instanceRefs = new J4XPIDCache<>(XPLMInstanceRef::new);
-		mapLayerIDs = new J4XPIDCache<>(XPLMMapLayerID::new);
-		windowIDs = new J4XPIDCache<>();
-		hotKeyIDs = new J4XPIDCache<>();
-		keySniffers = new J4XPIDCache<>();
-		flightLoopIDs = new J4XPIDCache<>(XPLMFlightLoopID::new);
-		probeRefs = new J4XPIDCache<>(XPLMProbeRef::new);
-		receiveMonitorGlobals = new J4XPIDCache<>();
-		receiveMonitorOSs = new J4XPIDCache<>();
-		objectRefs = new J4XPIDCache<>(XPLMObjectRef::new);
+		widgetIDs = new J4XPCache<>(XPWidgetID::new);
+		menuIDs = new J4XPCache<>(XPLMMenuID::new);
+		dataRefs = new J4XPCache<>();
+		sharedDatas = new J4XPCache<>();
+		drawCallbacks = new J4XPCache<>();
+		instanceRefs = new J4XPCache<>(XPLMInstanceRef::new);
+		mapLayerIDs = new J4XPCache<>(XPLMMapLayerID::new);
+		windowIDs = new J4XPCache<>();
+		hotKeyIDs = new J4XPCache<>();
+		keySniffers = new J4XPCache<>();
+		flightLoopIDs = new J4XPCache<>(XPLMFlightLoopID::new);
+		probeRefs = new J4XPCache<>(XPLMProbeRef::new);
+		receiveMonitorGlobals = new J4XPCache<>();
+		receiveMonitorOSs = new J4XPCache<>();
+		objectRefs = new J4XPCache<>(XPLMObjectRef::new);
 		
 		logger = new J4XPLogger();
 		console = new J4XPConsole();
@@ -104,16 +107,30 @@ public class J4XP {
 		for(XPPlugin pl : J4XPPluginLoader.getInstance().getEnabledPlugins()) {
 			pl.setEnabled(false);
 		}
-		for(J4XPIDCache<?> cache : J4XPIDCache.getCaches()) {
+		for(J4XPCache<?> cache : J4XPCache.getCaches()) {
 			for(J4XPIdentifiable i : cache.getElements()) {
 				if(i instanceof J4XPDestructible) {
 					((J4XPDestructible) i).destroy();
 				}
 			}
 		}
+		if(cameraControl != null) {
+			XPLMCamera.dontControlCamera();
+		}
 		System.setOut(J4XPLogger.origSysOut);
 		System.setErr(J4XPLogger.origSysErr);
 		logger.close();
+	}
+	
+	public static void setCameraControl(XPLMCameraControl cameraControl) {
+		if(J4XP.cameraControl != null) {
+			J4XP.cameraControl.getControlFunction().onCameraControl(true, J4XP.cameraControl.getRefcon());
+		}
+		J4XP.cameraControl = cameraControl;
+	}
+	
+	public static XPLMCameraControl getCameraControl() {
+		return cameraControl;
 	}
 	
 	public static J4XPLogger getLogger() {
@@ -140,63 +157,63 @@ public class J4XP {
 		logger.log(logLevel, message);
 	}
 	
-	public static J4XPIDCache<XPWidgetID> getWidgetIDs() {
+	public static J4XPCache<XPWidgetID> getWidgetIDs() {
 		return widgetIDs;
 	}
 	
-	public static J4XPIDCache<XPLMDataRef> getDataRefs() {
+	public static J4XPCache<XPLMDataRef> getDataRefs() {
 		return dataRefs;
 	}
 	
-	public static J4XPIDCache<XPLMDrawCallback> getDrawCallbacks() {
+	public static J4XPCache<XPLMDrawCallback> getDrawCallbacks() {
 		return drawCallbacks;
 	}
 	
-	public static J4XPIDCache<XPLMHotKeyID> getHotKeyIDs() {
+	public static J4XPCache<XPLMHotKeyID> getHotKeyIDs() {
 		return hotKeyIDs;
 	}
 	
-	public static J4XPIDCache<XPLMInstanceRef> getInstanceRefs() {
+	public static J4XPCache<XPLMInstanceRef> getInstanceRefs() {
 		return instanceRefs;
 	}
 	
-	public static J4XPIDCache<XPLMKeySniffer> getKeySniffers() {
+	public static J4XPCache<XPLMKeySniffer> getKeySniffers() {
 		return keySniffers;
 	}
 	
-	public static J4XPIDCache<XPLMMapLayerID> getMapLayerIDs() {
+	public static J4XPCache<XPLMMapLayerID> getMapLayerIDs() {
 		return mapLayerIDs;
 	}
 	
-	public static J4XPIDCache<XPLMMenuID> getMenuIDs() {
+	public static J4XPCache<XPLMMenuID> getMenuIDs() {
 		return menuIDs;
 	}
 	
-	public static J4XPIDCache<XPLMSharedData> getSharedDatas() {
+	public static J4XPCache<XPLMSharedData> getSharedDatas() {
 		return sharedDatas;
 	}
 	
-	public static J4XPIDCache<XPLMWindowID> getWindowIDs() {
+	public static J4XPCache<XPLMWindowID> getWindowIDs() {
 		return windowIDs;
 	}
 	
-	public static J4XPIDCache<XPLMFlightLoopID> getFlightLoopIDs() {
+	public static J4XPCache<XPLMFlightLoopID> getFlightLoopIDs() {
 		return flightLoopIDs;
 	}
 	
-	public static J4XPIDCache<XPLMProbeRef> getProbeRefs() {
+	public static J4XPCache<XPLMProbeRef> getProbeRefs() {
 		return probeRefs;
 	}
 	
-	public static J4XPIDCache<XPLMReceiveMonitorBoundsGlobal> getReceiveMonitorGlobals() {
+	public static J4XPCache<XPLMReceiveMonitorBoundsGlobal> getReceiveMonitorGlobals() {
 		return receiveMonitorGlobals;
 	}
 	
-	public static J4XPIDCache<XPLMReceiveMonitorBoundsOS> getReceiveMonitorOSs() {
+	public static J4XPCache<XPLMReceiveMonitorBoundsOS> getReceiveMonitorOSs() {
 		return receiveMonitorOSs;
 	}
 	
-	public static J4XPIDCache<XPLMObjectRef> getObjectRefs() {
+	public static J4XPCache<XPLMObjectRef> getObjectRefs() {
 		return objectRefs;
 	}
 	

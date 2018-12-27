@@ -11,32 +11,32 @@ import me.mrletsplay.j4xp.plugin.XPPlugin;
 import me.mrletsplay.mrcore.misc.LookupList;
 import me.mrletsplay.mrcore.misc.SingleLookupList;
 
-public class J4XPIDCache<T extends J4XPIdentifiable> {
+public class J4XPCache<T extends J4XPIdentifiable> {
 	
-	private static List<J4XPIDCache<?>> caches;
+	private static List<J4XPCache<?>> caches;
 	
 	static {
 		caches = new ArrayList<>();
 	}
 	
-	public static List<J4XPIDCache<?>> getCaches() {
+	public static List<J4XPCache<?>> getCaches() {
 		return caches;
 	}
 
 	private BiFunction<XPPlugin, Long, T> creationFunction;
 	private LookupList<Long, T> elements;
 	
-	public J4XPIDCache(BiFunction<XPPlugin, Long, T> creationFunction) {
+	public J4XPCache(BiFunction<XPPlugin, Long, T> creationFunction) {
 		this.creationFunction = creationFunction;
 		this.elements = new SingleLookupList<>(J4XPIdentifiable::getRawID);
 		caches.add(this);
 	}
 	
-	public J4XPIDCache(Function<Long, T> creationFunction) {
+	public J4XPCache(Function<Long, T> creationFunction) {
 		this((o, id) -> creationFunction.apply(id));
 	}
 	
-	public J4XPIDCache() {
+	public J4XPCache() {
 		this.elements = new SingleLookupList<>(J4XPIdentifiable::getRawID);
 	}
 	
@@ -63,7 +63,7 @@ public class J4XPIDCache<T extends J4XPIdentifiable> {
 	}
 	
 	public T get(long rawID) {
-		return elements.stream().filter(e -> e.getRawID() == rawID).findFirst().orElse(null);
+		return elements.lookup(rawID);
 	}
 	
 	public T getOrCreate(long rawID, Function<Long, T> creationFunction) {

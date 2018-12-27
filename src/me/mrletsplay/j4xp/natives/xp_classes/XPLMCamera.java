@@ -1,20 +1,26 @@
 package me.mrletsplay.j4xp.natives.xp_classes;
 
+import me.mrletsplay.j4xp.J4XP;
+import me.mrletsplay.j4xp.natives.classes.XPLMCameraControl;
 import me.mrletsplay.j4xp.natives.classes.XPLMCameraPosition;
 import me.mrletsplay.j4xp.natives.classes.XPNativeInterface;
 import me.mrletsplay.j4xp.natives.enums.NativeFunction;
 import me.mrletsplay.j4xp.natives.enums.XPLMCameraControlDuration;
 import me.mrletsplay.j4xp.natives.interfaces.CameraControl;
+import me.mrletsplay.j4xp.plugin.J4XPUtils;
 
-// TODO: Control camera
 public class XPLMCamera {
 	
-	public static void controlCamera(XPLMCameraControlDuration duration, CameraControl control, Object refcon) {
+	public static XPLMCameraControl controlCamera(XPLMCameraControlDuration duration, CameraControl control, Object refcon) {
 		XPNativeInterface.executeFunction(NativeFunction.XPLMCAMERA_CONTROL_CAMERA, duration.getRawValue(), refcon);
+		XPLMCameraControl c = new XPLMCameraControl(J4XPUtils.getMethodCaller(), duration, control, refcon);
+		J4XP.setCameraControl(c);
+		return c;
 	}
 	
 	public static void dontControlCamera() {
 		XPNativeInterface.executeFunction(NativeFunction.XPLMCAMERA_DONT_CONTROL_CAMERA);
+		J4XP.setCameraControl(null);
 	}
 	
 	public static XPLMCameraControlDuration isCameraBeingControlled() {
