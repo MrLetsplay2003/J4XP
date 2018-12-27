@@ -3,10 +3,10 @@ package me.mrletsplay.j4xp.entity.menu;
 import java.util.ArrayList;
 import java.util.List;
 
-import me.mrletsplay.j4xp.natives.MenuHandler;
-import me.mrletsplay.j4xp.natives.XPLMMenuCheck;
-import me.mrletsplay.j4xp.natives.XPLMMenuID;
-import me.mrletsplay.j4xp.natives.classes.XPLMMenus;
+import me.mrletsplay.j4xp.natives.classes.XPLMMenuID;
+import me.mrletsplay.j4xp.natives.enums.XPLMMenuCheck;
+import me.mrletsplay.j4xp.natives.interfaces.MenuHandler;
+import me.mrletsplay.j4xp.natives.xp_classes.XPLMMenus;
 import me.mrletsplay.j4xp.plugin.J4XPUtils;
 
 public class Menu {

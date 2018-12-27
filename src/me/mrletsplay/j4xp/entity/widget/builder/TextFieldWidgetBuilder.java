@@ -1,12 +1,12 @@
 package me.mrletsplay.j4xp.entity.widget.builder;
 
 import me.mrletsplay.j4xp.entity.widget.WidgetTextField;
-import me.mrletsplay.j4xp.natives.XPLMFontID;
-import me.mrletsplay.j4xp.natives.XPStandardWidgetClass;
-import me.mrletsplay.j4xp.natives.XPStandardWidgetMessageID;
-import me.mrletsplay.j4xp.natives.XPStandardWidgetPropertyID;
-import me.mrletsplay.j4xp.natives.XPWidgetID;
-import me.mrletsplay.j4xp.natives.classes.XPWidgets;
+import me.mrletsplay.j4xp.natives.classes.XPWidgetID;
+import me.mrletsplay.j4xp.natives.enums.XPLMFontID;
+import me.mrletsplay.j4xp.natives.enums.XPStandardWidgetClass;
+import me.mrletsplay.j4xp.natives.enums.XPStandardWidgetMessageID;
+import me.mrletsplay.j4xp.natives.enums.XPStandardWidgetPropertyID;
+import me.mrletsplay.j4xp.natives.xp_classes.XPWidgets;
 
 public class TextFieldWidgetBuilder extends AbstractWidgetBuilder<WidgetTextField, TextFieldWidgetBuilder>{
 

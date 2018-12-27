@@ -1,6 +1,6 @@
 package me.mrletsplay.j4xp.entity.widget.builder;
 
-import me.mrletsplay.j4xp.natives.XPStandardPropertyValues;
+import me.mrletsplay.j4xp.natives.classes.XPStandardPropertyValues;
 
 public enum ButtonType {
 

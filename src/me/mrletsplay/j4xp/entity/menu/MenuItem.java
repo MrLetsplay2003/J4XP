@@ -1,7 +1,7 @@
 package me.mrletsplay.j4xp.entity.menu;
 
-import me.mrletsplay.j4xp.natives.XPLMMenuCheck;
-import me.mrletsplay.j4xp.natives.classes.XPLMMenus;
+import me.mrletsplay.j4xp.natives.enums.XPLMMenuCheck;
+import me.mrletsplay.j4xp.natives.xp_classes.XPLMMenus;
 import me.mrletsplay.j4xp.plugin.J4XPPluginOwnable;
 import me.mrletsplay.j4xp.plugin.XPPlugin;
 

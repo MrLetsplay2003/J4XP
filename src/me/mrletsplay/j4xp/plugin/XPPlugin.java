@@ -3,7 +3,7 @@ package me.mrletsplay.j4xp.plugin;
 import java.util.ArrayList;
 import java.util.List;
 
-import me.mrletsplay.j4xp.natives.XPPluginMessage;
+import me.mrletsplay.j4xp.natives.classes.XPPluginMessage;
 
 public class XPPlugin {
 	

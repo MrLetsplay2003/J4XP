@@ -1,7 +1,7 @@
 package me.mrletsplay.j4xp.entity.widget.builder;
 
 import me.mrletsplay.j4xp.entity.widget.Widget;
-import me.mrletsplay.j4xp.natives.XPWidgetID;
+import me.mrletsplay.j4xp.natives.classes.XPWidgetID;
 
 public interface WidgetBuilder<T extends Widget, Self extends WidgetBuilder<T, Self>> {
 

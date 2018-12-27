@@ -1,9 +1,9 @@
 package me.mrletsplay.j4xp.entity.widget.builder;
 
 import me.mrletsplay.j4xp.entity.widget.Widget;
-import me.mrletsplay.j4xp.natives.XPStandardWidgetClass;
-import me.mrletsplay.j4xp.natives.XPWidgetID;
-import me.mrletsplay.j4xp.natives.classes.XPWidgets;
+import me.mrletsplay.j4xp.natives.classes.XPWidgetID;
+import me.mrletsplay.j4xp.natives.enums.XPStandardWidgetClass;
+import me.mrletsplay.j4xp.natives.xp_classes.XPWidgets;
 
 public abstract class AbstractWidgetBuilder<T extends Widget, Self extends AbstractWidgetBuilder<T, Self>> implements WidgetBuilder<T, Self> {
 

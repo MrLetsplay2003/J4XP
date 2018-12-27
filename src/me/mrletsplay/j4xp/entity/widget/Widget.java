@@ -3,9 +3,9 @@ package me.mrletsplay.j4xp.entity.widget;
 import java.util.ArrayList;
 import java.util.List;
 
-import me.mrletsplay.j4xp.natives.XPGeometry;
-import me.mrletsplay.j4xp.natives.XPWidgetID;
-import me.mrletsplay.j4xp.natives.classes.XPWidgets;
+import me.mrletsplay.j4xp.natives.classes.XPGeometry;
+import me.mrletsplay.j4xp.natives.classes.XPWidgetID;
+import me.mrletsplay.j4xp.natives.xp_classes.XPWidgets;
 
 public interface Widget {
 	

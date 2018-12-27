@@ -1,8 +1,8 @@
 package me.mrletsplay.j4xp.entity.widget;
 
-import me.mrletsplay.j4xp.natives.XPStandardWidgetPropertyID;
-import me.mrletsplay.j4xp.natives.XPWidgetID;
-import me.mrletsplay.j4xp.natives.classes.XPWidgets;
+import me.mrletsplay.j4xp.natives.classes.XPWidgetID;
+import me.mrletsplay.j4xp.natives.enums.XPStandardWidgetPropertyID;
+import me.mrletsplay.j4xp.natives.xp_classes.XPWidgets;
 
 public class WidgetButton extends AbstractWidget {
 
