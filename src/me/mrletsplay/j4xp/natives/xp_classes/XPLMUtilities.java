@@ -1,8 +1,8 @@
 package me.mrletsplay.j4xp.natives.xp_classes;
 
+import me.mrletsplay.j4xp.natives.XPNativeInterface;
 import me.mrletsplay.j4xp.natives.classes.XPLMCommandRef;
 import me.mrletsplay.j4xp.natives.classes.XPLMVersions;
-import me.mrletsplay.j4xp.natives.classes.XPNativeInterface;
 import me.mrletsplay.j4xp.natives.enums.NativeFunction;
 import me.mrletsplay.j4xp.natives.enums.XPLMCommandButtonID;
 import me.mrletsplay.j4xp.natives.enums.XPLMCommandKeyID;

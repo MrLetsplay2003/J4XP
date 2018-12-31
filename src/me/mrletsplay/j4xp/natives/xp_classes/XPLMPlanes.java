@@ -1,10 +1,10 @@
 package me.mrletsplay.j4xp.natives.xp_classes;
 
+import me.mrletsplay.j4xp.natives.XPNativeInterface;
 import me.mrletsplay.j4xp.natives.classes.XPLMCountAircraft;
 import me.mrletsplay.j4xp.natives.classes.XPLMGetNthAircraftModel;
 import me.mrletsplay.j4xp.natives.classes.XPLMPlaneDrawState;
 import me.mrletsplay.j4xp.natives.classes.XPLMPluginID;
-import me.mrletsplay.j4xp.natives.classes.XPNativeInterface;
 import me.mrletsplay.j4xp.natives.enums.NativeFunction;
 import me.mrletsplay.j4xp.natives.interfaces.XPLMPlanesAvailable;
 
