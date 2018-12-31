@@ -1,10 +1,10 @@
 package me.mrletsplay.j4xp.natives.xp_classes;
 
 import me.mrletsplay.j4xp.J4XP;
+import me.mrletsplay.j4xp.natives.XPNativeInterface;
 import me.mrletsplay.j4xp.natives.classes.XPLMDataAccessor;
 import me.mrletsplay.j4xp.natives.classes.XPLMDataRef;
 import me.mrletsplay.j4xp.natives.classes.XPLMSharedData;
-import me.mrletsplay.j4xp.natives.classes.XPNativeInterface;
 import me.mrletsplay.j4xp.natives.enums.NativeFunction;
 import me.mrletsplay.j4xp.natives.enums.XPLMDataTypeID;
 import me.mrletsplay.j4xp.natives.interfaces.XPLMDataChanged;
@@ -89,8 +89,8 @@ public class XPLMDataAccess {
 	
 	public static XPLMSharedData shareData(String dataName, EnumFlagCompound<XPLMDataTypeID> dataType, XPLMDataChanged onChanged, Object refcon) { // TODO: Callback working?
 		XPLMSharedData dt = J4XP.getSharedDatas().create(id -> new XPLMSharedData(J4XPUtils.getMethodCaller(), id, dataName, dataType, onChanged, refcon));
-		boolean b = (boolean) XPNativeInterface.executeFunction(NativeFunction.XPLMDATAACCESS_SHARE_DATA, dataName, dataType.getCompound(), dt.getRawID());
-		if(!b) {
+		boolean success = (boolean) XPNativeInterface.executeFunction(NativeFunction.XPLMDATAACCESS_SHARE_DATA, dataName, dataType.getCompound(), dt.getRawID());
+		if(!success) {
 			J4XP.getSharedDatas().remove(dt.getRawID());
 			return null;
 		}

@@ -1,15 +1,14 @@
 package me.mrletsplay.j4xp.natives.xp_classes;
 
 import me.mrletsplay.j4xp.J4XP;
+import me.mrletsplay.j4xp.natives.XPNativeInterface;
 import me.mrletsplay.j4xp.natives.classes.ProbeResult;
 import me.mrletsplay.j4xp.natives.classes.XPLMObjectRef;
 import me.mrletsplay.j4xp.natives.classes.XPLMProbeInfo;
 import me.mrletsplay.j4xp.natives.classes.XPLMProbeRef;
-import me.mrletsplay.j4xp.natives.classes.XPNativeInterface;
 import me.mrletsplay.j4xp.natives.enums.NativeFunction;
 import me.mrletsplay.j4xp.natives.enums.XPLMProbeResult;
 import me.mrletsplay.j4xp.natives.enums.XPLMProbeType;
-import me.mrletsplay.j4xp.natives.interfaces.XPLMObjectLoaded;
 import me.mrletsplay.j4xp.plugin.J4XPUtils;
 
 public class XPLMScenery {
@@ -46,7 +45,7 @@ public class XPLMScenery {
 	}
 	
 	public static void unloadObject(XPLMObjectRef object) {
-		return // TODO
+		return ;// TODO
 	}
 
 }

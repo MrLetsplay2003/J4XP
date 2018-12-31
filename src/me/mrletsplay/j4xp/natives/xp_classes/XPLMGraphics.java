@@ -3,8 +3,8 @@ package me.mrletsplay.j4xp.natives.xp_classes;
 import java.awt.Point;
 import java.awt.geom.Point2D;
 
+import me.mrletsplay.j4xp.natives.XPNativeInterface;
 import me.mrletsplay.j4xp.natives.classes.Point3D;
-import me.mrletsplay.j4xp.natives.classes.XPNativeInterface;
 import me.mrletsplay.j4xp.natives.enums.NativeFunction;
 import me.mrletsplay.j4xp.natives.enums.XPLMFontID;
 import me.mrletsplay.j4xp.natives.enums.XPLMTextureID;

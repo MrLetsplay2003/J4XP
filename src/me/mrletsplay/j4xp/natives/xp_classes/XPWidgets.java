@@ -1,9 +1,9 @@
 package me.mrletsplay.j4xp.natives.xp_classes;
 
 import me.mrletsplay.j4xp.J4XP;
+import me.mrletsplay.j4xp.natives.XPNativeInterface;
 import me.mrletsplay.j4xp.natives.classes.XPGeometry;
 import me.mrletsplay.j4xp.natives.classes.XPLMWindowID;
-import me.mrletsplay.j4xp.natives.classes.XPNativeInterface;
 import me.mrletsplay.j4xp.natives.classes.XPWidgetID;
 import me.mrletsplay.j4xp.natives.enums.NativeFunction;
 import me.mrletsplay.j4xp.natives.enums.XPDispatchMode;

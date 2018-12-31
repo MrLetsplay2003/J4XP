@@ -13,9 +13,9 @@ public class XPLMNavAidInfo {
     private float heading;
     private String id;
     private String name;
-    private String reg;
+    private boolean reg;
     
-    public XPLMNavAidInfo(XPLMNavRef ref, XPLMNavType type, float latitude, float longitude, float height, int frequency, float heading, String id, String name, String reg){
+    public XPLMNavAidInfo(XPLMNavRef ref, XPLMNavType type, float latitude, float longitude, float height, int frequency, float heading, String id, String name, boolean reg){
     	this.ref = ref;
     	this.type = type;
     	this.latitude = latitude;
@@ -64,7 +64,7 @@ public class XPLMNavAidInfo {
 		return name;
 	}
     
-    public String getReg() {
+    public boolean isReg() {
 		return reg;
 	}
 

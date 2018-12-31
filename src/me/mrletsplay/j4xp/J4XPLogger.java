@@ -40,6 +40,26 @@ public class J4XPLogger {
 		return w;
 	}
 	
+	public void fileOnlyDebug(String message) {
+		log(J4XPLogLevel.FILE_ONLY_DEBUG, message);
+	}
+	
+	public void debug(String message) {
+		log(J4XPLogLevel.DEBUG, message);
+	}
+	
+	public void info(String message) {
+		log(J4XPLogLevel.INFO, message);
+	}
+	
+	public void warn(String message) {
+		log(J4XPLogLevel.WARN, message);
+	}
+	
+	public void error(String message) {
+		log(J4XPLogLevel.ERROR, message);
+	}
+	
 	public void log(J4XPLogLevel logLevel, String message) {
 		getLogWriter(logLevel).println(message);
 	}

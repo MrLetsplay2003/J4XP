@@ -32,8 +32,9 @@ public class XPPlugin {
 			if(enabled) {
 				onEnable();
 			}else {
-				for(J4XPPluginOwnable o : ownedObjects) o.destroy();
 				onDisable();
+				for(J4XPPluginOwnable o : new ArrayList<>(ownedObjects)) o.destroy();
+				ownedObjects.clear();
 			}
 		}
 	}
@@ -48,7 +49,7 @@ public class XPPlugin {
 		ownedObjects.remove(ownable);
 	}
 	
-	public List<J4XPPluginOwnable> getOwnedObjects() {
+	public synchronized List<J4XPPluginOwnable> getOwnedObjects() {
 		return ownedObjects;
 	}
 	

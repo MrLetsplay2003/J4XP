@@ -85,6 +85,7 @@ public class J4XPPluginLoader {
 							return true;
 						}
 						XPPlugin l = J4XP.getPluginLoader().getPlugins().get(idx);
+						System.out.println(l);
 						if(l != null) {
 							l.setEnabled(state);
 						}
@@ -98,6 +99,7 @@ public class J4XPPluginLoader {
 	
 	public void updateLog() {
 //		if(!needsUpdate) return; TODO
+//		if(!pluginManagerWidget.isVisible()) return;
 		for(int i = 0; i < pluginNameWidgets.size(); i++) {
 			int idx = i + offset;
 			if(idx < 0 || idx >= J4XP.getPluginLoader().getPlugins().size()) {
@@ -124,7 +126,7 @@ public class J4XPPluginLoader {
 	}
 	
 	public XPPlugin loadPlugin(File pluginFile) {
-		J4XP.log("Loading plugin " + pluginFile);
+		J4XP.log("Loading plugin at " + pluginFile);
 		JARLoader l = new JARLoader(pluginFile);
 		try {
 			Class<?> mainClass = l.getJ4XPMainClass();
@@ -133,10 +135,12 @@ public class J4XPPluginLoader {
 			plugins.add(pl);
 			try {
 				pl.setEnabled(true);
+				J4XP.log("Plugin loaded!");
 			}catch(Exception e) {
 				plugins.remove(pl);
+				J4XP.getLogger().warn("Plugin \"" + pl.getName() +"\" threw an exception while initializing! (Is it up to date?)");
+				e.printStackTrace();
 			}
-			J4XP.log("Plugin loaded!");
 			return pl;
 		} catch (Exception e) {
 			throw new PluginLoadingException("Failed to load plugin", e);

@@ -1,12 +1,25 @@
-package me.mrletsplay.j4xp.natives.classes;
+package me.mrletsplay.j4xp.natives;
 
 import java.io.File;
 import java.net.URISyntaxException;
-import java.util.Arrays;
 import java.util.concurrent.Callable;
 
 import me.mrletsplay.j4xp.J4XP;
-import me.mrletsplay.j4xp.J4XPLogLevel;
+import me.mrletsplay.j4xp.natives.classes.XPLMDataRef;
+import me.mrletsplay.j4xp.natives.classes.XPLMDrawCallback;
+import me.mrletsplay.j4xp.natives.classes.XPLMHotKeyID;
+import me.mrletsplay.j4xp.natives.classes.XPLMKeySniffer;
+import me.mrletsplay.j4xp.natives.classes.XPLMMenuID;
+import me.mrletsplay.j4xp.natives.classes.XPLMPluginID;
+import me.mrletsplay.j4xp.natives.classes.XPLMReceiveMonitorBoundsGlobal;
+import me.mrletsplay.j4xp.natives.classes.XPLMSharedData;
+import me.mrletsplay.j4xp.natives.classes.XPLMWindowID;
+import me.mrletsplay.j4xp.natives.classes.XPMenuMessage;
+import me.mrletsplay.j4xp.natives.classes.XPPluginMessage;
+import me.mrletsplay.j4xp.natives.classes.XPPluginMessageIDImpl;
+import me.mrletsplay.j4xp.natives.classes.XPWidgetID;
+import me.mrletsplay.j4xp.natives.classes.XPWidgetMessage;
+import me.mrletsplay.j4xp.natives.classes.XPWidgetMessageIDImpl;
 import me.mrletsplay.j4xp.natives.enums.NativeFunction;
 import me.mrletsplay.j4xp.natives.enums.XPLMDrawingPhase;
 import me.mrletsplay.j4xp.natives.enums.XPLMKeyFlag;
@@ -226,9 +239,9 @@ public class XPNativeInterface {
 	}
 	
 	public static Object executeFunction(NativeFunction function, Object... args) {
-		J4XP.log(J4XPLogLevel.FILE_ONLY_DEBUG, "Invoke " + function + Arrays.toString(args));
+//		J4XP.log(J4XPLogLevel.FILE_ONLY_DEBUG, "Invoke " + function + Arrays.toString(args));
 		Object o = executeFunction(function.getID(), function.name().toLowerCase(), args);
-		J4XP.log(J4XPLogLevel.FILE_ONLY_DEBUG, "Got " + o);
+//		J4XP.log(J4XPLogLevel.FILE_ONLY_DEBUG, "Got " + o);
 		return o;
 	}
 	

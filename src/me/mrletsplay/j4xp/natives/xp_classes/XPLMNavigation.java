@@ -1,9 +1,9 @@
 package me.mrletsplay.j4xp.natives.xp_classes;
 
+import me.mrletsplay.j4xp.natives.XPNativeInterface;
 import me.mrletsplay.j4xp.natives.classes.XPLMFMSEntryInfo;
 import me.mrletsplay.j4xp.natives.classes.XPLMNavAidInfo;
 import me.mrletsplay.j4xp.natives.classes.XPLMNavRef;
-import me.mrletsplay.j4xp.natives.classes.XPNativeInterface;
 import me.mrletsplay.j4xp.natives.enums.NativeFunction;
 import me.mrletsplay.j4xp.natives.enums.XPLMNavType;
 
@@ -29,9 +29,9 @@ public class XPLMNavigation {
 		return new XPLMNavRef((int) XPNativeInterface.executeFunction(NativeFunction.XPLMNAVIGATION_FIND_NAV_AID, nameFragment, idFragment, lat, lon, frequency, type.getRawValue()));
 	}
 	
-	public static XPLMNavAidInfo getNavAidInfo() {
-		Object[] p = (Object[]) XPNativeInterface.executeFunction(NativeFunction.XPLMNAVIGATION_GET_NAV_AID_INFO);
-		return new XPLMNavAidInfo((XPLMNavRef) p[0], (XPLMNavType) p[1], (float) p[2], (float) p[3], (float) p[4], (int) p[5], (float) p[6], (String) p[7], (String) p[8], (String) p[9]);
+	public static XPLMNavAidInfo getNavAidInfo(XPLMNavRef navRef) {
+		Object[] p = (Object[]) XPNativeInterface.executeFunction(NativeFunction.XPLMNAVIGATION_GET_NAV_AID_INFO, navRef.getRawID());
+		return new XPLMNavAidInfo(navRef, XPLMNavType.byValue((int) p[0]), (float) p[1], (float) p[2], (float) p[3], (int) p[4], (float) p[5], (String) p[6], (String) p[7], (boolean) p[8]);
 	}
 	
 	public static int countFMSEntries() {
@@ -54,9 +54,9 @@ public class XPLMNavigation {
 		XPNativeInterface.executeFunction(NativeFunction.XPLMNAVIGATION_SET_DESTINATION_FMS_ENTRY, index);
 	}
 	
-	public static XPLMFMSEntryInfo getFMSEntryInfo() {
+	public static XPLMFMSEntryInfo getFMSEntryInfo(int index) {
 		Object[] p = (Object[]) XPNativeInterface.executeFunction(NativeFunction.XPLMNAVIGATION_GET_FMS_ENTRY_INFO);
-		return new XPLMFMSEntryInfo((int) p[0], XPLMNavType.byValue((int) p[1]), (char) p[2], (XPLMNavRef) p[3], (int) p[4], (float) p[5], (float) p[6]);
+		return new XPLMFMSEntryInfo(index, XPLMNavType.byValue((int) p[0]), (char) p[1], new XPLMNavRef((int) p[2]), (int) p[3], (float) p[4], (float) p[5]);
 	}
 	
 	public static void setFMSEntryInfo(int index, XPLMNavRef ref, int altitude) {

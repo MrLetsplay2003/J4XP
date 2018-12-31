@@ -1,12 +1,12 @@
 package me.mrletsplay.j4xp.natives.xp_classes;
 
 import me.mrletsplay.j4xp.J4XP;
+import me.mrletsplay.j4xp.natives.XPNativeInterface;
 import me.mrletsplay.j4xp.natives.classes.DoublePoint;
 import me.mrletsplay.j4xp.natives.classes.FloatPoint;
 import me.mrletsplay.j4xp.natives.classes.XPLMCreateMapLayer;
 import me.mrletsplay.j4xp.natives.classes.XPLMMapLayerID;
 import me.mrletsplay.j4xp.natives.classes.XPLMMapProjectionID;
-import me.mrletsplay.j4xp.natives.classes.XPNativeInterface;
 import me.mrletsplay.j4xp.natives.enums.NativeFunction;
 import me.mrletsplay.j4xp.natives.enums.XPLMMapOrientation;
 import me.mrletsplay.j4xp.natives.interfaces.XPLMMapCreatedCallback;
@@ -15,7 +15,7 @@ import me.mrletsplay.j4xp.plugin.J4XPUtils;
 public class XPLMMap {
 	
 	public static XPLMMapLayerID createMapLayer(XPLMCreateMapLayer params) {
-		return J4XP.getMapLayerIDs().getOrCreate(J4XPUtils.getMethodCaller(),
+		return J4XP.getMapLayerIDs().create(J4XPUtils.getMethodCaller(),
 				(long) XPNativeInterface.executeFunction(NativeFunction.XPLMMAP_CREATE_MAP_LAYER, params.getMapToCreateLayerIn(), params.getLayerType().getRawValue(), params.getShowUiToggle(), params.getLayerName()));
 	}
 	

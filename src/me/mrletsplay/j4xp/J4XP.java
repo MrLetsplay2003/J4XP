@@ -2,12 +2,15 @@ package me.mrletsplay.j4xp;
 
 import java.io.File;
 import java.net.URISyntaxException;
+import java.util.concurrent.Executors;
+import java.util.concurrent.ScheduledExecutorService;
 
 import me.mrletsplay.j4xp.entity.menu.Menu;
 import me.mrletsplay.j4xp.entity.menu.MenuItem;
 import me.mrletsplay.j4xp.natives.classes.XPLMCameraControl;
 import me.mrletsplay.j4xp.natives.classes.XPLMDataRef;
 import me.mrletsplay.j4xp.natives.classes.XPLMDrawCallback;
+import me.mrletsplay.j4xp.natives.classes.XPLMFlightLoopCallback;
 import me.mrletsplay.j4xp.natives.classes.XPLMFlightLoopID;
 import me.mrletsplay.j4xp.natives.classes.XPLMHotKeyID;
 import me.mrletsplay.j4xp.natives.classes.XPLMInstanceRef;
@@ -42,7 +45,10 @@ public class J4XP {
 	private static J4XPCache<XPLMReceiveMonitorBoundsGlobal> receiveMonitorGlobals;
 	private static J4XPCache<XPLMReceiveMonitorBoundsOS> receiveMonitorOSs;
 	private static J4XPCache<XPLMObjectRef> objectRefs;
+	private static J4XPCache<XPLMFlightLoopCallback> flightLoopCallbacks;
 	private static XPLMCameraControl cameraControl;
+	
+	private static ScheduledExecutorService scheduler;
 	
 	private static J4XPLogger logger;
 	private static J4XPConsole console;
@@ -54,7 +60,7 @@ public class J4XP {
 	public static void init() {
 		widgetIDs = new J4XPCache<>(XPWidgetID::new);
 		menuIDs = new J4XPCache<>(XPLMMenuID::new);
-		dataRefs = new J4XPCache<>();
+		dataRefs = new J4XPCache<>(XPLMDataRef::new);
 		sharedDatas = new J4XPCache<>();
 		drawCallbacks = new J4XPCache<>();
 		instanceRefs = new J4XPCache<>(XPLMInstanceRef::new);
@@ -62,11 +68,14 @@ public class J4XP {
 		windowIDs = new J4XPCache<>();
 		hotKeyIDs = new J4XPCache<>();
 		keySniffers = new J4XPCache<>();
-		flightLoopIDs = new J4XPCache<>(XPLMFlightLoopID::new);
+		flightLoopIDs = new J4XPCache<>();
 		probeRefs = new J4XPCache<>(XPLMProbeRef::new);
 		receiveMonitorGlobals = new J4XPCache<>();
 		receiveMonitorOSs = new J4XPCache<>();
 		objectRefs = new J4XPCache<>(XPLMObjectRef::new);
+		flightLoopCallbacks = new J4XPCache<>();
+		
+		scheduler = Executors.newScheduledThreadPool(5);
 		
 		logger = new J4XPLogger();
 		console = new J4XPConsole();
@@ -104,9 +113,12 @@ public class J4XP {
 	}
 	
 	public static void stop() {
+		log("J4XP is exiting...");
+		log("Disabling  plugins...");
 		for(XPPlugin pl : J4XPPluginLoader.getInstance().getEnabledPlugins()) {
 			pl.setEnabled(false);
 		}
+		log("Clearing caches...");
 		for(J4XPCache<?> cache : J4XPCache.getCaches()) {
 			for(J4XPIdentifiable i : cache.getElements()) {
 				if(i instanceof J4XPDestructible) {
@@ -114,11 +126,14 @@ public class J4XP {
 				}
 			}
 		}
+		log("Clearing camera control...");
 		if(cameraControl != null) {
 			XPLMCamera.dontControlCamera();
 		}
+		log("Resetting console IO...");
 		System.setOut(J4XPLogger.origSysOut);
 		System.setErr(J4XPLogger.origSysErr);
+		log("Done!");
 		logger.close();
 	}
 	
@@ -139,6 +154,10 @@ public class J4XP {
 	
 	public static J4XPConsole getConsole() {
 		return console;
+	}
+	
+	public static ScheduledExecutorService getScheduler() {
+		return scheduler;
 	}
 	
 	public static J4XPPluginLoader getPluginLoader() {
@@ -215,6 +234,10 @@ public class J4XP {
 	
 	public static J4XPCache<XPLMObjectRef> getObjectRefs() {
 		return objectRefs;
+	}
+	
+	public static J4XPCache<XPLMFlightLoopCallback> getFlightLoopCallbacks() {
+		return flightLoopCallbacks;
 	}
 	
 	public static File getJarFolder() {

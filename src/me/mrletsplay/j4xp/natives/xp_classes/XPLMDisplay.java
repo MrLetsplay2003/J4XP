@@ -4,6 +4,7 @@ import java.awt.Point;
 import java.awt.geom.Point2D;
 
 import me.mrletsplay.j4xp.J4XP;
+import me.mrletsplay.j4xp.natives.XPNativeInterface;
 import me.mrletsplay.j4xp.natives.classes.XPGeometry;
 import me.mrletsplay.j4xp.natives.classes.XPLMCreateWindow;
 import me.mrletsplay.j4xp.natives.classes.XPLMDrawCallback;
@@ -14,7 +15,6 @@ import me.mrletsplay.j4xp.natives.classes.XPLMPluginID;
 import me.mrletsplay.j4xp.natives.classes.XPLMReceiveMonitorBoundsGlobal;
 import me.mrletsplay.j4xp.natives.classes.XPLMReceiveMonitorBoundsOS;
 import me.mrletsplay.j4xp.natives.classes.XPLMWindowID;
-import me.mrletsplay.j4xp.natives.classes.XPNativeInterface;
 import me.mrletsplay.j4xp.natives.enums.NativeFunction;
 import me.mrletsplay.j4xp.natives.enums.XPLMDrawingPhase;
 import me.mrletsplay.j4xp.natives.enums.XPLMKeyFlag;

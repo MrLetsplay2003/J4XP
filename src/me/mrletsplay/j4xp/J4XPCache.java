@@ -59,7 +59,13 @@ public class J4XPCache<T extends J4XPIdentifiable> {
 	public <E extends T> E create(Function<Long, E> creationFunction) {
 		E e = creationFunction.apply(newID());
 		add(e);
-		return null;
+		return e;
+	}
+	
+	public <E extends T> E create(long id, Function<Long, E> creationFunction) {
+		E e = creationFunction.apply(newID());
+		add(e);
+		return e;
 	}
 	
 	public T get(long rawID) {

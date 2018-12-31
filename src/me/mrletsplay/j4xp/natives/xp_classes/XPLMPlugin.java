@@ -1,8 +1,8 @@
 package me.mrletsplay.j4xp.natives.xp_classes;
 
+import me.mrletsplay.j4xp.natives.XPNativeInterface;
 import me.mrletsplay.j4xp.natives.classes.PluginInfo;
 import me.mrletsplay.j4xp.natives.classes.XPLMPluginID;
-import me.mrletsplay.j4xp.natives.classes.XPNativeInterface;
 import me.mrletsplay.j4xp.natives.enums.NativeFunction;
 import me.mrletsplay.j4xp.natives.interfaces.XPLMFeatureEnumerator;
 
