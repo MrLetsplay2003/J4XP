@@ -3,6 +3,7 @@ package me.mrletsplay.j4xp.plugin;
 import java.util.ArrayList;
 import java.util.List;
 
+import me.mrletsplay.j4xp.J4XP;
 import me.mrletsplay.j4xp.natives.classes.XPPluginMessage;
 
 public class XPPlugin {
@@ -28,6 +29,7 @@ public class XPPlugin {
 
 	public void setEnabled(boolean enabled) {
 		if(this.enabled != enabled) {
+			J4XP.getPluginLoader().updateWidget();
 			this.enabled = enabled;
 			if(enabled) {
 				onEnable();

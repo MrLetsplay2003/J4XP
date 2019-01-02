@@ -13,24 +13,19 @@ import me.mrletsplay.j4xp.entity.widget.WidgetCaption;
 import me.mrletsplay.j4xp.entity.widget.WidgetMainWindow;
 import me.mrletsplay.j4xp.entity.widget.builder.ButtonBehavior;
 import me.mrletsplay.j4xp.entity.widget.builder.ButtonType;
+import me.mrletsplay.j4xp.entity.widget.builder.CaptionWidgetBuilder;
 import me.mrletsplay.j4xp.entity.widget.builder.MainWindowType;
+import me.mrletsplay.j4xp.entity.widget.builder.MainWindowWidgetBuilder;
 import me.mrletsplay.j4xp.entity.widget.builder.WidgetBuilder;
 import me.mrletsplay.j4xp.entity.widget.builder.WidgetCloseAction;
 
 public class J4XPPluginLoader {
 
-	private static J4XPPluginLoader instance;
-	
 	private WidgetMainWindow pluginManagerWidget;
 	private List<WidgetCaption> pluginNameWidgets;
-	private List<WidgetButton> pluginStateWidgets;
+	private List<WidgetButton> pluginStateWidgets, pluginInfoButtonWidgets;
 	private int offset;
-//	private boolean needsUpdate;
-	
-	static {
-		instance = new J4XPPluginLoader();
-	}
-	
+	private boolean needsUpdate;
 	private List<XPPlugin> plugins;
 	
 	public J4XPPluginLoader() {
@@ -49,14 +44,14 @@ public class J4XPPluginLoader {
 			WidgetBuilder.newScrollBarBuilder()
 				.withBounds(780, 480, 800, 100)
 				.withScrollBarMin(0)
-				.withScrollBarMax(200)
+				.withScrollBarMax(10)
 				.withRootStatus(false)
 				.withContainer(pluginManagerWidget)
 				.withDescriptor("")
 				.withVisibility(true)
 				.onSliderPositionChanged(w -> {
 					offset = w.getSliderPosition();
-//					needsUpdate = true;
+					needsUpdate = true;
 					updateLog();
 					return true;
 				})
@@ -65,14 +60,15 @@ public class J4XPPluginLoader {
 		int nL = 19;
 		for(int i = 0; i < nL; i++) {
 			final int fI = i;
-			WidgetCaption c = WidgetBuilder.newCaptionBuilder()
-				.withBounds(100, 480 - i * 20, 760, 460 - i * 20)
+			WidgetCaption nameCaption = WidgetBuilder.newCaptionBuilder()
+				.withBounds(100, 480 - i * 20, 700, 460 - i * 20)
 				.withRootStatus(false)
 				.withContainer(pluginManagerWidget)
-				.withDescriptor("Plugin Name")
+				.withDescriptor("")
 				.create();
-			pluginNameWidgets.add(0, c);
-			WidgetButton b = WidgetBuilder.newButtonBuilder()
+			pluginNameWidgets.add(nameCaption);
+			
+			WidgetButton stateButton = WidgetBuilder.newButtonBuilder()
 					.withBounds(760, 480 - i * 20, 780, 460 - i * 20)
 					.withRootStatus(false)
 					.withBehavior(ButtonBehavior.CHECK_BOX)
@@ -85,20 +81,48 @@ public class J4XPPluginLoader {
 							return true;
 						}
 						XPPlugin l = J4XP.getPluginLoader().getPlugins().get(idx);
-						System.out.println(l);
 						if(l != null) {
 							l.setEnabled(state);
 						}
-//						needsUpdate = true;
 						return true;
 					})
 					.create();
-			pluginStateWidgets.add(0, b);
+			pluginStateWidgets.add(stateButton);
+			
+			WidgetButton infoButton = WidgetBuilder.newButtonBuilder()
+					.withBounds(700, 480 - i * 20, 760, 460 - i * 20)
+					.withRootStatus(false)
+					.withBehavior(ButtonBehavior.PUSH_BUTTON)
+					.withType(ButtonType.PUSH_BUTTON)
+					.withContainer(pluginManagerWidget)
+					.withDescriptor("")
+					.onPushButtonPressed(button -> {
+						WidgetMainWindow popup = new MainWindowWidgetBuilder()
+								.withBounds(100, 300, 300, 100)
+								.withCloseBoxes(true)
+								.withAutoHandleClose(WidgetCloseAction.DESTROY)
+								.withWindowType(MainWindowType.TRANSLUCENT)
+								.withDescriptor("Plugin Info")
+								.withVisibility(true)
+								.create();
+						
+						new CaptionWidgetBuilder()
+								.withRootStatus(false)
+								.withContainer(popup)
+								.withBounds(100, 300, 300, 100)
+								.withVisibility(true)
+								.withLitStatus(true)
+								.withDescriptor("Hello world!")
+								.create();
+						return true;
+					})
+					.create();
+			pluginInfoButtonWidgets.add(infoButton);
 		}
 	}
 	
 	public void updateLog() {
-//		if(!needsUpdate) return; TODO
+		if(!needsUpdate) return;
 //		if(!pluginManagerWidget.isVisible()) return;
 		for(int i = 0; i < pluginNameWidgets.size(); i++) {
 			int idx = i + offset;
@@ -114,7 +138,11 @@ public class J4XPPluginLoader {
 				pluginStateWidgets.get(i).setState(l.isEnabled());
 			}
 		}
-//		needsUpdate = false;
+		needsUpdate = false;
+	}
+	
+	public void updateWidget() {
+		needsUpdate = true;
 	}
 	
 	public List<XPPlugin> getEnabledPlugins() {
@@ -170,7 +198,7 @@ public class J4XPPluginLoader {
 	}
 	
 	public void loadPlugins() {
-		J4XPPluginLoader.getInstance().loadPlugins(Arrays.asList(J4XP.getPluginFolder().listFiles()));
+		loadPlugins(Arrays.asList(J4XP.getPluginFolder().listFiles()));
 	}
 	
 	public void reloadPlugins() {
@@ -179,8 +207,8 @@ public class J4XPPluginLoader {
 		loadPlugins();
 	}
 	
-	public static J4XPPluginLoader getInstance() {
-		return instance;
+	public WidgetMainWindow getPluginManagerWidget() {
+		return pluginManagerWidget;
 	}
 	
 }

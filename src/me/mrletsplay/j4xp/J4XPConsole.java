@@ -34,7 +34,7 @@ public class J4XPConsole {
 		WidgetBuilder.newScrollBarBuilder()
 				.withBounds(780, 580, 800, 100)
 				.withScrollBarMin(0)
-				.withScrollBarMax(200)
+				.withScrollBarMax(100)
 				.withRootStatus(false)
 				.withContainer(consoleWidget)
 				.withDescriptor("")

@@ -25,7 +25,6 @@ import me.mrletsplay.j4xp.natives.enums.XPLMDrawingPhase;
 import me.mrletsplay.j4xp.natives.enums.XPLMKeyFlag;
 import me.mrletsplay.j4xp.natives.enums.XPLMMouseStatus;
 import me.mrletsplay.j4xp.natives.interfaces.WidgetMessageHandler;
-import me.mrletsplay.j4xp.plugin.J4XPPluginLoader;
 import me.mrletsplay.j4xp.plugin.XPPlugin;
 import me.mrletsplay.mrcore.misc.EnumFlagCompound;
 
@@ -74,7 +73,7 @@ public class XPNativeInterface {
 	}
 	
 	public static void notifyPluginMessage(int fromPlugin, int pluginMessage, Object param) {
-		for(XPPlugin pl : J4XPPluginLoader.getInstance().getEnabledPlugins()) {
+		for(XPPlugin pl : J4XP.getPluginLoader().getEnabledPlugins()) {
 			safeExecute(() -> pl.onPluginMessage(new XPPluginMessage(new XPLMPluginID(fromPlugin), new XPPluginMessageIDImpl(pluginMessage), param)));
 		}
 	}

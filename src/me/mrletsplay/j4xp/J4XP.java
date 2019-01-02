@@ -52,6 +52,7 @@ public class J4XP {
 	
 	private static J4XPLogger logger;
 	private static J4XPConsole console;
+	private static J4XPPluginLoader pluginLoader;
 	
 	public static void main(String[] args) {
 		System.out.println("To be loaded by the X-Plane 11 C++ plugin");
@@ -79,6 +80,7 @@ public class J4XP {
 		
 		logger = new J4XPLogger();
 		console = new J4XPConsole();
+		pluginLoader = new J4XPPluginLoader();
 		
 		log("Starting J4XP...");
 		
@@ -91,16 +93,18 @@ public class J4XP {
 		
 		menu.registerHandler(m -> {
 			if(m.getItemRef().equals("reload-all")) {
-				J4XPPluginLoader.getInstance().reloadPlugins();
+				pluginLoader.reloadPlugins();
 			}else if(m.getItemRef().equals("debug-console")) {
 				console.getConsoleWidget().toggleVisibility();
+			}else if(m.getItemRef().equals("plugin-manager")) {
+				pluginLoader.getPluginManagerWidget().toggleVisibility();
 			}
 		});
 		
 		new Thread(() -> {
 			while(true) {
 				console.updateLog();
-				J4XPPluginLoader.getInstance().updateLog();
+				pluginLoader.updateLog();
 				try {
 					Thread.sleep(100);
 				} catch (InterruptedException e) {
@@ -109,13 +113,13 @@ public class J4XP {
 			}
 		}).start();
 		
-		J4XPPluginLoader.getInstance().loadPlugins();
+		pluginLoader.loadPlugins();
 	}
 	
 	public static void stop() {
 		log("J4XP is exiting...");
 		log("Disabling  plugins...");
-		for(XPPlugin pl : J4XPPluginLoader.getInstance().getEnabledPlugins()) {
+		for(XPPlugin pl : pluginLoader.getEnabledPlugins()) {
 			pl.setEnabled(false);
 		}
 		log("Clearing caches...");
@@ -161,7 +165,7 @@ public class J4XP {
 	}
 	
 	public static J4XPPluginLoader getPluginLoader() {
-		return J4XPPluginLoader.getInstance();
+		return pluginLoader;
 	}
 	
 	public static void log(String message) {

@@ -193,7 +193,7 @@ public class JARLoader extends ClassLoader {
 
 	public Class<?> loadClassFromPlugins(String name) {
 		Class<?> clazz = null;
-		for (XPPlugin ex : J4XPPluginLoader.getInstance().getEnabledPlugins()) {
+		for (XPPlugin ex : J4XP.getPluginLoader().getEnabledPlugins()) {
 			try {
 				clazz = ex.getLoader().loadClassInternally(name, false);
 			} catch (ClassNotFoundException | NoClassDefFoundError ignored) {}
