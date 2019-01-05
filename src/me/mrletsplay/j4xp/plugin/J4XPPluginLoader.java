@@ -13,11 +13,13 @@ import me.mrletsplay.j4xp.entity.widget.WidgetCaption;
 import me.mrletsplay.j4xp.entity.widget.WidgetMainWindow;
 import me.mrletsplay.j4xp.entity.widget.builder.ButtonBehavior;
 import me.mrletsplay.j4xp.entity.widget.builder.ButtonType;
-import me.mrletsplay.j4xp.entity.widget.builder.CaptionWidgetBuilder;
 import me.mrletsplay.j4xp.entity.widget.builder.MainWindowType;
 import me.mrletsplay.j4xp.entity.widget.builder.MainWindowWidgetBuilder;
+import me.mrletsplay.j4xp.entity.widget.builder.TextFieldType;
+import me.mrletsplay.j4xp.entity.widget.builder.TextFieldWidgetBuilder;
 import me.mrletsplay.j4xp.entity.widget.builder.WidgetBuilder;
 import me.mrletsplay.j4xp.entity.widget.builder.WidgetCloseAction;
+import me.mrletsplay.j4xp.natives.enums.XPLMFontID;
 
 public class J4XPPluginLoader {
 
@@ -106,13 +108,23 @@ public class J4XPPluginLoader {
 								.withVisibility(true)
 								.create();
 						
-						new CaptionWidgetBuilder()
+//						new CaptionWidgetBuilder()
+//								.withRootStatus(false)
+//								.withContainer(popup)
+//								.withBounds(100, 300, 300, 100)
+//								.withVisibility(true)
+//								.withLitStatus(true)
+//								.withDescriptor("Hello world!")
+//								.create();
+						
+						new TextFieldWidgetBuilder()
 								.withRootStatus(false)
 								.withContainer(popup)
 								.withBounds(100, 300, 300, 100)
 								.withVisibility(true)
-								.withLitStatus(true)
-								.withDescriptor("Hello world!")
+								.withType(TextFieldType.TRANSPARENT)
+								.withFont(XPLMFontID.LED)
+								.withDescriptor("Hello world!2")
 								.create();
 						return true;
 					})

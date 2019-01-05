@@ -57,11 +57,6 @@ public abstract class AbstractWidgetBuilder<T extends Widget, Self extends Abstr
 		return getSelf();
 	}
 	
-	@SuppressWarnings("unchecked")
-	private Self getSelf() {
-		return (Self) this;
-	}
-	
 	protected XPWidgetID createBase(XPStandardWidgetClass widgetClass) {
 		if(isRoot && container != null) throw new IllegalStateException("Can't be root and have a container at the same time");
 		if(descriptor == null) throw new IllegalStateException("Missing descriptor");

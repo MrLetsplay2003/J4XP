@@ -76,4 +76,8 @@ public class DataRef {
 		return new DataRef(XPLMDataAccess.findDataRef(name));
 	}
 	
+	public static DataRef of(XPLMDataRef rawRef) {
+		return new DataRef(rawRef);
+	}
+	
 }

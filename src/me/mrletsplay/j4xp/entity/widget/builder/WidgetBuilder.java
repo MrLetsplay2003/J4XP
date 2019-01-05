@@ -1,9 +1,10 @@
 package me.mrletsplay.j4xp.entity.widget.builder;
 
+import me.mrletsplay.j4xp.entity.Builder;
 import me.mrletsplay.j4xp.entity.widget.Widget;
 import me.mrletsplay.j4xp.natives.classes.XPWidgetID;
 
-public interface WidgetBuilder<T extends Widget, Self extends WidgetBuilder<T, Self>> {
+public interface WidgetBuilder<T extends Widget, Self extends WidgetBuilder<T, Self>> extends Builder<T, Self> {
 
 	public static MainWindowWidgetBuilder newMainWindowBuilder() {
 		return new MainWindowWidgetBuilder();
@@ -38,7 +39,5 @@ public interface WidgetBuilder<T extends Widget, Self extends WidgetBuilder<T, S
 	public default Self withContainer(Widget container) {
 		return withContainer(container.getID());
 	}
-	
-	public T create() throws IllegalStateException;
 	
 }

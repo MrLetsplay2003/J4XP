@@ -1,33 +1,33 @@
 package me.mrletsplay.j4xp.natives.classes;
 
-import me.mrletsplay.j4xp.natives.interfaces.XPLMGetData;
-import me.mrletsplay.j4xp.natives.interfaces.XPLMGetDataV;
-import me.mrletsplay.j4xp.natives.interfaces.XPLMSetData;
-import me.mrletsplay.j4xp.natives.interfaces.XPLMSetDataV;
+import me.mrletsplay.j4xp.natives.interfaces.GetData;
+import me.mrletsplay.j4xp.natives.interfaces.GetDataV;
+import me.mrletsplay.j4xp.natives.interfaces.SetData;
+import me.mrletsplay.j4xp.natives.interfaces.SetDataV;
 
 public class XPLMDataAccessor {
 
-	private XPLMGetData<Integer> readInt;
-	private XPLMSetData<Integer> writeInt;
-	private XPLMGetData<Float> readFloat;
-	private XPLMSetData<Float> writeFloat;
-	private XPLMGetData<Double> readDouble;
-	private XPLMSetData<Double> writeDouble;
-	private XPLMSetDataV<int[]> writeIntArray;
-	private XPLMGetDataV<int[]> readIntArray;
-	private XPLMSetDataV<float[]> writeFloatArray;
-	private XPLMGetDataV<float[]> readFloatArray;
-	private XPLMSetDataV<byte[]> writeData;
-	private XPLMGetDataV<byte[]> readData;
+	private GetData<Integer> readInt;
+	private SetData<Integer> writeInt;
+	private GetData<Float> readFloat;
+	private SetData<Float> writeFloat;
+	private GetData<Double> readDouble;
+	private SetData<Double> writeDouble;
+	private SetDataV<int[]> writeIntArray;
+	private GetDataV<int[]> readIntArray;
+	private SetDataV<float[]> writeFloatArray;
+	private GetDataV<float[]> readFloatArray;
+	private SetDataV<byte[]> writeData;
+	private GetDataV<byte[]> readData;
 	private Object readRefcon, writeRefcon;
 	
 	public XPLMDataAccessor(
-			XPLMGetData<Integer> readInt, XPLMSetData<Integer> writeInt,
-			XPLMGetData<Float> readFloat, XPLMSetData<Float> writeFloat,
-			XPLMGetData<Double> readDouble, XPLMSetData<Double> writeDouble,
-			XPLMGetDataV<int[]> readIntArray, XPLMSetDataV<int[]> writeIntArray,
-			XPLMGetDataV<float[]> readFloatArray, XPLMSetDataV<float[]> writeFloatArray,
-			XPLMGetDataV<byte[]> readData, XPLMSetDataV<byte[]> writeData,
+			GetData<Integer> readInt, SetData<Integer> writeInt,
+			GetData<Float> readFloat, SetData<Float> writeFloat,
+			GetData<Double> readDouble, SetData<Double> writeDouble,
+			GetDataV<int[]> readIntArray, SetDataV<int[]> writeIntArray,
+			GetDataV<float[]> readFloatArray, SetDataV<float[]> writeFloatArray,
+			GetDataV<byte[]> readData, SetDataV<byte[]> writeData,
 			Object readRefcon, Object writeRefcon
 			) {
 		this.readInt = readInt;
@@ -46,51 +46,51 @@ public class XPLMDataAccessor {
 		this.writeRefcon = writeRefcon;
 	}
 	
-	public XPLMGetData<Integer> getReadInt() {
+	public GetData<Integer> getReadInt() {
 		return readInt;
 	}
 	
-	public XPLMSetData<Integer> getWriteInt() {
+	public SetData<Integer> getWriteInt() {
 		return writeInt;
 	}
 	
-	public XPLMGetData<Float> getReadFloat() {
+	public GetData<Float> getReadFloat() {
 		return readFloat;
 	}
 	
-	public XPLMSetData<Float> getWriteFloat() {
+	public SetData<Float> getWriteFloat() {
 		return writeFloat;
 	}
 	
-	public XPLMGetData<Double> getReadDouble() {
+	public GetData<Double> getReadDouble() {
 		return readDouble;
 	}
 	
-	public XPLMSetData<Double> getWriteDouble() {
+	public SetData<Double> getWriteDouble() {
 		return writeDouble;
 	}
 	
-	public XPLMGetDataV<int[]> getReadIntArray() {
+	public GetDataV<int[]> getReadIntArray() {
 		return readIntArray;
 	}
 	
-	public XPLMSetDataV<int[]> getWriteIntArray() {
+	public SetDataV<int[]> getWriteIntArray() {
 		return writeIntArray;
 	}
 	
-	public XPLMGetDataV<float[]> getReadFloatArray() {
+	public GetDataV<float[]> getReadFloatArray() {
 		return readFloatArray;
 	}
 	
-	public XPLMSetDataV<float[]> getWriteFloatArray() {
+	public SetDataV<float[]> getWriteFloatArray() {
 		return writeFloatArray;
 	}
 	
-	public XPLMGetDataV<byte[]> getReadData() {
+	public GetDataV<byte[]> getReadData() {
 		return readData;
 	}
 	
-	public XPLMSetDataV<byte[]> getWriteData() {
+	public SetDataV<byte[]> getWriteData() {
 		return writeData;
 	}
 	
